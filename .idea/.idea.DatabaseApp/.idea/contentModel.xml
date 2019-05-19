@@ -71,6 +71,7 @@
       </e>
       <e p="DatabaseApp.sln" t="IncludeFlat" />
       <e p="packages" t="ExcludeRecursive" />
+      <e p="src" t="Include" />
     </e>
   </component>
 </project>
