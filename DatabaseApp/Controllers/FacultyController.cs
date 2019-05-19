@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 namespace DatabaseApp.Controllers
 {   
     [Route("api/faculty")]
+    [Produces("application/json")]
     [ApiController]
     public class FacultyController : ControllerBase
     {

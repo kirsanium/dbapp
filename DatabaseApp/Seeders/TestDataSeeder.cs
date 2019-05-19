@@ -27,14 +27,14 @@ namespace DatabaseApp.Seeders
             SeedLessons(dbContext);
             SeedTheses(dbContext);
             SeedFinalResults(dbContext);
-
-            dbContext.SaveChanges();
         }
 
         private static void SeedGenders(AppDbContext dbContext)
         {
             dbContext.Genders.Add(new Gender {Name = "Male"});
             dbContext.Genders.Add(new Gender {Name = "Female"});
+            
+            dbContext.SaveChanges();
         }
 
         private static void SeedFinalTypes(AppDbContext dbContext)
@@ -42,6 +42,8 @@ namespace DatabaseApp.Seeders
             dbContext.FinalTypes.Add(new FinalType {Name = "Exam"});
             dbContext.FinalTypes.Add(new FinalType {Name = "Credit"});
             dbContext.FinalTypes.Add(new FinalType {Name = "DiffCredit"});
+            
+            dbContext.SaveChanges();
         }
 
         private static void SeedLessonTypes(AppDbContext dbContext)
@@ -49,6 +51,8 @@ namespace DatabaseApp.Seeders
             dbContext.LessonTypes.Add(new LessonType {Name = "Lecture"});
             dbContext.LessonTypes.Add(new LessonType {Name = "Seminar"});
             dbContext.LessonTypes.Add(new LessonType {Name = "Lab"});
+            
+            dbContext.SaveChanges();
         }
 
         private static void SeedTeacherCategories(AppDbContext dbContext)
@@ -57,18 +61,24 @@ namespace DatabaseApp.Seeders
             dbContext.TeacherCategories.Add(new TeacherCategory {Name = "Teacher"});
             dbContext.TeacherCategories.Add(new TeacherCategory {Name = "Associate Professor"});
             dbContext.TeacherCategories.Add(new TeacherCategory {Name = "Professor"});
+            
+            dbContext.SaveChanges();
         }
 
         private static void SeedDissertationTypes(AppDbContext dbContext)
         {
             dbContext.DissertationTypes.Add(new DissertationType {Name = "Candidate's"});
             dbContext.DissertationTypes.Add(new DissertationType {Name = "PhD's"});
+            
+            dbContext.SaveChanges();
         }
 
         private static void SeedFaculties(AppDbContext dbContext)
         {
             dbContext.Faculties.Add(new Faculty {Name = "IT Faculty"});
             dbContext.Faculties.Add(new Faculty {Name = "Foreign Languages Faculty"});
+            
+            dbContext.SaveChanges();
         }
 
         private static void SeedChairs(AppDbContext dbContext)
@@ -80,6 +90,8 @@ namespace DatabaseApp.Seeders
             dbContext.Chairs.Add(new Chair {FacultyId = 2, Name = "KIA"});
             dbContext.Chairs.Add(new Chair {FacultyId = 2, Name = "SOYA"});
             dbContext.Chairs.Add(new Chair {FacultyId = 2, Name = "PIVO"});
+            
+            dbContext.SaveChanges();
         }
 
         private static void SeedAcademicDisciplines(AppDbContext dbContext)
@@ -97,6 +109,8 @@ namespace DatabaseApp.Seeders
             dbContext.AcademicDisciplines.Add(new AcademicDiscipline {FacultyId = 2, Name = "English", Semester = 2});
             dbContext.AcademicDisciplines.Add(new AcademicDiscipline {FacultyId = 2, Name = "German", Semester = 2});
             dbContext.AcademicDisciplines.Add(new AcademicDiscipline {FacultyId = 2, Name = "Fizra", Semester = 2});
+            
+            dbContext.SaveChanges();
         }
 
         private static void SeedGroups(AppDbContext dbContext)
@@ -112,6 +126,8 @@ namespace DatabaseApp.Seeders
             
             dbContext.Groups.Add(new Group {StartYear = 2017, EndYear = 2021, FacultyId = 2, GroupName = "17301"});
             dbContext.Groups.Add(new Group {StartYear = 2017, EndYear = 2021, FacultyId = 2, GroupName = "17302"});
+            
+            dbContext.SaveChanges();
         }
 
         private static void SeedDisciplineFinals(AppDbContext dbContext)
@@ -121,6 +137,8 @@ namespace DatabaseApp.Seeders
             {
                 dbContext.DisciplineFinals.Add(new DisciplineFinal {DisciplineId = i, FinalTypeId = 1});
             }
+            
+            dbContext.SaveChanges();
         }
 
         private static void SeedCurricula(AppDbContext dbContext)
@@ -180,6 +198,8 @@ namespace DatabaseApp.Seeders
             
             dbContext.Curricula.Add(new Curriculum
                 {DisciplineFinalId = 12, LessonTypeId = 2, HoursAmount = 20}); //22
+            
+            dbContext.SaveChanges();
         }
 
         private static void SeedStudents(AppDbContext dbContext)
@@ -287,6 +307,8 @@ namespace DatabaseApp.Seeders
                 GenderId = 1,
                 GroupId = 8
             });
+            
+            dbContext.SaveChanges();
         }
 
         private static void SeedTeachers(AppDbContext dbContext)
@@ -368,6 +390,8 @@ namespace DatabaseApp.Seeders
                 GenderId = 1,
                 TeacherCategoryId = 3
             });
+            
+            dbContext.SaveChanges();
         }
 
         private static void SeedAcademicAssignments(AppDbContext dbContext)
@@ -393,12 +417,16 @@ namespace DatabaseApp.Seeders
                         ChairId = i % 3 + 1 + chairsAmount
                     });
             }
+            
+            dbContext.SaveChanges();
         }
 
         private static void SeedDissertations(AppDbContext dbContext)
         {
             dbContext.Dissertations.Add(new Dissertation {DissertationTypeId = 1, TeacherId = 1});
             dbContext.Dissertations.Add(new Dissertation {DissertationTypeId = 2, TeacherId = 2});
+            
+            dbContext.SaveChanges();
         }
 
         private static void SeedFinalTeachers(AppDbContext dbContext)
@@ -415,6 +443,8 @@ namespace DatabaseApp.Seeders
             dbContext.FinalTeachers.Add(new FinalTeacher {FinalId = 10, TeacherId = 4});
             dbContext.FinalTeachers.Add(new FinalTeacher {FinalId = 11, TeacherId = 5});
             dbContext.FinalTeachers.Add(new FinalTeacher {FinalId = 12, TeacherId = 6});
+            
+            dbContext.SaveChanges();
         }
 
         private static void SeedLessons(AppDbContext dbContext)
@@ -447,6 +477,8 @@ namespace DatabaseApp.Seeders
                 dbContext.Lessons.Add(new Lesson {CurriculumId = 21, TeacherId = 5, GroupId = i + 4});
                 dbContext.Lessons.Add(new Lesson {CurriculumId = 22, TeacherId = 6, GroupId = i + 4});
             }
+            
+            dbContext.SaveChanges();
         }
 
         private static void SeedTheses(AppDbContext dbContext)
@@ -455,6 +487,8 @@ namespace DatabaseApp.Seeders
                 {StudentId = 1, TeacherId = 1, Title = "Totally new way to write \"Hello World\""});
             dbContext.Theses.Add(new Thesis
                 {StudentId = 2, TeacherId = 2, Title = "Random not interesting stuff"});
+            
+            dbContext.SaveChanges();
         }
 
         private static void SeedFinalResults(AppDbContext dbContext)
@@ -482,6 +516,8 @@ namespace DatabaseApp.Seeders
                 });
                 grade = NextGrade(grade);
             }
+            
+            dbContext.SaveChanges();
         }
 
         private static string NextGrade(string grade)

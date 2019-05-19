@@ -46,8 +46,7 @@ namespace DatabaseApp.Migrations
 
                     b.Property<int>("FacultyId");
 
-                    b.Property<string>("Name")
-                        .IsRequired();
+                    b.Property<string>("Name");
 
                     b.Property<int>("Semester");
 
@@ -65,8 +64,7 @@ namespace DatabaseApp.Migrations
 
                     b.Property<int>("FacultyId");
 
-                    b.Property<string>("Name")
-                        .IsRequired();
+                    b.Property<string>("Name");
 
                     b.HasKey("Id");
 
@@ -80,9 +78,7 @@ namespace DatabaseApp.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("DisciplineId");
-
-                    b.Property<int>("FinalTypeId");
+                    b.Property<int>("DisciplineFinalId");
 
                     b.Property<int>("HoursAmount");
 
@@ -90,9 +86,7 @@ namespace DatabaseApp.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DisciplineId");
-
-                    b.HasIndex("FinalTypeId");
+                    b.HasIndex("DisciplineFinalId");
 
                     b.HasIndex("LessonTypeId");
 
@@ -140,8 +134,7 @@ namespace DatabaseApp.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Name")
-                        .IsRequired();
+                    b.Property<string>("Name");
 
                     b.HasKey("Id");
 
@@ -153,8 +146,7 @@ namespace DatabaseApp.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Name")
-                        .IsRequired();
+                    b.Property<string>("Name");
 
                     b.HasKey("Id");
 
@@ -168,8 +160,7 @@ namespace DatabaseApp.Migrations
 
                     b.Property<int>("DisciplineFinalId");
 
-                    b.Property<string>("Grade")
-                        .IsRequired();
+                    b.Property<string>("Grade");
 
                     b.Property<int>("StudentId");
 
@@ -205,8 +196,7 @@ namespace DatabaseApp.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Name")
-                        .IsRequired();
+                    b.Property<string>("Name");
 
                     b.HasKey("Id");
 
@@ -218,8 +208,7 @@ namespace DatabaseApp.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Name")
-                        .IsRequired();
+                    b.Property<string>("Name");
 
                     b.HasKey("Id");
 
@@ -235,8 +224,7 @@ namespace DatabaseApp.Migrations
 
                     b.Property<int>("FacultyId");
 
-                    b.Property<string>("GroupName")
-                        .IsRequired();
+                    b.Property<string>("GroupName");
 
                     b.Property<int>("StartYear");
 
@@ -274,8 +262,7 @@ namespace DatabaseApp.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Name")
-                        .IsRequired();
+                    b.Property<string>("Name");
 
                     b.HasKey("Id");
 
@@ -291,6 +278,8 @@ namespace DatabaseApp.Migrations
 
                     b.Property<int>("ChildrenAmount");
 
+                    b.Property<int>("FacultyId");
+
                     b.Property<string>("FirstName");
 
                     b.Property<int>("GenderId");
@@ -304,6 +293,8 @@ namespace DatabaseApp.Migrations
                     b.Property<string>("SecondName");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("FacultyId");
 
                     b.HasIndex("GenderId");
 
@@ -351,8 +342,7 @@ namespace DatabaseApp.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Name")
-                        .IsRequired();
+                    b.Property<string>("Name");
 
                     b.HasKey("Id");
 
@@ -415,14 +405,9 @@ namespace DatabaseApp.Migrations
 
             modelBuilder.Entity("DatabaseApp.Models.Curriculum", b =>
                 {
-                    b.HasOne("DatabaseApp.Models.AcademicDiscipline", "Discipline")
+                    b.HasOne("DatabaseApp.Models.DisciplineFinal", "DisciplineFinal")
                         .WithMany()
-                        .HasForeignKey("DisciplineId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("DatabaseApp.Models.FinalType", "FinalType")
-                        .WithMany()
-                        .HasForeignKey("FinalTypeId")
+                        .HasForeignKey("DisciplineFinalId")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("DatabaseApp.Models.LessonType", "LessonType")
@@ -511,6 +496,11 @@ namespace DatabaseApp.Migrations
 
             modelBuilder.Entity("DatabaseApp.Models.Student", b =>
                 {
+                    b.HasOne("DatabaseApp.Models.Faculty", "Faculty")
+                        .WithMany()
+                        .HasForeignKey("FacultyId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.HasOne("DatabaseApp.Models.Gender", "Gender")
                         .WithMany()
                         .HasForeignKey("GenderId")

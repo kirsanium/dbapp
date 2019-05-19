@@ -1,9 +1,10 @@
 ﻿using System;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DatabaseApp.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class Init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -12,7 +13,7 @@ namespace DatabaseApp.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("MySQL:AutoIncrement", true),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -25,7 +26,7 @@ namespace DatabaseApp.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("MySQL:AutoIncrement", true),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -38,7 +39,7 @@ namespace DatabaseApp.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("MySQL:AutoIncrement", true),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -51,7 +52,7 @@ namespace DatabaseApp.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("MySQL:AutoIncrement", true),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -64,7 +65,7 @@ namespace DatabaseApp.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("MySQL:AutoIncrement", true),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -77,7 +78,7 @@ namespace DatabaseApp.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("MySQL:AutoIncrement", true),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -90,7 +91,7 @@ namespace DatabaseApp.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("MySQL:AutoIncrement", true),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Semester = table.Column<int>(nullable: false),
                     Name = table.Column<string>(nullable: true),
                     FacultyId = table.Column<int>(nullable: false)
@@ -103,7 +104,7 @@ namespace DatabaseApp.Migrations
                         column: x => x.FacultyId,
                         principalTable: "Faculties",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -111,7 +112,7 @@ namespace DatabaseApp.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("MySQL:AutoIncrement", true),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(nullable: true),
                     FacultyId = table.Column<int>(nullable: false)
                 },
@@ -123,7 +124,7 @@ namespace DatabaseApp.Migrations
                         column: x => x.FacultyId,
                         principalTable: "Faculties",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -131,9 +132,10 @@ namespace DatabaseApp.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("MySQL:AutoIncrement", true),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     GroupName = table.Column<string>(nullable: true),
-                    Year = table.Column<int>(nullable: false),
+                    StartYear = table.Column<int>(nullable: false),
+                    EndYear = table.Column<int>(nullable: false),
                     FacultyId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -144,41 +146,7 @@ namespace DatabaseApp.Migrations
                         column: x => x.FacultyId,
                         principalTable: "Faculties",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Curricula",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("MySQL:AutoIncrement", true),
-                    HoursAmount = table.Column<int>(nullable: false),
-                    DisciplineId = table.Column<int>(nullable: false),
-                    LessonTypeId = table.Column<int>(nullable: false),
-                    FinalTypeId = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Curricula", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Curricula_AcademicDisciplines_DisciplineId",
-                        column: x => x.DisciplineId,
-                        principalTable: "AcademicDisciplines",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Curricula_FinalTypes_FinalTypeId",
-                        column: x => x.FinalTypeId,
-                        principalTable: "FinalTypes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Curricula_LessonTypes_LessonTypeId",
-                        column: x => x.LessonTypeId,
-                        principalTable: "LessonTypes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -186,7 +154,7 @@ namespace DatabaseApp.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("MySQL:AutoIncrement", true),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     DisciplineId = table.Column<int>(nullable: false),
                     FinalTypeId = table.Column<int>(nullable: false)
                 },
@@ -198,13 +166,13 @@ namespace DatabaseApp.Migrations
                         column: x => x.DisciplineId,
                         principalTable: "AcademicDisciplines",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_DisciplineFinals_FinalTypes_FinalTypeId",
                         column: x => x.FinalTypeId,
                         principalTable: "FinalTypes",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -212,7 +180,7 @@ namespace DatabaseApp.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("MySQL:AutoIncrement", true),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     FirstName = table.Column<string>(nullable: true),
                     SecondName = table.Column<string>(nullable: true),
                     MiddleName = table.Column<string>(nullable: true),
@@ -231,19 +199,19 @@ namespace DatabaseApp.Migrations
                         column: x => x.ChairId,
                         principalTable: "Chairs",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Teachers_Genders_GenderId",
                         column: x => x.GenderId,
                         principalTable: "Genders",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Teachers_TeacherCategories_TeacherCategoryId",
                         column: x => x.TeacherCategoryId,
                         principalTable: "TeacherCategories",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -251,7 +219,7 @@ namespace DatabaseApp.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("MySQL:AutoIncrement", true),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     ChairId = table.Column<int>(nullable: false),
                     DisciplineId = table.Column<int>(nullable: false),
                     GroupId = table.Column<int>(nullable: false)
@@ -264,19 +232,19 @@ namespace DatabaseApp.Migrations
                         column: x => x.ChairId,
                         principalTable: "Chairs",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_AcademicAssignments_AcademicDisciplines_DisciplineId",
                         column: x => x.DisciplineId,
                         principalTable: "AcademicDisciplines",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_AcademicAssignments_Groups_GroupId",
                         column: x => x.GroupId,
                         principalTable: "Groups",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -284,13 +252,14 @@ namespace DatabaseApp.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("MySQL:AutoIncrement", true),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     FirstName = table.Column<string>(nullable: true),
                     SecondName = table.Column<string>(nullable: true),
                     MiddleName = table.Column<string>(nullable: true),
                     BirthDate = table.Column<DateTime>(nullable: false),
                     ChildrenAmount = table.Column<int>(nullable: false),
                     Scholarship = table.Column<float>(nullable: false),
+                    FacultyId = table.Column<int>(nullable: false),
                     GroupId = table.Column<int>(nullable: false),
                     GenderId = table.Column<int>(nullable: false)
                 },
@@ -298,17 +267,50 @@ namespace DatabaseApp.Migrations
                 {
                     table.PrimaryKey("PK_Students", x => x.Id);
                     table.ForeignKey(
+                        name: "FK_Students_Faculties_FacultyId",
+                        column: x => x.FacultyId,
+                        principalTable: "Faculties",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
                         name: "FK_Students_Genders_GenderId",
                         column: x => x.GenderId,
                         principalTable: "Genders",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Students_Groups_GroupId",
                         column: x => x.GroupId,
                         principalTable: "Groups",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Curricula",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    HoursAmount = table.Column<int>(nullable: false),
+                    DisciplineFinalId = table.Column<int>(nullable: false),
+                    LessonTypeId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Curricula", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Curricula_DisciplineFinals_DisciplineFinalId",
+                        column: x => x.DisciplineFinalId,
+                        principalTable: "DisciplineFinals",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Curricula_LessonTypes_LessonTypeId",
+                        column: x => x.LessonTypeId,
+                        principalTable: "LessonTypes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -316,7 +318,7 @@ namespace DatabaseApp.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("MySQL:AutoIncrement", true),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     TeacherId = table.Column<int>(nullable: false),
                     DissertationTypeId = table.Column<int>(nullable: false)
                 },
@@ -328,13 +330,13 @@ namespace DatabaseApp.Migrations
                         column: x => x.DissertationTypeId,
                         principalTable: "DissertationTypes",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Dissertations_Teachers_TeacherId",
                         column: x => x.TeacherId,
                         principalTable: "Teachers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -342,7 +344,7 @@ namespace DatabaseApp.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("MySQL:AutoIncrement", true),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     FinalId = table.Column<int>(nullable: false),
                     TeacherId = table.Column<int>(nullable: false)
                 },
@@ -354,46 +356,13 @@ namespace DatabaseApp.Migrations
                         column: x => x.FinalId,
                         principalTable: "DisciplineFinals",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_FinalTeachers_Teachers_TeacherId",
                         column: x => x.TeacherId,
                         principalTable: "Teachers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Lessons",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("MySQL:AutoIncrement", true),
-                    GroupId = table.Column<int>(nullable: false),
-                    CurriculumId = table.Column<int>(nullable: false),
-                    TeacherId = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Lessons", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Lessons_Curricula_CurriculumId",
-                        column: x => x.CurriculumId,
-                        principalTable: "Curricula",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Lessons_Groups_GroupId",
-                        column: x => x.GroupId,
-                        principalTable: "Groups",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Lessons_Teachers_TeacherId",
-                        column: x => x.TeacherId,
-                        principalTable: "Teachers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -401,7 +370,7 @@ namespace DatabaseApp.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("MySQL:AutoIncrement", true),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     StudentId = table.Column<int>(nullable: false),
                     DisciplineFinalId = table.Column<int>(nullable: false),
                     Grade = table.Column<string>(nullable: true)
@@ -414,13 +383,13 @@ namespace DatabaseApp.Migrations
                         column: x => x.DisciplineFinalId,
                         principalTable: "DisciplineFinals",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_FinalResults_Students_StudentId",
                         column: x => x.StudentId,
                         principalTable: "Students",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -428,7 +397,7 @@ namespace DatabaseApp.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("MySQL:AutoIncrement", true),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Title = table.Column<string>(nullable: true),
                     StudentId = table.Column<int>(nullable: false),
                     TeacherId = table.Column<int>(nullable: false)
@@ -441,13 +410,46 @@ namespace DatabaseApp.Migrations
                         column: x => x.StudentId,
                         principalTable: "Students",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Theses_Teachers_TeacherId",
                         column: x => x.TeacherId,
                         principalTable: "Teachers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Lessons",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    GroupId = table.Column<int>(nullable: false),
+                    CurriculumId = table.Column<int>(nullable: false),
+                    TeacherId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Lessons", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Lessons_Curricula_CurriculumId",
+                        column: x => x.CurriculumId,
+                        principalTable: "Curricula",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Lessons_Groups_GroupId",
+                        column: x => x.GroupId,
+                        principalTable: "Groups",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Lessons_Teachers_TeacherId",
+                        column: x => x.TeacherId,
+                        principalTable: "Teachers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
@@ -476,14 +478,9 @@ namespace DatabaseApp.Migrations
                 column: "FacultyId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Curricula_DisciplineId",
+                name: "IX_Curricula_DisciplineFinalId",
                 table: "Curricula",
-                column: "DisciplineId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Curricula_FinalTypeId",
-                table: "Curricula",
-                column: "FinalTypeId");
+                column: "DisciplineFinalId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Curricula_LessonTypeId",
@@ -551,6 +548,11 @@ namespace DatabaseApp.Migrations
                 column: "TeacherId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Students_FacultyId",
+                table: "Students",
+                column: "FacultyId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Students_GenderId",
                 table: "Students",
                 column: "GenderId");
@@ -610,9 +612,6 @@ namespace DatabaseApp.Migrations
                 name: "DissertationTypes");
 
             migrationBuilder.DropTable(
-                name: "DisciplineFinals");
-
-            migrationBuilder.DropTable(
                 name: "Curricula");
 
             migrationBuilder.DropTable(
@@ -622,10 +621,7 @@ namespace DatabaseApp.Migrations
                 name: "Teachers");
 
             migrationBuilder.DropTable(
-                name: "AcademicDisciplines");
-
-            migrationBuilder.DropTable(
-                name: "FinalTypes");
+                name: "DisciplineFinals");
 
             migrationBuilder.DropTable(
                 name: "LessonTypes");
@@ -641,6 +637,12 @@ namespace DatabaseApp.Migrations
 
             migrationBuilder.DropTable(
                 name: "TeacherCategories");
+
+            migrationBuilder.DropTable(
+                name: "AcademicDisciplines");
+
+            migrationBuilder.DropTable(
+                name: "FinalTypes");
 
             migrationBuilder.DropTable(
                 name: "Faculties");

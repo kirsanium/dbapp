@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace DatabaseApp.Extensions
@@ -12,6 +13,7 @@ namespace DatabaseApp.Extensions
                 var dbContext = scope.ServiceProvider.GetService<AppDbContext>();
                 var seeder = scope.ServiceProvider.GetService<IDataSeeder>();
                 
+                dbContext.Database.Migrate();
                 seeder.Seed(dbContext);
             }
             return host;
