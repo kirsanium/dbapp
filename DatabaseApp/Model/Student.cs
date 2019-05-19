@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace DatabaseApp.Models
 {
@@ -13,15 +14,19 @@ namespace DatabaseApp.Models
         public int ChildrenAmount { get; set; }
         public float Scholarship { get; set; }
         
+        [JsonIgnore]
         public Faculty Faculty { get; set; }
         public int FacultyId { get; set; }
 
+        [JsonIgnore]
         public Group Group { get; set; }
         public int GroupId { get; set; }
         
+        [JsonIgnore]
         public Gender Gender { get; set; }
         public int GenderId { get; set; }
         
+        [JsonIgnore]
         public List<FinalResult> FinalResults { get; set; }
     }
 }

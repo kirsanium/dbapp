@@ -26,15 +26,16 @@ namespace DatabaseApp.Controllers
         /// <summary>
         /// Search students with specific parameters
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="request"></param>  
+        /// <param name="id">Id of the faculty</param>
+        /// <param name="request">Request to get students</param>
+        /// <returns>List of students matching the query</returns>
         [HttpGet("{id}/students")]
         [ProducesResponseType(200)]
         public ActionResult<IEnumerable<Student>> GetStudents([FromRoute] int id, [FromQuery] FacultyGetStudentsRequest request)
         {
             var students = _context.Students
                 .Where(s => s.FacultyId == id)
-                .Where(s => s.BirthDate.AddYears(request.Age ?? -1000) < DateTime.UtcNow)
+                .Where(s => s.BirthDate.AddYears(request.Age ?? DateTime.MinValue.Year) < DateTime.UtcNow)
                 .Where(s => (request.BirthYear ?? DateTime.MinValue.Year) <= s.BirthDate.Year)
                 .Where(s => (request.GenderId ?? s.GenderId) == s.GenderId)
                 .Where(s => (request.ScholarshipAmount ?? s.Scholarship) >=  s.Scholarship)
@@ -42,9 +43,12 @@ namespace DatabaseApp.Controllers
                 .Where(s => (request.ChildrenAmount ?? s.ChildrenAmount) == s.ChildrenAmount)
                 .Where(s => (request.HasChildren ?? (s.ChildrenAmount != 0)) == (s.ChildrenAmount != 0));
 
-            foreach (var groupId in request.GroupIds)
+            if (request.GroupIds == null) return students.ToList();
             {
-                students = students.Where(s => _context.Groups.First(g => g.Id == groupId) != null);
+                foreach (var groupId in request.GroupIds)
+                {
+                    students = students.Where(s => _context.Groups.First(g => g.Id == groupId) != null);
+                }
             }
 
             return students.ToList();

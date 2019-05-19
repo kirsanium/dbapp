@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace DatabaseApp.Models
 {
@@ -9,9 +10,11 @@ namespace DatabaseApp.Models
         public int StartYear { get; set; }
         public int EndYear { get; set; }
         
+        [JsonIgnore]
         public Faculty Faculty { get; set; }
         public int FacultyId { get; set; }
         
+        [JsonIgnore]
         public List<Student> Students { get; set; }
         public List<Lesson> Lessons { get; set; }
     }
