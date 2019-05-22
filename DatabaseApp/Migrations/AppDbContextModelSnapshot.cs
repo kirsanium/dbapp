@@ -116,6 +116,8 @@ namespace DatabaseApp.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<DateTime>("DatePresented");
+
                     b.Property<int>("DissertationTypeId");
 
                     b.Property<int>("TeacherId");
@@ -317,6 +319,8 @@ namespace DatabaseApp.Migrations
                     b.Property<string>("FirstName");
 
                     b.Property<int>("GenderId");
+
+                    b.Property<bool>("GraduateStudent");
 
                     b.Property<string>("MiddleName");
 

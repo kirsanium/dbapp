@@ -14,6 +14,7 @@ namespace DatabaseApp.Models
         public int ChildrenAmount { get; set; }
         public float Salary { get; set; }
         
+        public bool GraduateStudent { get; set; }
         [JsonIgnore]
         public List<Dissertation> Dissertations { get; set; }
 

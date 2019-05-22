@@ -1,3 +1,4 @@
+using System;
 using Newtonsoft.Json;
 
 namespace DatabaseApp.Models
@@ -5,6 +6,8 @@ namespace DatabaseApp.Models
     public class Dissertation
     {
         public int Id { get; set; }
+        
+        public DateTime DatePresented { get; set; }
         
         [JsonIgnore]
         public Teacher Teacher { get; set; }

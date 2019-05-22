@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace DatabaseApp.Dtos
 {
-    public class FacultyGetStudentsRequest
+    public sealed class FacultyGetStudentsRequest
     {
         public int? Year { get; set; }
         public List<int> GroupIds { get; set; }

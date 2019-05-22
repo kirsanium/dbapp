@@ -13,10 +13,12 @@
         <e p="AppDbContext.cs" t="Include" />
         <e p="Controllers" t="Include">
           <e p="FacultyController.cs" t="Include" />
+          <e p="TeacherController.cs" t="Include" />
         </e>
         <e p="DatabaseApp.csproj" t="IncludeRecursive" />
         <e p="Dtos" t="Include">
           <e p="FacultyGetStudentsRequest.cs" t="Include" />
+          <e p="GetTeachersRequest.cs" t="Include" />
         </e>
         <e p="Extensions" t="Include">
           <e p="ModelBuilderExtensions.cs" t="Include" />
@@ -25,6 +27,8 @@
         <e p="Migrations" t="Include">
           <e p="20190519134112_Init.Designer.cs" t="Include" />
           <e p="20190519134112_Init.cs" t="Include" />
+          <e p="20190522151502_Stuff.Designer.cs" t="Include" />
+          <e p="20190522151502_Stuff.cs" t="Include" />
           <e p="AppDbContextModelSnapshot.cs" t="Include" />
         </e>
         <e p="Model" t="Include">

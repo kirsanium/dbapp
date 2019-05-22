@@ -372,10 +372,11 @@ namespace DatabaseApp.Seeders
                 MiddleName = "Ananasovna",
                 ChairId = 5,
                 Salary = 3000,
-                BirthDate = new DateTime(1966, 04, 19),
+                BirthDate = new DateTime(1993, 04, 19),
                 ChildrenAmount = 2,
                 GenderId = 2,
-                TeacherCategoryId = 2
+                TeacherCategoryId = 2,
+                GraduateStudent = true
             });
             
             dbContext.Teachers.Add(new Teacher
@@ -423,8 +424,8 @@ namespace DatabaseApp.Seeders
 
         private static void SeedDissertations(AppDbContext dbContext)
         {
-            dbContext.Dissertations.Add(new Dissertation {DissertationTypeId = 1, TeacherId = 1});
-            dbContext.Dissertations.Add(new Dissertation {DissertationTypeId = 2, TeacherId = 2});
+            dbContext.Dissertations.Add(new Dissertation {DissertationTypeId = 1, TeacherId = 1, DatePresented = new DateTime(2010, 1, 1)});
+            dbContext.Dissertations.Add(new Dissertation {DissertationTypeId = 2, TeacherId = 2, DatePresented = new DateTime(2012, 2, 2)});
             
             dbContext.SaveChanges();
         }
