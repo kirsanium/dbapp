@@ -44,10 +44,10 @@ namespace DatabaseApp.Extensions
                 .Property(g => g.GroupName);
             
             modelBuilder.Entity<Group>()
-                .Property(g => g.StartYear);
+                .Property(g => g.StartDate);
             
             modelBuilder.Entity<Group>()
-                .Property(g => g.EndYear);
+                .Property(g => g.EndDate);
         }
 
         public static void ConfigureTeachersTable(this ModelBuilder modelBuilder)

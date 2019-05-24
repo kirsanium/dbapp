@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DatabaseApp.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20190519134112_Init")]
-    partial class Init
+    [Migration("20190524204811_DissertationTheme")]
+    partial class DissertationTheme
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -118,9 +118,13 @@ namespace DatabaseApp.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<DateTime>("DatePresented");
+
                     b.Property<int>("DissertationTypeId");
 
                     b.Property<int>("TeacherId");
+
+                    b.Property<string>("Theme");
 
                     b.HasKey("Id");
 
@@ -222,13 +226,13 @@ namespace DatabaseApp.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("EndYear");
+                    b.Property<DateTime>("EndDate");
 
                     b.Property<int>("FacultyId");
 
                     b.Property<string>("GroupName");
 
-                    b.Property<int>("StartYear");
+                    b.Property<DateTime>("StartDate");
 
                     b.HasKey("Id");
 
@@ -319,6 +323,8 @@ namespace DatabaseApp.Migrations
                     b.Property<string>("FirstName");
 
                     b.Property<int>("GenderId");
+
+                    b.Property<bool>("GraduateStudent");
 
                     b.Property<string>("MiddleName");
 

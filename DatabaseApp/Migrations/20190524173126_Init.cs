@@ -134,8 +134,8 @@ namespace DatabaseApp.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     GroupName = table.Column<string>(nullable: true),
-                    StartYear = table.Column<int>(nullable: false),
-                    EndYear = table.Column<int>(nullable: false),
+                    StartDate = table.Column<DateTime>(nullable: false),
+                    EndDate = table.Column<DateTime>(nullable: false),
                     FacultyId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -187,6 +187,7 @@ namespace DatabaseApp.Migrations
                     BirthDate = table.Column<DateTime>(nullable: false),
                     ChildrenAmount = table.Column<int>(nullable: false),
                     Salary = table.Column<float>(nullable: false),
+                    GraduateStudent = table.Column<bool>(nullable: false),
                     ChairId = table.Column<int>(nullable: false),
                     GenderId = table.Column<int>(nullable: false),
                     TeacherCategoryId = table.Column<int>(nullable: false)
@@ -319,6 +320,7 @@ namespace DatabaseApp.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    DatePresented = table.Column<DateTime>(nullable: false),
                     TeacherId = table.Column<int>(nullable: false),
                     DissertationTypeId = table.Column<int>(nullable: false)
                 },

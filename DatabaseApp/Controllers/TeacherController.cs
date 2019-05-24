@@ -33,114 +33,124 @@ namespace DatabaseApp.Controllers
         public ActionResult<IEnumerable<Teacher>> GetTeachers([FromQuery] GetTeachersRequest request)
         {
             var teachers = _context.Teachers
-                .Where(t => t.BirthDate.AddYears(request.Age ?? DateTime.MinValue.Year) < DateTime.UtcNow)
-                .Where(t => (request.BirthYear ?? DateTime.MinValue.Year) <= t.BirthDate.Year)
+                .Where(t => t.BirthDate.AddYears(request.AgeFrom ?? -1000) < DateTime.UtcNow)
+                .Where(t => t.BirthDate.AddYears(request.AgeTo ?? 1000) > DateTime.UtcNow)
+                .Where(t => (request.BirthYearFrom ?? DateTime.MinValue.Year) <= t.BirthDate.Year)
+                .Where(t => (request.BirthYearTo ?? DateTime.MaxValue.Year) >= t.BirthDate.Year)
                 .Where(t => (request.GenderId ?? t.GenderId) == t.GenderId)
-                .Where(t => (request.SalaryAmount ?? t.Salary) >= t.Salary)
-                .Where(t => (request.ChildrenAmount ?? t.ChildrenAmount) == t.ChildrenAmount)
+                .Where(t => (request.SalaryAmountFrom ?? t.Salary) <= t.Salary)
+                .Where(t => (request.SalaryAmountTo ?? t.Salary) >= t.Salary)
+                .Where(t => (request.ChildrenAmountFrom ?? t.ChildrenAmount) <= t.ChildrenAmount)
+                .Where(t => (request.ChildrenAmountTo ?? t.ChildrenAmount) >= t.ChildrenAmount)
                 .Where(t => (request.HasChildren ?? (t.ChildrenAmount != 0)) == (t.ChildrenAmount != 0))
-                .Where(t => (request.isGraduateStudent ?? t.GraduateStudent) == t.GraduateStudent);
+                .Where(t => (request.isGraduateStudent ?? t.GraduateStudent) == t.GraduateStudent)
+                .Where(t => (request.ChairIds ?? new List<int>{t.ChairId}).Contains(t.ChairId))
+                .Where(t => (t.Dissertations.Exists(
+                    d => (request.DissertationTypeIds ?? new List<int>{d.DissertationTypeId}).Contains(d.DissertationTypeId) && 
+                         d.DatePresented > (request.DateDissertationPresentedFrom ?? DateTime.MinValue) && 
+                         d.DatePresented < (request.DateDissertationPresentedTo ?? DateTime.MaxValue))))
+                .Where(t => ((request.TeacherCategoryIds ?? new List<int>{t.TeacherCategoryId}).Contains(t.TeacherCategoryId)));
 
-            if (request.ChairIds != null)
-            { 
-                foreach (var chairId in request.ChairIds)
-                {
-                    teachers = teachers.Where(t => _context.Chairs.First(c => c.Id == chairId) != null);
-                }
+            return teachers.ToList();
+        }
+
+        [ProducesResponseType(404)]
+        [ProducesResponseType(200)]
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Teacher>> Get(int id)
+        {
+            var teacher = await _context.Teachers.FindAsync(id);
+            if (teacher == null)
+            {
+                return NotFound();
             }
 
-            IQueryable<Teacher> dissertationQueryResult = new EnumerableQuery<Teacher>(new List<Teacher>());
-            var dissertationQueryResultList = new List<IQueryable<Teacher>>();
-            if (request.DissertationTypeIds != null)
+            return Ok(teacher);
+        }
+
+        [ProducesResponseType(400)]
+        [ProducesResponseType(200)]
+        [HttpPost]
+        public async Task<ActionResult<Teacher>> Post([FromBody] PostPutTeacherRequest teacher)
+        {
+            if (await _context.Faculties.FindAsync(teacher.ChairId) == null)
             {
-                foreach (var dissertationType in request.DissertationTypeIds)
-                {
-                    dissertationQueryResultList.Add(teachers.Where(t => t.Dissertations.Exists(
-                        d => dissertationType == d.DissertationTypeId &&
-                             (request.DateDissertationPresentedFrom ?? DateTime.MinValue) < d.DatePresented &&
-                             (request.DateDissertationPresentedTo ?? DateTime.MaxValue) > d.DatePresented)));
-                }
-                
-                switch (dissertationQueryResultList.Count)
-                {
-                    case 0:
-                        break;
-                
-                    case 1:
-                        dissertationQueryResult = dissertationQueryResultList[0];
-                        break;
-                
-                    default:
-                        dissertationQueryResult = dissertationQueryResultList[0].Union(dissertationQueryResultList[1]);
-                        for (var i = 2; i < dissertationQueryResultList.Count; ++i)
-                        {
-                            dissertationQueryResult = dissertationQueryResult.Union(dissertationQueryResultList[i]);
-                        }
-                        break;
-                }
+                ModelState.AddModelError("ChairId", "Nonexistent ChairId");
             }
 
-            IQueryable<Teacher> categoryQueryResult = new EnumerableQuery<Teacher>(new List<Teacher>());
-            var categoryQueryResultList = new List<IQueryable<Teacher>>();
-            if (request.TeacherCategoryIds != null)
+            if (await _context.Genders.FindAsync(teacher.GenderId) == null)
             {
-                foreach (var categoryId in request.TeacherCategoryIds)
-                {
-                    categoryQueryResultList.Add(teachers.Where(t => t.TeacherCategoryId == categoryId));
-                }
-                
-                switch (categoryQueryResultList.Count)
-                {
-                    case 0:
-                        break;
-                
-                    case 1:
-                        categoryQueryResult = categoryQueryResultList[0];
-                        break;
-                    
-                    default:
-                        categoryQueryResult = categoryQueryResultList[0].Union(categoryQueryResultList[1]);
-                        for (var i = 2; i < categoryQueryResultList.Count; ++i)
-                        {
-                            categoryQueryResult = categoryQueryResult.Union(categoryQueryResultList[i]);
-                        }
-                        break;
-                }
+                ModelState.AddModelError("GenderId", "Nonexistent GenderId");
             }
             
-            var result = teachers;
-
-            if (request.DissertationTypeIds != null || request.TeacherCategoryIds != null)
+            if (await _context.Groups.FindAsync(teacher.TeacherCategoryId) == null)
             {
-                result = dissertationQueryResult.Union(categoryQueryResult);
+                ModelState.AddModelError("TeacherCategoryId", "TeacherCategoryId GroupId");
             }
 
-            return result.ToList();
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var newTeacher = await _context.Teachers.AddAsync(teacher.ToTeacher());
+            await _context.SaveChangesAsync();
+            return Created($"api/teacher/{newTeacher.Entity.Id}", newTeacher.Entity);
         }
 
-        // GET api/values/5
-        [HttpGet("{id}")]
-        public ActionResult<string> Get(int id)
-        {
-            return "value";
-        }
-
-        // POST api/values
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
-
-        // PUT api/values/5
+        [ProducesResponseType(400)]
+        [ProducesResponseType(200)]
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public async Task<ActionResult<Teacher>> Put(int id, [FromBody] PostPutTeacherRequest request)
         {
+            if (await _context.Faculties.FindAsync(request.ChairId) == null)
+            {
+                ModelState.AddModelError("ChairId", "Nonexistent ChairId");
+            }
+
+            if (await _context.Genders.FindAsync(request.GenderId) == null)
+            {
+                ModelState.AddModelError("GenderId", "Nonexistent GenderId");
+            }
+            
+            if (await _context.Groups.FindAsync(request.TeacherCategoryId) == null)
+            {
+                ModelState.AddModelError("TeacherCategoryId", "TeacherCategoryId GroupId");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            
+            var teacher = await _context.Teachers.FindAsync(id);
+            _context.Teachers.Update(teacher);
+            teacher.FirstName = request.FirstName;
+            teacher.SecondName = request.SecondName;
+            teacher.MiddleName = request.MiddleName;
+            teacher.BirthDate = request.BirthDate;
+            teacher.ChildrenAmount = request.ChildrenAmount;
+            teacher.GraduateStudent = request.GraduateStudent;
+            teacher.ChairId = request.ChairId;
+            teacher.TeacherCategoryId = request.TeacherCategoryId;
+            teacher.GenderId = request.GenderId;
+            await _context.SaveChangesAsync();
+            return Ok();
         }
 
-        // DELETE api/values/5
+        [ProducesResponseType(404)]
+        [ProducesResponseType(200)]
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<ActionResult> Delete(int id)
         {
+            var teacher = await _context.Teachers.FindAsync(id);
+            if (teacher == null)
+            {
+                return NotFound();
+            }
+            _context.Teachers.Remove(teacher);
+            await _context.SaveChangesAsync();
+            return Ok();
         }
     }
 }

@@ -5,14 +5,17 @@ namespace DatabaseApp.Dtos
 {
     public sealed class GetTeachersRequest
     {
-        public int? Year { get; set; }
         public List<int> ChairIds { get; set; }
         public int? GenderId { get; set; }
-        public int? BirthYear{ get; set; }
-        public int? Age { get; set; }
+        public int? BirthYearFrom{ get; set; }
+        public int? BirthYearTo{ get; set; }
+        public int? AgeFrom { get; set; }
+        public int? AgeTo { get; set; }
         public bool? HasChildren { get; set; }
-        public int? ChildrenAmount { get; set; }
-        public float? SalaryAmount { get; set; }
+        public int? ChildrenAmountFrom { get; set; }
+        public int? ChildrenAmountTo { get; set; }
+        public float? SalaryAmountFrom { get; set; }
+        public float? SalaryAmountTo { get; set; }
         
         public bool? isGraduateStudent { get; set; }
         

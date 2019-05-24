@@ -115,17 +115,17 @@ namespace DatabaseApp.Seeders
 
         private static void SeedGroups(AppDbContext dbContext)
         {
-            dbContext.Groups.Add(new Group {StartYear = 2016, EndYear = 2020, FacultyId = 1, GroupName = "16201"});
-            dbContext.Groups.Add(new Group {StartYear = 2016, EndYear = 2020, FacultyId = 1, GroupName = "16202"});
+            dbContext.Groups.Add(new Group {StartDate = new DateTime(2016, 9, 1), EndDate = new DateTime(2020, 8, 30), FacultyId = 1, GroupName = "16201"});
+            dbContext.Groups.Add(new Group {StartDate = new DateTime(2016, 9, 1), EndDate = new DateTime(2020, 8, 30), FacultyId = 1, GroupName = "16202"});
             
-            dbContext.Groups.Add(new Group {StartYear = 2017, EndYear = 2021, FacultyId = 1, GroupName = "17201"});
-            dbContext.Groups.Add(new Group {StartYear = 2017, EndYear = 2021, FacultyId = 1, GroupName = "17202"});
+            dbContext.Groups.Add(new Group {StartDate = new DateTime(2017, 9, 1), EndDate = new DateTime(2021, 8, 30), FacultyId = 1, GroupName = "17201"});
+            dbContext.Groups.Add(new Group {StartDate = new DateTime(2017, 9, 1), EndDate = new DateTime(2021, 8, 30), FacultyId = 1, GroupName = "17202"});
             
-            dbContext.Groups.Add(new Group {StartYear = 2016, EndYear = 2020, FacultyId = 2, GroupName = "16301"});
-            dbContext.Groups.Add(new Group {StartYear = 2016, EndYear = 2020, FacultyId = 2, GroupName = "16302"});
+            dbContext.Groups.Add(new Group {StartDate = new DateTime(2016, 9, 1), EndDate = new DateTime(2020, 8, 30), FacultyId = 2, GroupName = "16301"});
+            dbContext.Groups.Add(new Group {StartDate = new DateTime(2016, 9, 1), EndDate = new DateTime(2020, 8, 30), FacultyId = 2, GroupName = "16302"});
             
-            dbContext.Groups.Add(new Group {StartYear = 2017, EndYear = 2021, FacultyId = 2, GroupName = "17301"});
-            dbContext.Groups.Add(new Group {StartYear = 2017, EndYear = 2021, FacultyId = 2, GroupName = "17302"});
+            dbContext.Groups.Add(new Group {StartDate = new DateTime(2017, 9, 1), EndDate = new DateTime(2021, 8, 30), FacultyId = 2, GroupName = "17301"});
+            dbContext.Groups.Add(new Group {StartDate = new DateTime(2017, 9, 1), EndDate = new DateTime(2021, 8, 30), FacultyId = 2, GroupName = "17302"});
             
             dbContext.SaveChanges();
         }
@@ -424,8 +424,8 @@ namespace DatabaseApp.Seeders
 
         private static void SeedDissertations(AppDbContext dbContext)
         {
-            dbContext.Dissertations.Add(new Dissertation {DissertationTypeId = 1, TeacherId = 1, DatePresented = new DateTime(2010, 1, 1)});
-            dbContext.Dissertations.Add(new Dissertation {DissertationTypeId = 2, TeacherId = 2, DatePresented = new DateTime(2012, 2, 2)});
+            dbContext.Dissertations.Add(new Dissertation {DissertationTypeId = 1, Theme = "random dich'", TeacherId = 1, DatePresented = new DateTime(2010, 1, 1)});
+            dbContext.Dissertations.Add(new Dissertation {DissertationTypeId = 2, Theme = "gigigigig'", TeacherId = 2, DatePresented = new DateTime(2012, 2, 2)});
             
             dbContext.SaveChanges();
         }

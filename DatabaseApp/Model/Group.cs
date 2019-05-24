@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
@@ -7,8 +8,8 @@ namespace DatabaseApp.Models
     {
         public int Id { get; set; }
         public string GroupName { get; set; }
-        public int StartYear { get; set; }
-        public int EndYear { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
         
         [JsonIgnore]
         public Faculty Faculty { get; set; }

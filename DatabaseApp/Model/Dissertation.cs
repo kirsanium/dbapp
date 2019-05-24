@@ -7,6 +7,7 @@ namespace DatabaseApp.Models
     {
         public int Id { get; set; }
         
+        public string Theme { get; set; }
         public DateTime DatePresented { get; set; }
         
         [JsonIgnore]
