@@ -12,12 +12,17 @@
         <e p=".gitignore" t="Include" />
         <e p="AppDbContext.cs" t="Include" />
         <e p="Controllers" t="Include">
+          <e p="ChairController.cs" t="Include" />
           <e p="DissertationController.cs" t="Include" />
           <e p="StudentController.cs" t="Include" />
           <e p="TeacherController.cs" t="Include" />
         </e>
         <e p="DatabaseApp.csproj" t="IncludeRecursive" />
         <e p="Dtos" t="Include">
+          <e p="Chair" t="Include">
+            <e p="GetChairsLessonsRequest.cs" t="Include" />
+            <e p="PostPutChairRequest.cs" t="Include" />
+          </e>
           <e p="Dissertation" t="Include">
             <e p="GetDissertationThemesRequest.cs" t="Include" />
             <e p="GetDissertationThemesResult.cs" t="Include" />
@@ -28,6 +33,8 @@
             <e p="PostPutStudentRequest.cs" t="Include" />
           </e>
           <e p="Teacher" t="Include">
+            <e p="GetTeachersConductingLessonsRequest.cs" t="Include" />
+            <e p="GetTeachersConductingLessonsResponse.cs" t="Include" />
             <e p="GetTeachersRequest.cs" t="Include" />
             <e p="PostPutTeacherRequest.cs" t="Include" />
           </e>
@@ -41,6 +48,10 @@
           <e p="20190524173126_Init.cs" t="Include" />
           <e p="20190524204811_DissertationTheme.Designer.cs" t="Include" />
           <e p="20190524204811_DissertationTheme.cs" t="Include" />
+          <e p="20190525094838_mig2.Designer.cs" t="Include" />
+          <e p="20190525094838_mig2.cs" t="Include" />
+          <e p="20190525121045_chetotam.Designer.cs" t="Include" />
+          <e p="20190525121045_chetotam.cs" t="Include" />
           <e p="AppDbContextModelSnapshot.cs" t="Include" />
         </e>
         <e p="Model" t="Include">

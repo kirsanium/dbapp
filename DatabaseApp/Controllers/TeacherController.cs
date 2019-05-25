@@ -45,13 +45,37 @@ namespace DatabaseApp.Controllers
                 .Where(t => (request.HasChildren ?? (t.ChildrenAmount != 0)) == (t.ChildrenAmount != 0))
                 .Where(t => (request.isGraduateStudent ?? t.GraduateStudent) == t.GraduateStudent)
                 .Where(t => (request.ChairIds ?? new List<int>{t.ChairId}).Contains(t.ChairId))
-                .Where(t => (t.Dissertations.Exists(
+                .Where(t => t.Dissertations.Count == 0 
+                    ? request.DissertationTypeIds == null
+                      && request.DateDissertationPresentedFrom == null
+                      && request.DateDissertationPresentedTo == null
+                    : (t.Dissertations.Exists(
                     d => (request.DissertationTypeIds ?? new List<int>{d.DissertationTypeId}).Contains(d.DissertationTypeId) && 
                          d.DatePresented > (request.DateDissertationPresentedFrom ?? DateTime.MinValue) && 
                          d.DatePresented < (request.DateDissertationPresentedTo ?? DateTime.MaxValue))))
                 .Where(t => ((request.TeacherCategoryIds ?? new List<int>{t.TeacherCategoryId}).Contains(t.TeacherCategoryId)));
 
             return teachers.ToList();
+        }
+
+        [HttpGet("lessons-conducted")]
+        [ProducesResponseType(200)]
+        public ActionResult<GetTeachersConductingLessonsResponse> GetTeachersConductingLessons(
+            [FromQuery] GetTeachersConductingLessonsRequest request)
+        {
+            var teachers = _context.Teachers
+                .Where(t => t.Lessons.Exists(l => (request.DisciplineId ?? l.Curriculum.DisciplineFinal.DisciplineId) == l.Curriculum.DisciplineFinal.DisciplineId))
+                .Where(t => t.Lessons.Exists(l => (request.FacultyId ?? l.Group.FacultyId) == l.Group.FacultyId))
+                .Where(t => t.Lessons.Exists(l => (request.GroupId ?? l.GroupId) == l.GroupId))
+                .Where(t => t.Lessons.Exists(l => (request.Year ?? (DateTime.UtcNow - l.Group.StartDate).Days / 365 + 1) == (DateTime.UtcNow - l.Group.StartDate).Days / 365 + 1))
+                .Where(t => t.Lessons.Exists(l => (request.LessonTypeIds ?? new List<int>{l.Curriculum.LessonTypeId}).Contains(l.Curriculum.LessonTypeId)))
+                .Where(t => t.Lessons.Exists(l => (request.Semesters ?? new List<int>{l.Curriculum.DisciplineFinal.Discipline.Semester}).Contains(l.Curriculum.DisciplineFinal.Discipline.Semester)));
+
+            return new GetTeachersConductingLessonsResponse
+            {
+                Teachers = teachers.ToList(),
+                TotalElements = teachers.Count()
+            };
         }
 
         [ProducesResponseType(404)]
@@ -100,6 +124,7 @@ namespace DatabaseApp.Controllers
 
         [ProducesResponseType(400)]
         [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
         [HttpPut("{id}")]
         public async Task<ActionResult<Teacher>> Put(int id, [FromBody] PostPutTeacherRequest request)
         {
@@ -124,6 +149,10 @@ namespace DatabaseApp.Controllers
             }
             
             var teacher = await _context.Teachers.FindAsync(id);
+            if (teacher == null)
+            {
+                return NotFound();
+            }
             _context.Teachers.Update(teacher);
             teacher.FirstName = request.FirstName;
             teacher.SecondName = request.SecondName;

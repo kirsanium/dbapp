@@ -46,8 +46,8 @@ namespace DatabaseApp.Controllers
                 .Where(s => (request.ChildrenAmountFrom ?? s.ChildrenAmount) <= s.ChildrenAmount)
                 .Where(s => (request.ChildrenAmountTo ?? s.ChildrenAmount) >= s.ChildrenAmount)
                 .Where(s => (request.HasChildren ?? (s.ChildrenAmount != 0)) == (s.ChildrenAmount != 0))
-                .Where(s => (request.Years ?? new List<int>{(DateTime.UtcNow - s.Group.StartDate).Days / 365 + 1})
-                    .Contains((DateTime.UtcNow - s.Group.StartDate).Days / 365 + 1))
+                .Where(s => (request.Years ?? new List<int>{s.Group.GetYear()})
+                    .Contains(s.Group.GetYear()))
                 .Where(s => (request.GroupIds ?? new List<int>{s.GroupId})
                     .Contains(s.GroupId));
 
@@ -98,6 +98,7 @@ namespace DatabaseApp.Controllers
             return Created($"api/student/{newStudent.Entity.Id}", newStudent.Entity);
         }
 
+        [ProducesResponseType(404)]
         [ProducesResponseType(400)]
         [ProducesResponseType(200)]
         [HttpPut("{id}")]
@@ -124,6 +125,10 @@ namespace DatabaseApp.Controllers
             }
             
             var student = await _context.Students.FindAsync(id);
+            if (student == null)
+            {
+                return NotFound();
+            }
             _context.Students.Update(student);
             student.FirstName = request.FirstName;
             student.SecondName = request.SecondName;

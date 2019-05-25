@@ -14,7 +14,6 @@ namespace DatabaseApp.Controllers
     public class DissertationController : ControllerBase
     {
         private readonly AppDbContext _context;
-        private const double TOLERANCE = 0.001;
 
         public DissertationController(AppDbContext context)
         {
@@ -22,10 +21,10 @@ namespace DatabaseApp.Controllers
         }
         
         /// <summary>
-        /// Search dissertations with specific parameters
+        /// Search dissertation themes with specific parameters
         /// </summary>
-        /// <param name="request">Request to get dissertations</param>
-        /// <returns>List of dissertations matching the query</returns>
+        /// <param name="request">Request to get dissertation themes</param>
+        /// <returns>List of dissertation themes matching the query</returns>
         [ProducesResponseType(200)]
         [HttpGet("themes")]
         public ActionResult<GetDissertationThemesResult> GetThemes([FromQuery] GetDissertationThemesRequest request)
@@ -85,6 +84,7 @@ namespace DatabaseApp.Controllers
 
         [ProducesResponseType(400)]
         [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
         [HttpPut("{id}")]
         public async Task<ActionResult<Dissertation>> Put(int id, [FromBody] PostPutDissertationRequest request)
         {
@@ -104,6 +104,10 @@ namespace DatabaseApp.Controllers
             }
             
             var dissertation = await _context.Dissertations.FindAsync(id);
+            if (dissertation == null)
+            {
+                return NotFound();
+            }
             _context.Dissertations.Update(dissertation);
             dissertation.TeacherId = request.TeacherId;
             dissertation.DatePresented = request.DatePresented;

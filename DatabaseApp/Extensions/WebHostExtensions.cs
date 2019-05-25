@@ -14,8 +14,8 @@ namespace DatabaseApp.Extensions
                 var seeder = scope.ServiceProvider.GetService<IDataSeeder>();
                 
                 dbContext.Database.Migrate();
-//                seeder.Seed(dbContext); //NEVER FORGET
-            }
+                seeder.Seed(dbContext); //NEVER FORGET
+            }    
             return host;
         }
     }

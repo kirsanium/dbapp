@@ -14,5 +14,8 @@ namespace DatabaseApp.Models
         
         [JsonIgnore]
         public List<Teacher> Teachers { get; set; }
+        
+        [JsonIgnore]
+        public List<AcademicAssignment> AcademicAssignments { get; set; }
     }
 }

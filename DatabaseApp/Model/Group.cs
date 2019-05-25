@@ -17,6 +17,10 @@ namespace DatabaseApp.Models
         
         [JsonIgnore]
         public List<Student> Students { get; set; }
+        
+        [JsonIgnore]
         public List<Lesson> Lessons { get; set; }
+
+        public int GetYear() => (DateTime.UtcNow - this.StartDate).Days / 365 + 1;
     }
 }

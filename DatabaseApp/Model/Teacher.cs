@@ -29,5 +29,8 @@ namespace DatabaseApp.Models
         [JsonIgnore]
         public TeacherCategory TeacherCategory { get; set; }
         public int TeacherCategoryId { get; set; }
+        
+        [JsonIgnore]
+        public List<Lesson> Lessons { get; set; }
     }
 }
