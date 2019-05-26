@@ -175,6 +175,11 @@ namespace DatabaseApp.Extensions
                 .HasOne(ft => ft.Teacher)
                 .WithMany()
                 .HasForeignKey(ft => ft.TeacherId);
+
+            modelBuilder.Entity<FinalTeacher>()
+                .HasOne(ft => ft.Group)
+                .WithMany()
+                .HasForeignKey(ft => ft.GroupId);
         }
 
         public static void ConfigureLessonsTable(this ModelBuilder modelBuilder)

@@ -58,6 +58,11 @@ namespace DatabaseApp.Controllers
             return teachers.ToList();
         }
 
+        /// <summary>
+        /// Search teachers conducting lessons with specific parameters
+        /// </summary>
+        /// <param name="request">Request to get teachers</param>
+        /// <returns>List of teachers matching the query</returns>
         [HttpGet("lessons-conducted")]
         [ProducesResponseType(200)]
         public ActionResult<GetTeachersConductingLessonsResponse> GetTeachersConductingLessons(
@@ -76,6 +81,24 @@ namespace DatabaseApp.Controllers
                 Teachers = teachers.ToList(),
                 TotalElements = teachers.Count()
             };
+        }
+
+        [HttpGet("by-finals")]
+        [ProducesResponseType(200)]
+        public async Task<ActionResult<IEnumerable<Teacher>>> GetTeachersByFinals([FromQuery] GetTeachersByFinalsRequest request)
+        {
+            var finalTeachers = _context.FinalTeachers
+                .Where(ft => (request.GroupIds ?? new List<int> {ft.GroupId}).Contains(ft.GroupId))
+                .Where(ft =>
+                    (request.DisciplineIds ?? new List<int> {ft.Final.DisciplineId}).Contains(ft.Final.DisciplineId))
+                .Where(ft =>
+                    (request.Semesters ?? new List<int> {ft.Final.Discipline.Semester}).Contains(ft.Final.Discipline
+                        .Semester));
+
+            var teachers = _context.Teachers
+                .Where(t => finalTeachers.Any(ft => ft.TeacherId == t.Id));
+
+            return teachers.ToList();
         }
 
         [ProducesResponseType(404)]

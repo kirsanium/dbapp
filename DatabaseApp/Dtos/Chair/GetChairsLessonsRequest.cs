@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace DatabaseApp.Dtos.Group
 {
-    public class GetChairsLessonsRequest
+    public sealed class GetChairsLessonsRequest
     {
         public int? GroupId { get; set; }
         public int? FacultyId { get; set; }

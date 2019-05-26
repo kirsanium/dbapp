@@ -31,7 +31,7 @@ namespace DatabaseApp.Controllers
         /// <returns>List of students matching the query</returns>
         [HttpGet]
         [ProducesResponseType(200)]
-        public ActionResult<IEnumerable<Student>> GetStudents([FromQuery] FacultyGetStudentsRequest request)
+        public ActionResult<IEnumerable<Student>> GetStudents([FromQuery] GetStudentsRequest request)
         {
             var students = _context.Students
                 .Where(s => (request.FacultyId ?? s.FacultyId) == s.FacultyId)
@@ -53,7 +53,43 @@ namespace DatabaseApp.Controllers
 
             return Ok(students.ToList());
         }
+
+        [HttpGet("by-exam-grade")]
+        [ProducesResponseType(200)]
+        public ActionResult<GetStudentsByExamGradeResponse> GetStudentsByExamGrade(
+            [FromQuery] GetStudentsByExamGradeRequest request)
+        {
+            var students = _context.Students
+                .Where(s => s.FinalResults.Exists(f =>
+                    f.Final.DisciplineId == request.DisciplineId && f.Grade == (request.Grade ?? f.Grade)))
+                .Where(s => (request.GroupIds ?? new List<int> {s.GroupId}).Contains(s.GroupId));
+
+            return Ok(new GetStudentsByExamGradeResponse
+            {
+                Students = students,
+                TotalElements = students.Count()
+            });
+        }
         
+        [HttpGet("by-session")]
+        [ProducesResponseType(200)]
+        public ActionResult<GetStudentsBySessionResponse> GetStudentsBySession(
+            [FromQuery] GetStudentsBySessionRequest request)
+        {
+            var students = _context.Students
+                .Where(s => (request.FacultyId ?? s.FacultyId) == s.FacultyId)
+                .Where(s => (request.GroupIds ?? new List<int> {s.GroupId}).Contains(s.GroupId))
+                .Where(s => (request.Year ?? (DateTime.UtcNow - s.Group.StartDate).Days / 365 + 1) == (DateTime.UtcNow - s.Group.StartDate).Days / 365 + 1)
+                .Where(s => !s.FinalResults.Exists(f => 
+                    f.Final.Discipline.Semester == request.Semester && !(request.Grades ?? new List<string>{f.Grade}).Contains(f.Grade)));
+
+            return Ok(new GetStudentsByExamGradeResponse
+            {
+                Students = students,
+                TotalElements = students.Count()
+            });
+        }
+
         [ProducesResponseType(404)]
         [ProducesResponseType(200)]
         [HttpGet("{id}")]

@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace DatabaseApp.Dtos
 {
-    public class GetDissertationThemesRequest
+    public sealed class GetDissertationThemesRequest
     {
         public List<int> DissertationTypeIds { get; set; }
         public int? ChairId { get; set; }

@@ -184,11 +184,15 @@ namespace DatabaseApp.Migrations
 
                     b.Property<int>("FinalId");
 
+                    b.Property<int>("GroupId");
+
                     b.Property<int>("TeacherId");
 
                     b.HasKey("Id");
 
                     b.HasIndex("FinalId");
+
+                    b.HasIndex("GroupId");
 
                     b.HasIndex("TeacherId");
 
@@ -466,6 +470,11 @@ namespace DatabaseApp.Migrations
                     b.HasOne("DatabaseApp.Models.DisciplineFinal", "Final")
                         .WithMany()
                         .HasForeignKey("FinalId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("DatabaseApp.Models.Group", "Group")
+                        .WithMany()
+                        .HasForeignKey("GroupId")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("DatabaseApp.Models.Teacher", "Teacher")

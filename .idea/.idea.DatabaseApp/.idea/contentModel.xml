@@ -29,10 +29,15 @@
             <e p="PostPutDissertationRequest.cs" t="Include" />
           </e>
           <e p="Student" t="Include">
+            <e p="GetStudentsByExamGradeRequest.cs" t="Include" />
+            <e p="GetStudentsByExamGradeResponse.cs" t="Include" />
+            <e p="GetStudentsBySessionRequest.cs" t="Include" />
+            <e p="GetStudentsBySessionResponse.cs" t="Include" />
             <e p="GetStudentsRequest.cs" t="Include" />
             <e p="PostPutStudentRequest.cs" t="Include" />
           </e>
           <e p="Teacher" t="Include">
+            <e p="GetTeachersByFinalsRequest.cs" t="Include" />
             <e p="GetTeachersConductingLessonsRequest.cs" t="Include" />
             <e p="GetTeachersConductingLessonsResponse.cs" t="Include" />
             <e p="GetTeachersRequest.cs" t="Include" />
@@ -52,6 +57,8 @@
           <e p="20190525094838_mig2.cs" t="Include" />
           <e p="20190525121045_chetotam.Designer.cs" t="Include" />
           <e p="20190525121045_chetotam.cs" t="Include" />
+          <e p="20190526183425_finalteachersgroup.Designer.cs" t="Include" />
+          <e p="20190526183425_finalteachersgroup.cs" t="Include" />
           <e p="AppDbContextModelSnapshot.cs" t="Include" />
         </e>
         <e p="Model" t="Include">

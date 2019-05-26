@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 
 namespace DatabaseApp.Dtos
 {
-    public class PostPutStudentRequest
+    public sealed class PostPutStudentRequest
     {
         public string FirstName { get; set; }
         public string SecondName { get; set; }

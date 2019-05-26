@@ -2,7 +2,7 @@ using DatabaseApp.Models;
 
 namespace DatabaseApp.Dtos.Group
 {
-    public class PostPutChairRequest
+    public sealed class PostPutChairRequest
     {
         public string Name { get; set; }
         public int FacultyId { get; set; }

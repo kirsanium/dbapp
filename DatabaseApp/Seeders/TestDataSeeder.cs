@@ -432,19 +432,23 @@ namespace DatabaseApp.Seeders
 
         private static void SeedFinalTeachers(AppDbContext dbContext)
         {
-            dbContext.FinalTeachers.Add(new FinalTeacher {FinalId = 1, TeacherId = 1});
-            dbContext.FinalTeachers.Add(new FinalTeacher {FinalId = 2, TeacherId = 2});
-            dbContext.FinalTeachers.Add(new FinalTeacher {FinalId = 3, TeacherId = 3});
-            dbContext.FinalTeachers.Add(new FinalTeacher {FinalId = 4, TeacherId = 1});
-            dbContext.FinalTeachers.Add(new FinalTeacher {FinalId = 5, TeacherId = 2});
-            dbContext.FinalTeachers.Add(new FinalTeacher {FinalId = 6, TeacherId = 3});
-            dbContext.FinalTeachers.Add(new FinalTeacher {FinalId = 7, TeacherId = 4});
-            dbContext.FinalTeachers.Add(new FinalTeacher {FinalId = 8, TeacherId = 5});
-            dbContext.FinalTeachers.Add(new FinalTeacher {FinalId = 9, TeacherId = 6});
-            dbContext.FinalTeachers.Add(new FinalTeacher {FinalId = 10, TeacherId = 4});
-            dbContext.FinalTeachers.Add(new FinalTeacher {FinalId = 11, TeacherId = 5});
-            dbContext.FinalTeachers.Add(new FinalTeacher {FinalId = 12, TeacherId = 6});
-            
+            for (var i = 1; i <= 4; ++i)
+            {
+                dbContext.FinalTeachers.Add(new FinalTeacher {FinalId = 1, TeacherId = 1, GroupId = i});
+                dbContext.FinalTeachers.Add(new FinalTeacher {FinalId = 2, TeacherId = 2, GroupId = i});
+                dbContext.FinalTeachers.Add(new FinalTeacher {FinalId = 3, TeacherId = 3, GroupId = i});
+                dbContext.FinalTeachers.Add(new FinalTeacher {FinalId = 4, TeacherId = 1, GroupId = i});
+                dbContext.FinalTeachers.Add(new FinalTeacher {FinalId = 5, TeacherId = 2, GroupId = i});
+                dbContext.FinalTeachers.Add(new FinalTeacher {FinalId = 6, TeacherId = 3, GroupId = i});
+                    
+                dbContext.FinalTeachers.Add(new FinalTeacher {FinalId = 7, TeacherId = 4, GroupId = i + 4});
+                dbContext.FinalTeachers.Add(new FinalTeacher {FinalId = 8, TeacherId = 5, GroupId = i + 4});
+                dbContext.FinalTeachers.Add(new FinalTeacher {FinalId = 9, TeacherId = 6, GroupId = i + 4});
+                dbContext.FinalTeachers.Add(new FinalTeacher {FinalId = 10, TeacherId = 4, GroupId = i + 4});
+                dbContext.FinalTeachers.Add(new FinalTeacher {FinalId = 11, TeacherId = 5, GroupId = i + 4});
+                dbContext.FinalTeachers.Add(new FinalTeacher {FinalId = 12, TeacherId = 6, GroupId = i + 4});
+            }
+
             dbContext.SaveChanges();
         }
 
