@@ -33,15 +33,21 @@
             <e p="GetStudentsByExamGradeResponse.cs" t="Include" />
             <e p="GetStudentsBySessionRequest.cs" t="Include" />
             <e p="GetStudentsBySessionResponse.cs" t="Include" />
+            <e p="GetStudentsByTeacherGradeRequest.cs" t="Include" />
             <e p="GetStudentsRequest.cs" t="Include" />
+            <e p="GetStudentsThesesThemesRequest.cs" t="Include" />
             <e p="PostPutStudentRequest.cs" t="Include" />
+            <e p="StudentThesisThemes.cs" t="Include" />
           </e>
           <e p="Teacher" t="Include">
+            <e p="GetTeacherHoursRequest.cs" t="Include" />
             <e p="GetTeachersByFinalsRequest.cs" t="Include" />
             <e p="GetTeachersConductingLessonsRequest.cs" t="Include" />
             <e p="GetTeachersConductingLessonsResponse.cs" t="Include" />
             <e p="GetTeachersRequest.cs" t="Include" />
+            <e p="GetThesisTeachersRequest.cs" t="Include" />
             <e p="PostPutTeacherRequest.cs" t="Include" />
+            <e p="TeacherHours.cs" t="Include" />
           </e>
         </e>
         <e p="Extensions" t="Include">
@@ -59,6 +65,10 @@
           <e p="20190525121045_chetotam.cs" t="Include" />
           <e p="20190526183425_finalteachersgroup.Designer.cs" t="Include" />
           <e p="20190526183425_finalteachersgroup.cs" t="Include" />
+          <e p="20190527151053_finaldate.Designer.cs" t="Include" />
+          <e p="20190527151053_finaldate.cs" t="Include" />
+          <e p="20190527155535_adddates.Designer.cs" t="Include" />
+          <e p="20190527155535_adddates.cs" t="Include" />
           <e p="AppDbContextModelSnapshot.cs" t="Include" />
         </e>
         <e p="Model" t="Include">

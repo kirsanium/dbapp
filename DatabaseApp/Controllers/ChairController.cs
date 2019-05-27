@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -5,6 +6,7 @@ using DatabaseApp.Dtos;
 using DatabaseApp.Dtos.Group;
 using DatabaseApp.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace DatabaseApp.Controllers
 {
@@ -27,17 +29,19 @@ namespace DatabaseApp.Controllers
         /// <returns>List of chairs matching the query</returns>
         [ProducesResponseType(200)]
         [HttpGet("lesson-conduction")]
-        public ActionResult<IEnumerable<Chair>> GetChairsConductingLessons([FromQuery] GetChairsLessonsRequest request)
+        public async Task<ActionResult<IEnumerable<Chair>>> GetChairsConductingLessons([FromQuery] GetChairsLessonsRequest request)
         {
             var chairs = _context.Chairs
-                .Where(c => (request.FacultyId ?? c.FacultyId) == c.FacultyId);
-            chairs = chairs.Where(c => c.AcademicAssignments.Exists(aa => (request.GroupId ?? aa.GroupId) == aa.GroupId));
-            chairs = chairs.Where(c => c.AcademicAssignments
-                    .Exists(aa => (request.Years ?? new List<int>{(aa.Discipline.Semester - 1) / 2 + 1}).Contains((aa.Discipline.Semester - 1) / 2 + 1)));
-            chairs = chairs.Where(c => c.AcademicAssignments
-                    .Exists(aa => (request.Semesters ?? new List<int>{aa.Discipline.Semester}).Contains(aa.Discipline.Semester)));
+                .Where(c => (request.FacultyId ?? c.FacultyId) == c.FacultyId)
+                .Where(c => c.AcademicAssignments
+                    .Exists(aa =>
+                        (request.GroupId ?? aa.GroupId) == aa.GroupId &&
+                        (request.Years ?? new List<int> {(aa.Discipline.Semester - 1) / 2 + 1}).Contains((aa.Discipline.Semester - 1) / 2 + 1) &&
+                        (request.Semesters ?? new List<int> {aa.Discipline.Semester}).Contains(aa.Discipline.Semester) &&
+                        (request.DateFrom ?? DateTime.MinValue) <= aa.DateTo &&
+                        (request.DateTo ?? DateTime.MaxValue) >= aa.DateFrom));
 
-            return chairs.ToList();
+            return await chairs.ToListAsync();
         }
         
         [ProducesResponseType(404)]

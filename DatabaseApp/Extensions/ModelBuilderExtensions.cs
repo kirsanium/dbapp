@@ -168,7 +168,7 @@ namespace DatabaseApp.Extensions
         {
             modelBuilder.Entity<FinalTeacher>()
                 .HasOne(ft => ft.Final)
-                .WithMany()
+                .WithMany(df => df.FinalTeachers)
                 .HasForeignKey(ft => ft.FinalId);
             
             modelBuilder.Entity<FinalTeacher>()
@@ -199,7 +199,7 @@ namespace DatabaseApp.Extensions
         {
             modelBuilder.Entity<Thesis>()
                 .HasOne(t => t.Student)
-                .WithMany()
+                .WithMany(s => s.Theses)
                 .HasForeignKey(t => t.StudentId);
             
             modelBuilder.Entity<Thesis>()

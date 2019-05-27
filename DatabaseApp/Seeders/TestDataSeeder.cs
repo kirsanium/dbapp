@@ -135,7 +135,12 @@ namespace DatabaseApp.Seeders
             const int examDisciplinesAmount = 12;
             for (var i = 1; i <= examDisciplinesAmount; ++i)
             {
-                dbContext.DisciplineFinals.Add(new DisciplineFinal {DisciplineId = i, FinalTypeId = 1});
+                dbContext.DisciplineFinals.Add(new DisciplineFinal
+                {
+                    DisciplineId = i,
+                    FinalTypeId = 1,
+                    Date = new DateTime(2017, (i / 3) % 2 == 0 ? 1 : 6, i * 2)
+                });
             }
             
             dbContext.SaveChanges();
@@ -144,60 +149,104 @@ namespace DatabaseApp.Seeders
         private static void SeedCurricula(AppDbContext dbContext)
         {
             dbContext.Curricula.Add(new Curriculum
-                {DisciplineFinalId = 1, LessonTypeId = 1, HoursAmount = 20}); //1
+                {DisciplineFinalId = 1, LessonTypeId = 1, HoursAmount = 20, 
+                    DateFrom = new DateTime(2017, 9, 1),
+                    DateTo = new DateTime(2017, 12, 31)}); //1
             dbContext.Curricula.Add(new Curriculum
-                {DisciplineFinalId = 1, LessonTypeId = 2, HoursAmount = 20}); //2
+                {DisciplineFinalId = 1, LessonTypeId = 2, HoursAmount = 20, 
+                    DateFrom = new DateTime(2017, 9, 1),
+                    DateTo = new DateTime(2017, 12, 31)}); //2
             
             dbContext.Curricula.Add(new Curriculum
-                {DisciplineFinalId = 2, LessonTypeId = 1, HoursAmount = 20}); //3
+                {DisciplineFinalId = 2, LessonTypeId = 1, HoursAmount = 20, 
+                    DateFrom = new DateTime(2017, 9, 1),
+                    DateTo = new DateTime(2017, 12, 31)}); //3
             dbContext.Curricula.Add(new Curriculum
-                {DisciplineFinalId = 2, LessonTypeId = 2, HoursAmount = 20}); //4
+                {DisciplineFinalId = 2, LessonTypeId = 2, HoursAmount = 20, 
+                    DateFrom = new DateTime(2017, 9, 1),
+                    DateTo = new DateTime(2017, 12, 31)}); //4
             dbContext.Curricula .Add(new Curriculum
-                {DisciplineFinalId = 2, LessonTypeId = 3, HoursAmount = 20}); //5       
+                {DisciplineFinalId = 2, LessonTypeId = 3, HoursAmount = 20, 
+                    DateFrom = new DateTime(2017, 9, 1),
+                    DateTo = new DateTime(2017, 12, 31)}); //5       
 
             dbContext.Curricula.Add(new Curriculum
-                {DisciplineFinalId = 3, LessonTypeId = 2, HoursAmount = 20}); //6
+                {DisciplineFinalId = 3, LessonTypeId = 2, HoursAmount = 20, 
+                    DateFrom = new DateTime(2017, 9, 1),
+                    DateTo = new DateTime(2017, 12, 31)}); //6
             
             dbContext.Curricula.Add(new Curriculum
-                {DisciplineFinalId = 4, LessonTypeId = 1, HoursAmount = 20}); //7
+                {DisciplineFinalId = 4, LessonTypeId = 1, HoursAmount = 20, 
+                    DateFrom = new DateTime(2017, 1, 1),
+                    DateTo = new DateTime(2017, 5, 31)}); //7
             dbContext.Curricula.Add(new Curriculum
-                {DisciplineFinalId = 4, LessonTypeId = 2, HoursAmount = 20}); //8
+                {DisciplineFinalId = 4, LessonTypeId = 2, HoursAmount = 20, 
+                    DateFrom = new DateTime(2017, 1, 1),
+                    DateTo = new DateTime(2017, 5, 31)}); //8
             
             dbContext.Curricula.Add(new Curriculum
-                {DisciplineFinalId = 5, LessonTypeId = 1, HoursAmount = 20}); //9
+                {DisciplineFinalId = 5, LessonTypeId = 1, HoursAmount = 20, 
+                    DateFrom = new DateTime(2017, 1, 1),
+                    DateTo = new DateTime(2017, 5, 31)}); //9
             dbContext.Curricula.Add(new Curriculum
-                {DisciplineFinalId = 5, LessonTypeId = 2, HoursAmount = 20}); //10
+                {DisciplineFinalId = 5, LessonTypeId = 2, HoursAmount = 20, 
+                    DateFrom = new DateTime(2017, 1, 1),
+                    DateTo = new DateTime(2017, 5, 31)}); //10
             dbContext.Curricula.Add(new Curriculum
-                {DisciplineFinalId = 5, LessonTypeId = 3, HoursAmount = 20}); //11
+                {DisciplineFinalId = 5, LessonTypeId = 3, HoursAmount = 20, 
+                    DateFrom = new DateTime(2017, 1, 1),
+                    DateTo = new DateTime(2017, 5, 31)}); //11
             
             dbContext.Curricula.Add(new Curriculum
-                {DisciplineFinalId = 6, LessonTypeId = 2, HoursAmount = 20}); //12
+                {DisciplineFinalId = 6, LessonTypeId = 2, HoursAmount = 20, 
+                    DateFrom = new DateTime(2017, 1, 1),
+                    DateTo = new DateTime(2017, 5, 31)}); //12
             
             dbContext.Curricula.Add(new Curriculum
-                {DisciplineFinalId = 7, LessonTypeId = 1, HoursAmount = 20}); //13
+                {DisciplineFinalId = 7, LessonTypeId = 1, HoursAmount = 20, 
+                    DateFrom = new DateTime(2017, 9, 1),
+                    DateTo = new DateTime(2017, 12, 31)}); //13
             dbContext.Curricula.Add(new Curriculum
-                {DisciplineFinalId = 7, LessonTypeId = 2, HoursAmount = 20}); //14
+                {DisciplineFinalId = 7, LessonTypeId = 2, HoursAmount = 20, 
+                    DateFrom = new DateTime(2017, 9, 1),
+                    DateTo = new DateTime(2017, 12, 31)}); //14
             
             dbContext.Curricula.Add(new Curriculum
-                {DisciplineFinalId = 8, LessonTypeId = 1, HoursAmount = 20}); //15
+                {DisciplineFinalId = 8, LessonTypeId = 1, HoursAmount = 20, 
+                    DateFrom = new DateTime(2017, 9, 1),
+                    DateTo = new DateTime(2017, 12, 31)}); //15
             dbContext.Curricula.Add(new Curriculum
-                {DisciplineFinalId = 8, LessonTypeId = 2, HoursAmount = 20}); //16
+                {DisciplineFinalId = 8, LessonTypeId = 2, HoursAmount = 20, 
+                    DateFrom = new DateTime(2017, 9, 1),
+                    DateTo = new DateTime(2017, 12, 31)}); //16
             
             dbContext.Curricula.Add(new Curriculum
-                {DisciplineFinalId = 9, LessonTypeId = 2, HoursAmount = 20}); //17
+                {DisciplineFinalId = 9, LessonTypeId = 2, HoursAmount = 20, 
+                    DateFrom = new DateTime(2017, 9, 1),
+                    DateTo = new DateTime(2017, 12, 31)}); //17
             
             dbContext.Curricula.Add(new Curriculum
-                {DisciplineFinalId = 10, LessonTypeId = 1, HoursAmount = 20}); //18
+                {DisciplineFinalId = 10, LessonTypeId = 1, HoursAmount = 20, 
+                    DateFrom = new DateTime(2017, 1, 1),
+                    DateTo = new DateTime(2017, 5, 31)}); //18
             dbContext.Curricula.Add(new Curriculum
-                {DisciplineFinalId = 10, LessonTypeId = 2, HoursAmount = 20}); //19
+                {DisciplineFinalId = 10, LessonTypeId = 2, HoursAmount = 20, 
+                    DateFrom = new DateTime(2017, 1, 1),
+                    DateTo = new DateTime(2017, 5, 31)}); //19
             
             dbContext.Curricula.Add(new Curriculum
-                {DisciplineFinalId = 11, LessonTypeId = 1, HoursAmount = 20}); //20
+                {DisciplineFinalId = 11, LessonTypeId = 1, HoursAmount = 20, 
+                    DateFrom = new DateTime(2017, 1, 1),
+                    DateTo = new DateTime(2017, 5, 31)}); //20
             dbContext.Curricula.Add(new Curriculum
-                {DisciplineFinalId = 11, LessonTypeId = 2, HoursAmount = 20}); //21
+                {DisciplineFinalId = 11, LessonTypeId = 2, HoursAmount = 20, 
+                    DateFrom = new DateTime(2017, 1, 1),
+                    DateTo = new DateTime(2017, 5, 31)}); //21
             
             dbContext.Curricula.Add(new Curriculum
-                {DisciplineFinalId = 12, LessonTypeId = 2, HoursAmount = 20}); //22
+                {DisciplineFinalId = 12, LessonTypeId = 2, HoursAmount = 20, 
+                    DateFrom = new DateTime(2017, 1, 1),
+                    DateTo = new DateTime(2017, 5, 31)}); //22
             
             dbContext.SaveChanges();
         }
@@ -408,14 +457,18 @@ namespace DatabaseApp.Seeders
                     {
                         DisciplineId = i, 
                         GroupId = j, 
-                        ChairId = i % 3 + 1
+                        ChairId = i % 3 + 1,
+                        DateFrom = new DateTime(2017, (i / 3) % 2 == 0 ? 2 : 9, 1),
+                        DateTo = new DateTime(2017, (i / 3) % 2 == 0 ? 5 : 12, 31)
                     });
                 dbContext.AcademicAssignments.Add(
                     new AcademicAssignment
                     {
                         DisciplineId = i + academicDisciplinesAmount,
                         GroupId = j + groupsAmount, 
-                        ChairId = i % 3 + 1 + chairsAmount
+                        ChairId = i % 3 + 1 + chairsAmount,
+                        DateFrom = new DateTime(2017, (i / 3) % 2 == 0 ? 2 : 9, 1),
+                        DateTo = new DateTime(2017, (i / 3) % 2 == 0 ? 5 : 12, 31)
                     });
             }
             

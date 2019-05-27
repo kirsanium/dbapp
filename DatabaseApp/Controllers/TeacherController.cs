@@ -16,7 +16,6 @@ namespace DatabaseApp.Controllers
     public class TeacherController : ControllerBase
     {
         private readonly AppDbContext _context;
-        private const double TOLERANCE = 0.001;
 
         public TeacherController(AppDbContext context)
         {
@@ -30,7 +29,7 @@ namespace DatabaseApp.Controllers
         /// <returns>List of teachers matching the query</returns>
         [HttpGet]
         [ProducesResponseType(200)]
-        public ActionResult<IEnumerable<Teacher>> GetTeachers([FromQuery] GetTeachersRequest request)
+        public async Task<ActionResult<IEnumerable<Teacher>>> GetTeachers([FromQuery] GetTeachersRequest request)
         {
             var teachers = _context.Teachers
                 .Where(t => t.BirthDate.AddYears(request.AgeFrom ?? -1000) < DateTime.UtcNow)
@@ -51,11 +50,11 @@ namespace DatabaseApp.Controllers
                       && request.DateDissertationPresentedTo == null
                     : (t.Dissertations.Exists(
                     d => (request.DissertationTypeIds ?? new List<int>{d.DissertationTypeId}).Contains(d.DissertationTypeId) && 
-                         d.DatePresented > (request.DateDissertationPresentedFrom ?? DateTime.MinValue) && 
-                         d.DatePresented < (request.DateDissertationPresentedTo ?? DateTime.MaxValue))))
+                         d.DatePresented >= (request.DateDissertationPresentedFrom ?? DateTime.MinValue) && 
+                         d.DatePresented <= (request.DateDissertationPresentedTo ?? DateTime.MaxValue))))
                 .Where(t => ((request.TeacherCategoryIds ?? new List<int>{t.TeacherCategoryId}).Contains(t.TeacherCategoryId)));
 
-            return teachers.ToList();
+            return await teachers.ToListAsync();
         }
 
         /// <summary>
@@ -65,21 +64,23 @@ namespace DatabaseApp.Controllers
         /// <returns>List of teachers matching the query</returns>
         [HttpGet("lessons-conducted")]
         [ProducesResponseType(200)]
-        public ActionResult<GetTeachersConductingLessonsResponse> GetTeachersConductingLessons(
+        public async Task<ActionResult<GetTeachersConductingLessonsResponse>> GetTeachersConductingLessons(
             [FromQuery] GetTeachersConductingLessonsRequest request)
         {
             var teachers = _context.Teachers
-                .Where(t => t.Lessons.Exists(l => (request.DisciplineId ?? l.Curriculum.DisciplineFinal.DisciplineId) == l.Curriculum.DisciplineFinal.DisciplineId))
-                .Where(t => t.Lessons.Exists(l => (request.FacultyId ?? l.Group.FacultyId) == l.Group.FacultyId))
-                .Where(t => t.Lessons.Exists(l => (request.GroupId ?? l.GroupId) == l.GroupId))
-                .Where(t => t.Lessons.Exists(l => (request.Year ?? (DateTime.UtcNow - l.Group.StartDate).Days / 365 + 1) == (DateTime.UtcNow - l.Group.StartDate).Days / 365 + 1))
-                .Where(t => t.Lessons.Exists(l => (request.LessonTypeIds ?? new List<int>{l.Curriculum.LessonTypeId}).Contains(l.Curriculum.LessonTypeId)))
-                .Where(t => t.Lessons.Exists(l => (request.Semesters ?? new List<int>{l.Curriculum.DisciplineFinal.Discipline.Semester}).Contains(l.Curriculum.DisciplineFinal.Discipline.Semester)));
+                .Where(t => t.Lessons
+                    .Exists(l =>
+                        (request.DisciplineId ?? l.Curriculum.DisciplineFinal.DisciplineId) == l.Curriculum.DisciplineFinal.DisciplineId &&
+                        (request.FacultyId ?? l.Group.FacultyId) == l.Group.FacultyId &&
+                        (request.GroupId ?? l.GroupId) == l.GroupId &&
+                        (request.Year ?? (DateTime.UtcNow - l.Group.StartDate).Days / 365 + 1) == (DateTime.UtcNow - l.Group.StartDate).Days / 365 + 1 &&
+                        (request.LessonTypeIds ?? new List<int> {l.Curriculum.LessonTypeId}).Contains(l.Curriculum.LessonTypeId) &&
+                        (request.Semesters ?? new List<int> {l.Curriculum.DisciplineFinal.Discipline.Semester}).Contains(l.Curriculum.DisciplineFinal.Discipline.Semester)));
 
             return new GetTeachersConductingLessonsResponse
             {
-                Teachers = teachers.ToList(),
-                TotalElements = teachers.Count()
+                Teachers = await teachers.ToListAsync(),
+                TotalElements = await teachers.CountAsync()
             };
         }
 
@@ -98,7 +99,115 @@ namespace DatabaseApp.Controllers
             var teachers = _context.Teachers
                 .Where(t => finalTeachers.Any(ft => ft.TeacherId == t.Id));
 
-            return teachers.ToList();
+            return await teachers.ToListAsync();
+        }
+
+        [HttpGet("thesis-teachers")]
+        [ProducesResponseType(200)]
+        public async Task<ActionResult<IEnumerable<Teacher>>> GetThesisTeachers(
+            [FromQuery] GetThesisTeachersRequest request)
+        {
+            var theses = _context.Theses
+                .Where(t => t.Teacher.ChairId == (request.ChairId ?? t.Teacher.ChairId))
+                .Where(t => t.Teacher.Chair.FacultyId == (request.FacultyId ?? t.Teacher.Chair.FacultyId))
+                .Where(t =>
+                    (request.TeacherCategoryIds ?? new List<int> {t.Teacher.TeacherCategoryId}).Contains(
+                        t.Teacher.TeacherCategoryId));
+
+            
+            var teachers = new List<Teacher>();
+            var thesesList = theses.ToList();
+            foreach (var thesis in thesesList)
+            {
+                if (!teachers.Exists(t => t.Id == thesis.TeacherId))
+                {
+                    teachers.Add(_context.Teachers.Find(thesis.TeacherId));
+                }
+            }
+
+            return teachers;
+        }
+
+        [HttpGet("hours")]
+        [ProducesResponseType(200)]
+        public async Task<ActionResult<IEnumerable<TeacherHours>>> GetTeacherHours([FromQuery] GetTeacherHoursRequest request)
+        {
+            var lessons = _context.Lessons
+                .Where(l => l.TeacherId == (request.TeacherId ?? l.TeacherId))
+                .Where(l => l.Teacher.ChairId == (request.ChairId ?? l.Teacher.ChairId))
+                .Where(l => l.Curriculum.DisciplineFinal.Discipline.Semester ==
+                            (request.Semester ?? l.Curriculum.DisciplineFinal.Discipline.Semester));
+
+            var teacherHoursList = new List<TeacherHours>();
+            foreach (var lesson in lessons)
+            {
+                var teacher = await _context.Teachers.FindAsync(lesson.TeacherId);
+                if (!teacherHoursList.Exists(d => d.TeacherId == teacher.Id))
+                {
+                    teacherHoursList.Add(new TeacherHours
+                    {
+                        TeacherId = teacher.Id, 
+                        TeacherName = $"{teacher.SecondName} {teacher.FirstName} {teacher.MiddleName}", 
+                        DisciplineHours = new List<DisciplineHours>(),
+                        Hours = lessons.Where(l => l.TeacherId == teacher.Id).Sum(x => x.Curriculum.HoursAmount)
+                    });
+                }
+            }
+
+            foreach (var teacherHours in teacherHoursList)
+            {
+                var teacherLessons = lessons.Where(l => l.TeacherId == teacherHours.TeacherId);
+                foreach (var lesson in teacherLessons)
+                {
+                    var curriculum = _context.Curricula.Find(lesson.CurriculumId);
+                    var final = _context.DisciplineFinals.Find(curriculum.DisciplineFinalId);
+                    var disciplineId = final.DisciplineId;
+                    
+                    var disciplineLessons = teacherLessons
+                        .Where(l => l.Curriculum.DisciplineFinal.DisciplineId == disciplineId);
+                    
+                    if (!teacherHours.DisciplineHours.Exists(x =>
+                        x.DisciplineId == disciplineId))
+                    {
+                        teacherHours.DisciplineHours.Add(new DisciplineHours
+                        {
+                            DisciplineId = disciplineId,
+                            DisciplineName = _context.AcademicDisciplines
+                                .Find(disciplineId).Name,
+                            LessonTypeHours = new List<LessonTypeHours>(),
+                            Hours = disciplineLessons.Sum(x => x.Curriculum.HoursAmount)
+                        });
+                    }
+                }
+
+                foreach (var disciplineHours in teacherHours.DisciplineHours)
+                {
+                    var disciplineLessons = teacherLessons.Where(l =>
+                        l.Curriculum.DisciplineFinal.DisciplineId == disciplineHours.DisciplineId);
+
+                    foreach (var lesson in disciplineLessons)
+                    {
+                        var curriculum = _context.Curricula.Find(lesson.CurriculumId);
+                        var final = _context.DisciplineFinals.Find(curriculum.DisciplineFinalId);
+                        var disciplineId = final.DisciplineId;
+                        if (!disciplineHours.LessonTypeHours.Exists(x =>
+                            x.LessonTypeId == curriculum.LessonTypeId))
+                        {
+                            var lessonTypeLessons = disciplineLessons
+                                .Where(l => l.Curriculum.LessonTypeId == lesson.Curriculum.LessonTypeId);
+                            disciplineHours.LessonTypeHours.Add(new LessonTypeHours
+                            {
+                                LessonTypeId = curriculum.LessonTypeId,
+                                LessonTypeName = _context.LessonTypes.Find(lesson.Curriculum.LessonTypeId)
+                                    .Name,
+                                Hours = lessonTypeLessons.Sum(x => x.Curriculum.HoursAmount)
+                            });
+                        }
+                    }
+                }
+            }
+
+            return teacherHoursList;
         }
 
         [ProducesResponseType(404)]

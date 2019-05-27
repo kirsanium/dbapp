@@ -31,7 +31,7 @@ namespace DatabaseApp.Controllers
         /// <returns>List of students matching the query</returns>
         [HttpGet]
         [ProducesResponseType(200)]
-        public ActionResult<IEnumerable<Student>> GetStudents([FromQuery] GetStudentsRequest request)
+        public async Task<ActionResult<IEnumerable<Student>>> GetStudents([FromQuery] GetStudentsRequest request)
         {
             var students = _context.Students
                 .Where(s => (request.FacultyId ?? s.FacultyId) == s.FacultyId)
@@ -51,12 +51,12 @@ namespace DatabaseApp.Controllers
                 .Where(s => (request.GroupIds ?? new List<int>{s.GroupId})
                     .Contains(s.GroupId));
 
-            return Ok(students.ToList());
+            return Ok(await students.ToListAsync());
         }
 
         [HttpGet("by-exam-grade")]
         [ProducesResponseType(200)]
-        public ActionResult<GetStudentsByExamGradeResponse> GetStudentsByExamGrade(
+        public async Task<ActionResult<GetStudentsByExamGradeResponse>> GetStudentsByExamGrade(
             [FromQuery] GetStudentsByExamGradeRequest request)
         {
             var students = _context.Students
@@ -66,14 +66,34 @@ namespace DatabaseApp.Controllers
 
             return Ok(new GetStudentsByExamGradeResponse
             {
-                Students = students,
-                TotalElements = students.Count()
+                Students = await students.ToListAsync(),
+                TotalElements = await students.CountAsync()
             });
         }
-        
+
+        [HttpGet("by-teacher-grade")]
+        [ProducesResponseType(200)]
+        public ActionResult<IEnumerable<Student>> GetStudentsByTeacherGrade(
+            [FromQuery] GetStudentsByTeacherGradeRequest request)
+        {
+            var students = _context.Students
+                .Where(s => (request.GroupIds ?? new List<int>{s.GroupId}).Contains(s.GroupId))
+                .Where(s => s.FinalResults.Exists(fr =>
+                    (request.DisciplineIds ?? new List<int> {fr.Final.DisciplineId}).Contains(fr.Final.DisciplineId) &&
+                    (request.Semesters ?? new List<int> {fr.Final.Discipline.Semester}).Contains(fr.Final.Discipline.Semester) &&
+                    (request.Grade ?? fr.Grade) == fr.Grade &&
+                    fr.Final.FinalTeachers.Exists(ft => 
+                        ft.TeacherId == (request.TeacherId ?? ft.TeacherId) && 
+                        ft.GroupId == s.GroupId) &&
+                    (request.DateFrom ?? DateTime.MinValue) <= fr.Final.Date &&
+                    (request.DateTo ?? DateTime.MaxValue) >= fr.Final.Date));
+
+            return Ok(students.ToList());
+        }
+
         [HttpGet("by-session")]
         [ProducesResponseType(200)]
-        public ActionResult<GetStudentsBySessionResponse> GetStudentsBySession(
+        public async Task<ActionResult<GetStudentsBySessionResponse>> GetStudentsBySession(
             [FromQuery] GetStudentsBySessionRequest request)
         {
             var students = _context.Students
@@ -85,9 +105,42 @@ namespace DatabaseApp.Controllers
 
             return Ok(new GetStudentsByExamGradeResponse
             {
-                Students = students,
-                TotalElements = students.Count()
+                Students = await students.ToListAsync(),
+                TotalElements = await students.CountAsync()
             });
+        }
+
+        [HttpGet("theses-themes")]
+        [ProducesResponseType(200)]
+        public async Task<ActionResult<IEnumerable<StudentThesisThemes>>> GetStudentsTheseThemes(
+            [FromQuery] GetStudentsThesesThemesRequest request)
+        {
+            var theses = await _context.Theses
+                .Where(t => t.TeacherId == (request.TeacherId ?? t.TeacherId) && t.Teacher.ChairId == (request.ChairId ?? t.Teacher.ChairId)).ToListAsync();
+            
+            var studentThesesThemes = new List<StudentThesisThemes>();
+            foreach (var thesis in theses)
+            {
+                if (!studentThesesThemes.Exists(x => x.Student.Id == thesis.StudentId))
+                {
+                    var allStudentTheses = await _context.Theses
+                        .Where(t => t.StudentId == thesis.StudentId).ToListAsync();
+
+                    var themes = new List<string>();
+                    foreach (var currentStudentThesis in allStudentTheses)
+                    {
+                        themes.Add(currentStudentThesis.Title);
+                    }
+
+                    studentThesesThemes.Add(new StudentThesisThemes
+                    {
+                        Student = await _context.Students.FindAsync(thesis.StudentId),
+                        Themes = themes
+                    });
+                }
+            }
+
+            return studentThesesThemes;
         }
 
         [ProducesResponseType(404)]

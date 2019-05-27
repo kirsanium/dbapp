@@ -40,7 +40,11 @@ namespace DatabaseApp.Controllers
                 themes.Add(dissertation.Theme);
             }
             
-            return new GetDissertationThemesResult{Themes = themes, TotalElements = themes.Count};
+            return new GetDissertationThemesResult
+            {
+                Themes = themes, 
+                TotalElements = themes.Count
+            };
         }
         
         [ProducesResponseType(404)]

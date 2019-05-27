@@ -24,6 +24,10 @@ namespace DatabaseApp.Migrations
 
                     b.Property<int>("ChairId");
 
+                    b.Property<DateTime>("DateFrom");
+
+                    b.Property<DateTime>("DateTo");
+
                     b.Property<int>("DisciplineId");
 
                     b.Property<int>("GroupId");
@@ -78,6 +82,10 @@ namespace DatabaseApp.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<DateTime>("DateFrom");
+
+                    b.Property<DateTime>("DateTo");
+
                     b.Property<int>("DisciplineFinalId");
 
                     b.Property<int>("HoursAmount");
@@ -97,6 +105,8 @@ namespace DatabaseApp.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("Date");
 
                     b.Property<int>("DisciplineId");
 
@@ -468,7 +478,7 @@ namespace DatabaseApp.Migrations
             modelBuilder.Entity("DatabaseApp.Models.FinalTeacher", b =>
                 {
                     b.HasOne("DatabaseApp.Models.DisciplineFinal", "Final")
-                        .WithMany()
+                        .WithMany("FinalTeachers")
                         .HasForeignKey("FinalId")
                         .OnDelete(DeleteBehavior.Restrict);
 

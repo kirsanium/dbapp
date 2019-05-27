@@ -29,5 +29,8 @@ namespace DatabaseApp.Models
         
         [JsonIgnore]
         public List<FinalResult> FinalResults { get; set; }
+        
+        [JsonIgnore]
+        public List<Thesis> Theses { get; set; }
     }
 }

@@ -19,5 +19,7 @@ namespace DatabaseApp.Models
         public Group Group { get; set; }
 
         public int GroupId { get; set; }
+        public DateTime DateFrom { get; set; }
+        public DateTime DateTo { get; set; }
     }
 }

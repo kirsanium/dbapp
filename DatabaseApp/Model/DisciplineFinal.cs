@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using Newtonsoft.Json;
 
 namespace DatabaseApp.Models
@@ -13,5 +15,10 @@ namespace DatabaseApp.Models
         [JsonIgnore]
         public FinalType FinalType { get; set; }
         public int FinalTypeId { get; set; }
+        
+        public DateTime Date { get; set; }
+        
+        [JsonIgnore]
+        public List<FinalTeacher> FinalTeachers { get; set; }
     }
 }
