@@ -22,6 +22,13 @@ namespace DatabaseApp.Controllers
             _context = context;
         }
         
+        [ProducesResponseType(200)]
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Faculty>>> GetAll()
+        {
+            return Ok(await _context.Faculties.ToListAsync());
+        }
+        
         [ProducesResponseType(404)]
         [ProducesResponseType(200)]
         [HttpGet("{id}")]

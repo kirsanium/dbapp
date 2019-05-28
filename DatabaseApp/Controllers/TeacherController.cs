@@ -149,7 +149,7 @@ namespace DatabaseApp.Controllers
                         TeacherId = teacher.Id, 
                         TeacherName = $"{teacher.SecondName} {teacher.FirstName} {teacher.MiddleName}", 
                         DisciplineHours = new List<DisciplineHours>(),
-                        Hours = lessons.Where(l => l.TeacherId == teacher.Id).Sum(x => x.Curriculum.HoursAmount)
+                        Hours = lessons.Where(l => l.TeacherId == teacher.Id).Sum(x => x.Curriculum.HoursAmount * x.Curriculum.Lessons.Where(z => z.TeacherId == teacher.Id).Sum(y => 1))
                     });
                 }
             }
@@ -163,19 +163,18 @@ namespace DatabaseApp.Controllers
                     var final = _context.DisciplineFinals.Find(curriculum.DisciplineFinalId);
                     var disciplineId = final.DisciplineId;
                     
-                    var disciplineLessons = teacherLessons
-                        .Where(l => l.Curriculum.DisciplineFinal.DisciplineId == disciplineId);
-                    
                     if (!teacherHours.DisciplineHours.Exists(x =>
                         x.DisciplineId == disciplineId))
-                    {
+                    {        
+                        var disciplineLessons = teacherLessons
+                            .Where(l => l.Curriculum.DisciplineFinal.DisciplineId == disciplineId);
                         teacherHours.DisciplineHours.Add(new DisciplineHours
                         {
                             DisciplineId = disciplineId,
                             DisciplineName = _context.AcademicDisciplines
                                 .Find(disciplineId).Name,
                             LessonTypeHours = new List<LessonTypeHours>(),
-                            Hours = disciplineLessons.Sum(x => x.Curriculum.HoursAmount)
+                            Hours = disciplineLessons.Sum(x => x.Curriculum.HoursAmount * x.Curriculum.Lessons.Where(z => z.TeacherId == teacherHours.TeacherId).Sum(y => 1))
                         });
                     }
                 }
@@ -200,7 +199,7 @@ namespace DatabaseApp.Controllers
                                 LessonTypeId = curriculum.LessonTypeId,
                                 LessonTypeName = _context.LessonTypes.Find(lesson.Curriculum.LessonTypeId)
                                     .Name,
-                                Hours = lessonTypeLessons.Sum(x => x.Curriculum.HoursAmount)
+                                Hours = lessonTypeLessons.Sum(x => x.Curriculum.HoursAmount * x.Curriculum.Lessons.Where(z => z.TeacherId == teacherHours.TeacherId).Sum(y => 1))
                             });
                         }
                     }
@@ -208,6 +207,13 @@ namespace DatabaseApp.Controllers
             }
 
             return teacherHoursList;
+        }
+        
+        [ProducesResponseType(200)]
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Teacher>>> GetAll()
+        {
+            return Ok(await _context.Teachers.ToListAsync());
         }
 
         [ProducesResponseType(404)]

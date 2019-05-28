@@ -45,6 +45,13 @@ namespace DatabaseApp.Controllers
             return await chairs.ToListAsync();
         }
         
+        [ProducesResponseType(200)]
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Chair>>> GetAll()
+        {
+            return Ok(await _context.Chairs.ToListAsync());
+        }
+        
         [ProducesResponseType(404)]
         [ProducesResponseType(200)]
         [HttpGet("{id}")]

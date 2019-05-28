@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using DatabaseApp.Dtos;
 using DatabaseApp.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace DatabaseApp.Controllers
 {
@@ -45,6 +46,13 @@ namespace DatabaseApp.Controllers
                 Themes = themes, 
                 TotalElements = themes.Count
             };
+        }
+        
+        [ProducesResponseType(200)]
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Dissertation>>> GetAll()
+        {
+            return Ok(await _context.Dissertations.ToListAsync());
         }
         
         [ProducesResponseType(404)]

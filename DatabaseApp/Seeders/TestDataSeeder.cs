@@ -139,7 +139,7 @@ namespace DatabaseApp.Seeders
                 {
                     DisciplineId = i,
                     FinalTypeId = 1,
-                    Date = new DateTime(2017, (i / 3) % 2 == 0 ? 1 : 6, i * 2)
+                    Date = new DateTime(2017, (i-1 / 3) % 2 == 0 ? 1 : 6, i * 2)
                 });
             }
             

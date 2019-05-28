@@ -186,7 +186,7 @@ namespace DatabaseApp.Extensions
         {
             modelBuilder.Entity<Lesson>()
                 .HasOne(l => l.Curriculum)
-                .WithMany()
+                .WithMany(c => c.Lessons)
                 .HasForeignKey(l => l.CurriculumId);
             
             modelBuilder.Entity<Lesson>()

@@ -504,7 +504,7 @@ namespace DatabaseApp.Migrations
             modelBuilder.Entity("DatabaseApp.Models.Lesson", b =>
                 {
                     b.HasOne("DatabaseApp.Models.Curriculum", "Curriculum")
-                        .WithMany()
+                        .WithMany("Lessons")
                         .HasForeignKey("CurriculumId")
                         .OnDelete(DeleteBehavior.Restrict);
 
@@ -558,7 +558,7 @@ namespace DatabaseApp.Migrations
             modelBuilder.Entity("DatabaseApp.Models.Thesis", b =>
                 {
                     b.HasOne("DatabaseApp.Models.Student", "Student")
-                        .WithMany()
+                        .WithMany("Theses")
                         .HasForeignKey("StudentId")
                         .OnDelete(DeleteBehavior.Restrict);
 

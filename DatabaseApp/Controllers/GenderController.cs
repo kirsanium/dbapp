@@ -1,7 +1,9 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using DatabaseApp.Dtos.Gender;
 using DatabaseApp.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace DatabaseApp.Controllers
 {
@@ -15,6 +17,13 @@ namespace DatabaseApp.Controllers
         public GenderController(AppDbContext context)
         {
             _context = context;
+        }
+        
+        [ProducesResponseType(200)]
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Gender>>> GetAll()
+        {
+            return Ok(await _context.Genders.ToListAsync());
         }
 
         [ProducesResponseType(404)]

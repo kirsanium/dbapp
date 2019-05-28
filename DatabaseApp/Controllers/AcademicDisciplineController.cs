@@ -5,6 +5,7 @@ using DatabaseApp.Dtos;
 using DatabaseApp.Dtos.AcademicDiscipline;
 using DatabaseApp.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace DatabaseApp.Controllers
 {
@@ -18,6 +19,13 @@ namespace DatabaseApp.Controllers
         public AcademicDisciplineController(AppDbContext context)
         {
             _context = context;
+        }
+        
+        [ProducesResponseType(200)]
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<AcademicDiscipline>>> GetAll()
+        {
+            return Ok(await _context.AcademicDisciplines.ToListAsync());
         }
         
         [ProducesResponseType(404)]

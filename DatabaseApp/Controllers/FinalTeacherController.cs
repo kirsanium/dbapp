@@ -1,7 +1,9 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using DatabaseApp.Dtos.FinalTeacher;
 using DatabaseApp.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace DatabaseApp.Controllers
 {
@@ -15,6 +17,13 @@ namespace DatabaseApp.Controllers
         public FinalTeacherController(AppDbContext context)
         {
             _context = context;
+        }
+        
+        [ProducesResponseType(200)]
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<FinalTeacher>>> GetAll()
+        {
+            return Ok(await _context.FinalTeachers.ToListAsync());
         }
         
         [ProducesResponseType(404)]

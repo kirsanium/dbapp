@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Newtonsoft.Json;
 
 namespace DatabaseApp.Models
@@ -15,8 +16,11 @@ namespace DatabaseApp.Models
         [JsonIgnore]
         public LessonType LessonType { get; set; }
         public int LessonTypeId { get; set; }
-        
+
         public DateTime DateFrom { get; set; }
         public DateTime DateTo { get; set; }
+        
+        [JsonIgnore]
+        public List<Lesson> Lessons { get; set; }
     }
 }
