@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DatabaseApp.Controllers
 {
-    [Route("api/lesson")]
+    [Route("api/thesis")]
     [Produces("application/json")]
     [ApiController]
     public class ThesisController : ControllerBase
@@ -22,13 +22,13 @@ namespace DatabaseApp.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Thesis>> Get(int id)
         {
-            var lesson = await _context.Theses.FindAsync(id);
-            if (lesson == null)
+            var thesis = await _context.Theses.FindAsync(id);
+            if (thesis == null)
             {
                 return NotFound();
             }
 
-            return Ok(lesson);
+            return Ok(thesis);
         }
 
         [ProducesResponseType(400)]
@@ -43,9 +43,9 @@ namespace DatabaseApp.Controllers
                 return BadRequest(ModelState);
             }
 
-            var lesson = await _context.Theses.AddAsync(request.ToThesis());
+            var thesis = await _context.Theses.AddAsync(request.ToThesis());
             await _context.SaveChangesAsync();
-            return Created($"api/lesson/{lesson.Entity.Id}", lesson.Entity);
+            return Created($"api/thesis/{thesis.Entity.Id}", thesis.Entity);
         }
 
         [ProducesResponseType(400)]
@@ -61,16 +61,16 @@ namespace DatabaseApp.Controllers
                 return BadRequest(ModelState);
             }
 
-            var lesson = await _context.Theses.FindAsync(id);
-            if (lesson == null)
+            var thesis = await _context.Theses.FindAsync(id);
+            if (thesis == null)
             {
                 return NotFound();
             }
 
-            _context.Theses.Update(lesson);
-            lesson.Title = request.Title;
-            lesson.StudentId = request.StudentId;
-            lesson.TeacherId = request.TeacherId;
+            _context.Theses.Update(thesis);
+            thesis.Title = request.Title;
+            thesis.StudentId = request.StudentId;
+            thesis.TeacherId = request.TeacherId;
             await _context.SaveChangesAsync();
             return Ok();
         }
@@ -80,13 +80,13 @@ namespace DatabaseApp.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(int id)
         {
-            var lesson = await _context.Theses.FindAsync(id);
-            if (lesson == null)
+            var thesis = await _context.Theses.FindAsync(id);
+            if (thesis == null)
             {
                 return NotFound();
             }
 
-            _context.Theses.Remove(lesson);
+            _context.Theses.Remove(thesis);
             await _context.SaveChangesAsync();
             return Ok();
         }
