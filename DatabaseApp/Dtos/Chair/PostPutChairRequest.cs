@@ -1,15 +1,13 @@
-using DatabaseApp.Models;
-
-namespace DatabaseApp.Dtos.Group
+namespace DatabaseApp.Dtos.Chair
 {
     public sealed class PostPutChairRequest
     {
         public string Name { get; set; }
         public int FacultyId { get; set; }
 
-        public Chair ToChair()
+        public Models.Chair ToChair()
         {
-            return new Chair
+            return new Models.Chair
             {
                 Name = Name,
                 FacultyId = FacultyId

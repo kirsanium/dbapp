@@ -12,21 +12,75 @@
         <e p=".gitignore" t="Include" />
         <e p="AppDbContext.cs" t="Include" />
         <e p="Controllers" t="Include">
+          <e p="AcademicAssignmentController.cs" t="Include" />
+          <e p="AcademicDisciplineController.cs" t="Include" />
           <e p="ChairController.cs" t="Include" />
+          <e p="CurriculumController.cs" t="Include" />
+          <e p="DisciplineFinalController.cs" t="Include" />
           <e p="DissertationController.cs" t="Include" />
+          <e p="DissertationTypeController.cs" t="Include" />
+          <e p="FacultyController.cs" t="Include" />
+          <e p="FinalResultController.cs" t="Include" />
+          <e p="FinalTeacherController.cs" t="Include" />
+          <e p="FinalTypeController.cs" t="Include" />
+          <e p="GenderController.cs" t="Include" />
+          <e p="GroupController.cs" t="Include" />
+          <e p="LessonController.cs" t="Include" />
+          <e p="LessonTypeController.cs" t="Include" />
           <e p="StudentController.cs" t="Include" />
+          <e p="TeacherCategoryController.cs" t="Include" />
           <e p="TeacherController.cs" t="Include" />
+          <e p="ThesisController.cs" t="Include" />
         </e>
         <e p="DatabaseApp.csproj" t="IncludeRecursive" />
         <e p="Dtos" t="Include">
+          <e p="AcademicAssignment" t="Include">
+            <e p="PostPutAcademicAssignmentRequest.cs" t="Include" />
+          </e>
+          <e p="AcademicDiscipline" t="Include">
+            <e p="PostPutAcademicDisciplineRequest.cs" t="Include" />
+          </e>
           <e p="Chair" t="Include">
             <e p="GetChairsLessonsRequest.cs" t="Include" />
             <e p="PostPutChairRequest.cs" t="Include" />
+          </e>
+          <e p="Curriculum" t="Include">
+            <e p="PostPutCurriculumRequest.cs" t="Include" />
+          </e>
+          <e p="DisciplineFinal" t="Include">
+            <e p="PostPutDisciplineFinalRequest.cs" t="Include" />
           </e>
           <e p="Dissertation" t="Include">
             <e p="GetDissertationThemesRequest.cs" t="Include" />
             <e p="GetDissertationThemesResult.cs" t="Include" />
             <e p="PostPutDissertationRequest.cs" t="Include" />
+          </e>
+          <e p="DissertationType" t="Include">
+            <e p="PostPutDissertationTypeRequest.cs" t="Include" />
+          </e>
+          <e p="Faculty" t="Include">
+            <e p="PostPutFacultyRequest.cs" t="Include" />
+          </e>
+          <e p="FinalResult" t="Include">
+            <e p="PostPutFinalResultRequest.cs" t="Include" />
+          </e>
+          <e p="FinalTeacher" t="Include">
+            <e p="PostPutFinalTeacherRequest.cs" t="Include" />
+          </e>
+          <e p="FinalType" t="Include">
+            <e p="PostPutFinalTypeRequest.cs" t="Include" />
+          </e>
+          <e p="Gender" t="Include">
+            <e p="PostPutGenderRequest.cs" t="Include" />
+          </e>
+          <e p="Group" t="Include">
+            <e p="PostPutGroupRequest.cs" t="Include" />
+          </e>
+          <e p="Lesson" t="Include">
+            <e p="PostPutLessonRequest.cs" t="Include" />
+          </e>
+          <e p="LessonType" t="Include">
+            <e p="PostPutLessonTypeRequest.cs" t="Include" />
           </e>
           <e p="Student" t="Include">
             <e p="GetStudentsByExamGradeRequest.cs" t="Include" />
@@ -48,6 +102,12 @@
             <e p="GetThesisTeachersRequest.cs" t="Include" />
             <e p="PostPutTeacherRequest.cs" t="Include" />
             <e p="TeacherHours.cs" t="Include" />
+          </e>
+          <e p="TeacherCategory" t="Include">
+            <e p="PostPutTeacherCategoryRequest.cs" t="Include" />
+          </e>
+          <e p="Thesis" t="Include">
+            <e p="PostPutThesisRequest.cs" t="Include" />
           </e>
         </e>
         <e p="Extensions" t="Include">

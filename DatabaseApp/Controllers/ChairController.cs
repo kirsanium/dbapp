@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DatabaseApp.Dtos;
+using DatabaseApp.Dtos.Chair;
 using DatabaseApp.Dtos.Group;
 using DatabaseApp.Models;
 using Microsoft.AspNetCore.Mvc;
