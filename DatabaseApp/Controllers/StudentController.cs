@@ -142,13 +142,6 @@ namespace DatabaseApp.Controllers
 
             return studentThesesThemes;
         }
-        
-        [ProducesResponseType(200)]
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Student>>> GetAll()
-        {
-            return Ok(await _context.Students.ToListAsync());
-        }
 
         [ProducesResponseType(404)]
         [ProducesResponseType(200)]

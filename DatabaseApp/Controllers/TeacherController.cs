@@ -208,13 +208,6 @@ namespace DatabaseApp.Controllers
 
             return teacherHoursList;
         }
-        
-        [ProducesResponseType(200)]
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Teacher>>> GetAll()
-        {
-            return Ok(await _context.Teachers.ToListAsync());
-        }
 
         [ProducesResponseType(404)]
         [ProducesResponseType(200)]

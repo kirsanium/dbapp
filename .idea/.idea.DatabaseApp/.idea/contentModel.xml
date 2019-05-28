@@ -129,6 +129,8 @@
           <e p="20190527151053_finaldate.cs" t="Include" />
           <e p="20190527155535_adddates.Designer.cs" t="Include" />
           <e p="20190527155535_adddates.cs" t="Include" />
+          <e p="20190528170100_curriculalessons.Designer.cs" t="Include" />
+          <e p="20190528170100_curriculalessons.cs" t="Include" />
           <e p="AppDbContextModelSnapshot.cs" t="Include" />
         </e>
         <e p="Model" t="Include">
