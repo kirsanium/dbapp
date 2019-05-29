@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Students</title>
+</head>
+<body class="container jumbotron">
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-primary">
+    <a class="navbar-brand" href="#">University DataBase</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01"
+            aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarColor01">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="http://localhost:5000/chair.html">Chair<span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="http://localhost:5000/student.html">Students</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="http://localhost:5000/dissertation.html">Dissertation</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="http://localhost:5000/teacher.html">Teachers</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="http://localhost:5000/index.html">About</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+
+<link rel="stylesheet" href="https://bootswatch.com/4/darkly/bootstrap.min.css">
+<link rel="stylesheet" href="css/tagsinput.css">
+<div class="container-fluid">
+    <h1 class="display-5 text-center">Students</h1>
+
+    <ul class="nav nav-tabs" id="tabs">
+        <li class="nav-item">
+            <a class="nav-link active" id="slist-tab" data-toggle="tab" role="tab" aria-controls="slist"
+               aria-selected="true" href="#slist">Students list</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="snew-tab" data-toggle="tab" role="tab" aria-controls="snew" href="#snew">New
+                Student</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="exam-grade-tab" data-toggle="tab" role="tab"
+               aria-controls="exam-grade"
+               href="#exam-grade">By exam grade</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="teacher-grade-tab" data-toggle="tab" role="tab" aria-controls="teacher-grade" href="#teacher-grade">By teacher grade</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="by-session-tab" data-toggle="tab" role="tab" aria-controls="by-session"
+               href="#by-session">By session</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="theses-tab" data-toggle="tab" role="tab" aria-controls="theses"
+               href="#theses">Theses themes</a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" id="sinfo-tab" data-toggle="tab" role="tab" aria-controls="sinfo" href="#sinfo">Student
+                info</a>
+        </li>
+        <!--        <li class="nav-item">-->
+        <!--            <a class="nav-link" id="tinfo-tab" role="tab" href="#">Teacher info</a>-->
+        <!--        </li>-->
+    </ul>
+
+    <div id="myTabContent" class="tab-content">
+
+        <div class="tab-pane fade active show" id="slist" role="tabpanel" aria-labelledby="slist-tab">
+            <form action="javascript:void(0);" method="GET" onsubmit="getList()">
+                <div class="form-group">
+                    <input class="form-control" type="number" id="facultyId" placeholder="faculty id">
+                    <input class="form-control" type="number" data-role="tagsinput" id="sl_years"
+                           placeholder="years">
+                    <input class="form-control" type="number" data-role="tagsinput" id="sl_groupIds"
+                           placeholder="group ids">
+                    <input class="form-control" type="number" id="genderId" placeholder="gender id">
+                    <input class="form-control" type="number" id="birthYearFrom" placeholder="birth year from">
+                    <input class="form-control" type="number" id="birthYearTo" placeholder="birth year to">
+                    <input class="form-control" type="number" id="ageFrom" placeholder="Age from">
+                    <input class="form-control" type="number" id="ageTo" placeholder="Age to">
+                    <input class="form-check-input" type="checkbox" value="" id="hasChildren">
+                    <label class="form-check-label" for="hasChildren">Has children</label>
+                    <input class="form-control" type="number" id="childrenFrom" placeholder="children from">
+                    <input class="form-control" type="number" id="childrenTo" placeholder="children to">
+                    <input class="form-check-input" type="checkbox" value="" id="hasScolarship">
+                    <label class="form-check-label" for="hasScolarship">Has scholarship</label>
+                    <input class="form-control" type="number" id="ScholarshipAmountFrom" placeholder="Scholarship amount from">
+                    <input class="form-control" type="number" id="ScholarshipAmountTo" placeholder="Scholarship amount  to">
+                </div>
+                <input class="form-control btn btn-success" type="submit" value="Get">
+            </form>
+        </div>
+
+        <div class="tab-pane fade" id="snew">
+            <form action="javascript:void(0);" method="POST" onsubmit="addItem()">
+                <input class="form-control" type="text" id="snew_firstname" placeholder="first name">
+                <input class="form-control" type="text" id="snew_secondname" placeholder="second name">
+                <input class="form-control" type="text" id="snew_middlename" placeholder="middle name">
+                <input class="form-control" type="date" id="snew_birthdate" placeholder="birth date">
+                <input class="form-control" type="number" id="snew_childrenAmount" placeholder="children amount">
+                <input class="form-control" type="number" id="snew_scholarship" placeholder="scholarship">
+                <input class="form-control" type="number" id="snew_facultyId" placeholder="faculty id">
+                <input class="form-control" type="number" id="snew_groupId" placeholder="group id">
+                <input class="form-control" type="number" id="snew_genderId" placeholder="gender id">
+                <input class="form-control btn btn-secondary" type="submit" value="Add Student">
+            </form>
+        </div>
+
+        <div class="tab-pane fade" id="exam-grade">
+            <form action="javascript:void(0);" method="GET" onsubmit="get_eg()">
+                <input class="form-control" type="number" id="eg_DisciplineId" placeholder="discipline id" required>
+                <input class="form-control" type="number" id="eg_GroupIds" data-role="tagsinput"
+                       placeholder="group ids">
+                <input class="form-control" type="number" id="eg_Grade" placeholder="grade">
+                <input class="form-control btn btn-success" type="submit" value="Get">
+            </form>
+        </div>
+
+        <div class="tab-pane fade" id="teacher-grade">
+            <form action="javascript:void(0);" method="GET" onsubmit="get_tg()">
+                <input class="form-control" type="number" id="tg_groupIds" data-role="tagsinput"
+                       placeholder="group ids">
+                <input class="form-control" type="number" id="tg_TeacherId" placeholder="teacher id">
+                <input class="form-control" type="number" id="tg_Grade" placeholder="grade">
+                <input class="form-control" type="number" id="tg_disciplineIds" data-role="tagsinput"
+                       placeholder="discipline ids">
+                <input class="form-control" type="number" id="tg_semesters" data-role="tagsinput"
+                       placeholder="semesters">
+                <input class="form-control" type="date" id="tg_dateFrom" placeholder="date from">
+                <input class="form-control" type="date" id="tg_dateTo" placeholder="date to">
+                <input class="form-control btn btn-success" type="submit" value="Get">
+            </form>
+        </div>
+
+        <div class="tab-pane fade" id="by-session">
+            <form action="javascript:void(0);" method="GET" onsubmit="get_bysession()">
+                <input class="form-control" type="number" id="session_groupIds" data-role="tagsinput"
+                       placeholder="group ids">
+                <input class="form-control" type="number" id="semester" placeholder="semester" required>
+                <input class="form-control" type="number" id="session_facultyId" placeholder="faculty id">
+                <input class="form-control" type="number" id="session_year" placeholder="year">
+                <input class="form-control" type="number" id="session_grades" data-role="tagsinput"
+                       placeholder="grades">
+                <input class="form-control btn btn-success" type="submit" value="Get">
+            </form>
+        </div>
+
+        <div class="tab-pane fade" id="theses">
+            <form action="javascript:void(0);" method="GET" onsubmit="get_theses()">
+                <input class="form-control" type="number" id="theses_TeacherId" placeholder="teacher id">
+                <input class="form-control" type="number" id="theses_ChairId" placeholder="chair id">
+                <input class="form-control btn btn-success" type="submit" value="Get">
+            </form>
+        </div>
+
+        <div class="tab-pane fade" id="sinfo">
+            <div class="container" style="max-width: 30rem;">
+                <h3>Update student</h3>
+                <form action="javascript:void(0);" method="POST" onsubmit="updateItem()">
+                    <input class="form-control" type="number" id="sinfo_id" placeholder="id" required>
+                    <input class="form-control" type="text" id="sinfo_firstname" placeholder="first name">
+                    <input class="form-control" type="text" id="sinfo_secondname" placeholder="second name">
+                    <input class="form-control" type="text" id="sinfo_middlename" placeholder="middle name">
+                    <input class="form-control" type="date" id="sinfo_birthdate" placeholder="birth date">
+                    <input class="form-control" type="number" id="sinfo_childrenAmount" placeholder="children amount">
+                    <input class="form-control" type="number" id="sinfo_scholarship" placeholder="scholarship">
+                    <input class="form-control" type="number" id="sinfo_facultyId" placeholder="faculty id">
+                    <input class="form-control" type="number" id="sinfo_groupId" placeholder="group id">
+                    <input class="form-control" type="number" id="sinfo_genderId" placeholder="gender id">
+                    <input class="form-control btn btn-secondary" type="submit" value="Add Student">
+                </form>
+
+                <h3>Delete student</h3>
+                <form class="form-group" action="javascript:void(0);" method="DELETE" onsubmit="deleteItem()">
+                    <input class="form-control" type="number" id="deleteid" placeholder="student id">
+                    <input class="form-control btn btn-danger" type="submit" value="Delete">
+                </form>
+            </div>
+            <!--            <form action="javascript:void(0);" method="POST" onsubmit="addItem()">-->
+            <!--                <input class="form-control" type="text" id="name" placeholder="chair name">-->
+            <!--                <input class="form-control" type="number" id="facultyId" placeholder="faculty id">-->
+            <!--                <input class="form-control btn btn-secondary" type="submit" value="Add">-->
+            <!--            </form>-->
+        </div>
+    </div>
+
+
+    <!--    <div class="row">-->
+    <!--        <div class="container" style="max-width: 30rem;">-->
+    <!--            <h3>New chair</h3>-->
+    <!--            <form action="javascript:void(0);" method="POST" onsubmit="addItem()">-->
+    <!--                <input class="form-control" type="text" id="name" placeholder="chair name">-->
+    <!--                <input class="form-control" type="number" id="facultyId" placeholder="faculty id">-->
+    <!--                <input class="form-control btn btn-secondary" type="submit" value="Add">-->
+    <!--            </form>-->
+
+    <!--            <h3>Update chair</h3>-->
+    <!--            <form action="javascript:void(0);" method="PUT" onsubmit="updateItem()">-->
+    <!--                <input class="form-control" type="number" id="putid" placeholder="chair id">-->
+    <!--                <input class="form-control" type="text" id="putname" placeholder="chair name">-->
+    <!--                <input class="form-control" type="number" id="putfacultyId" placeholder="faculty id">-->
+    <!--                <input class="form-control btn btn-secondary" type="submit" value="Update">-->
+    <!--            </form>-->
+
+    <!--            <h3>Get chair</h3>-->
+    <!--            <form class="form-group" action="javascript:void(0);" method="GET" onsubmit="getData()">-->
+    <!--                <input class="form-control" type="number" id="id" placeholder="chair id">-->
+    <!--                <input class="form-control btn btn-success" type="submit" value="Get">-->
+    <!--            </form>-->
+
+    <!--            <h3>Delete chair</h3>-->
+    <!--            <form class="form-group" action="javascript:void(0);" method="DELETE" onsubmit="deleteItem()">-->
+    <!--                <input class="form-control" type="number" id="deleteid" placeholder="chair id">-->
+    <!--                <input class="form-control btn btn-danger" type="submit" value="Delete">-->
+    <!--            </form>-->
+    <div>
+        <p id="changes">Nothing changed</p>
+    </div>
+    <!--            </div>-->
+    <!--    </div>-->
+    <div id="tableContainer" class="container display-5 text-center">
+        <table id="dissertationTable" class="table table-hover">
+            <tr id="dissertationTableNames">
+                <!--                    <th scope="col">id</th>-->
+                <!--                    <th scope="col">name</th>-->
+                <!--                    <th scope="col">faculty id</th>-->
+            </tr>
+            <tbody id="dissertationTableBody"></tbody>
+        </table>
+        <!--    <tbody id="dissertationTableBody"></tbody>-->
+    </div>
+    <!--    </div>-->
+</div>
+<!--</div>-->
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+<script src="js/student.js"></script>
+<script src="lib/bootstrap/dist/js/bootstrap.js"></script>
+<script src="js/tagsinput.js"></script>
+</body>
+</html>

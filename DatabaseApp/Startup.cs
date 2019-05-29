@@ -59,6 +59,11 @@ namespace DatabaseApp
                 app.UseHsts();
             }
 
+            app.UseHttpsRedirection();
+            app.UseStaticFiles();
+            app.UseDefaultFiles();
+
+
             app.UseSwagger();
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "UniversityDbApp API V1") );
             
