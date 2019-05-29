@@ -8,43 +8,71 @@ iduri = "api/chair/{id}";
 uri = "http://localhost:5000/api/chair/";
 chairTable = null;
 
+faculties = {};
+
+
 $(document).ready(function() {
-    getAll();
+    $.getJSON("http://localhost:5000/api/faculty", function (data) {
+        $.each(data, function (key, value) {
+            faculties[value['id']] = value['name'];
+        })
+    });
 });
 
 function showItem(data) {
     document.getElementById("changes").innerHTML = "proceeding changes " + data;
 
     tr = $("<tr class=\"table-active\"></tr>");
-    chairTable = $("#chairTable");
-    chairTable.empty()
-    $.each(data, function(key, val){
-        td = "<td>" + val +"</td>";
+
+    dissertationTableBody = $("#dissertationTableBody");
+    dissertationTableBody.empty();
+    dissertationTableNames = $("#dissertationTableNames");
+    dissertationTableNames.empty();
+
+    $.each(Object.keys(data), function (key, value) {
+        th = "<th scope=\"col\">" + value + "</th>";
+        $(dissertationTableNames).append(th);
+    });
+
+    $.each(data, function (key, val) {
+        td = "<td>" + val + "</td>";
         $(tr).append(td);
     });
 
-    tr.appendTo(chairTable);
+    tr.appendTo(dissertationTableBody);
 
     document.getElementById("changes").innerHTML = "success";
 }
 
 function showItems(data) {
+
     document.getElementById("changes").innerHTML = "proceeding changes " + data;
 
-    chairTable = $("#chairTable");
-    chairTable.empty()
+    dissertationTableBody = $("#dissertationTableBody");
+    dissertationTableBody.empty();
+
     $.each(data, function (k, row) {
-        document.getElementById("changes").innerHTML = "proceeding row " + row;
+        if ('facultyId' in row) {
+            row['faculty'] = faculties[row['facultyId']];
+            delete row['facultyId'];
+        }
+        
         tr = $("<tr class=\"table-active\"></tr>");
-        $.each(row, function(key, val){
-            td = "<td>" + val +"</td>";
+        dissertationTableNames = $("#dissertationTableNames");
+        dissertationTableNames.empty();
+        $.each(Object.keys(row), function (kv, key) {
+            th = "<th scope=\"col\">" + key + "</th>";
+            $(dissertationTableNames).append(th);
+        });
+
+        $.each(row, function (key, val) {
+            td = "<td>" + val + "</td>";
             $(tr).append(td);
         });
-        tr.appendTo(chairTable);
-    })
+        tr.appendTo(dissertationTableBody);
+    });
 
-
-    document.getElementById("changes").innerHTML = "success";
+    document.getElementById("changes").innerHTML = "success ";
 }
 
 function getAll() {
@@ -65,6 +93,36 @@ function getData() {
     }
 
     $.getJSON(uri + item.id, function(data){showItem(data)});
+}
+
+function isEmpty(value){
+    return value == null || value == "";
+}
+
+function get_lc() {
+    document.getElementById("changes").innerHTML = "running...";
+
+    item = {
+        GroupId : $("#lc_groupId").val(),
+        FacultyId : $("#lc_facultyId").val(),
+        Years : $("#lc_years").tagsinput('items'),
+        Semesters : $("#lc_semesters").tagsinput('items'),
+        DateFrom : $("#lc_datefrom").val(),
+        DateTo : $("#lc_dateto").val()
+    };
+
+    for(key in item)
+        if(isEmpty(item[key]))
+            delete item[key];
+
+    Uri = $.param(item, true);
+
+
+    $.getJSON(uri + "lesson-conduction?" + Uri, function (data) {
+        showItems(data);
+    });
+
+    document.getElementById("changes").innerHTML = "success";
 }
 
 function addItem() {

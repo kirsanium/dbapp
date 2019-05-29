@@ -5,74 +5,77 @@
 // hello world
 
 iduri = "api/chair/{id}";
-uri = "http://localhost:5000/api/dissertation";
+uri = "http://localhost:5000/api/academic-assignment";
 dissertationTableBody = null;
-
 teachers = {};
-dissertationTypes = {};
-
+chairs = {};
 
 $(document).ready(function () {
-    $.getJSON("http://localhost:5000/api/teacher", function (data) {
-        $.each(data, function (key, value) {
-            teachers[value['id']] = value['firstName'] + " " + value['middleName'] + " " + value['secondName'];
-        });
+    $.getJSON("http://localhost:5000/api/academic-discipline", function (data) {
+            $.each(data, function (key, value) {
+                teachers[value['id']] = value['name']; 
+            })
     });
-    $.getJSON("http://localhost:5000/api/dissertation-type", function (data) {
+    $.getJSON("http://localhost:5000/api/chair", function (data) {
         $.each(data, function (key, value) {
-            dissertationTypes[value['id']] = value['name'];
+            chairs[value['id']] = value['name'];
         })
     });
+    
     // getAll();
 });
 
 function showItems(data) {
-    
     document.getElementById("changes").innerHTML = "proceeding changes " + data;
+
+    var keys = []
+    var items = [];
 
     dissertationTableBody = $("#dissertationTableBody");
     dissertationTableBody.empty();
 
     $.each(data, function (k, row) {
-        
-        if ('teacherId' in row) {
-            document.getElementById("changes").innerHTML = "proceeding changes " + row['teacherId'] + " " + teachers.keys;
-            row['teacher'] = teachers[row['teacherId']];
-            delete row['teacherId'];
+        if ('disciplineId' in row) {
+            row['discipline'] = teachers[row['disciplineId']];
+            delete row['disciplineId'];
         }
 
-        if ('dissertationTypeId' in row) {
-            row['dissertationType'] = dissertationTypes[row['dissertationTypeId']];
-            delete row['dissertationTypeId'];
+        if ('chairId' in row) {
+            row['chair'] = chairs[row['chairId']];
+            delete row['chairId'];
         }
-        
+
         tr = $("<tr class=\"table-active\"></tr>");
+        document.getElementById("changes").innerHTML = "row " + row;
         dissertationTableNames = $("#dissertationTableNames");
         dissertationTableNames.empty();
         $.each(Object.keys(row), function (kv, key) {
+            document.getElementById("changes").innerHTML = "th " + key;
             th = "<th scope=\"col\">" + key + "</th>";
             $(dissertationTableNames).append(th);
         });
-    
+
         $.each(row, function (key, val) {
             td = "<td>" + val + "</td>";
             $(tr).append(td);
         });
         tr.appendTo(dissertationTableBody);
     });
+
+    // document.getElementById("changes").innerHTML = "success";
 }
 
 function showItem(data) {
     document.getElementById("changes").innerHTML = "proceeding changes " + data;
 
-    if ('teacherId' in data) {
-        data['teacher'] = teachers[data['teacherId']];
-        delete data['teacherId'];
+    if ('disciplineId' in data) {
+        data['discipline'] = teachers[data['disciplineId']];
+        delete data['disciplineId'];
     }
 
-    if ('dissertationTypeId' in data) {
-        data['dissertationType'] = dissertationTypes[data['dissertationTypeId']];
-        delete data['dissertationTypeId'];
+    if ('chairId' in data) {
+        data['chair'] = chairs[data['chairId']];
+        delete data['chairId'];
     }
 
     tr = $("<tr class=\"table-active\"></tr>");
@@ -101,18 +104,6 @@ function getAll() {
     $.getJSON(uri, function(data){showItems(data)});
 }
 
-function showThemes(data) {
-    dissertationTableBody = $("<tbody id='dissertationTableBody'></tbody>");
-    $.each(data.themes, function (key, val) {
-        td = "<tr class=\"table-active\"><td>" + val + "</td></tr>";
-        $(dissertationTableBody).append(td);
-    });
-
-    table = $("#dissertationTable");
-    table.empty();
-    table.append($("<thead id='dissertationTableNames'> <th scope=\"col\">themes</th> </thead>"));
-    table.append(dissertationTableBody);
-}
 
 function getData() {
     document.getElementById("changes").innerHTML = "running...";
@@ -123,7 +114,7 @@ function getData() {
     };
 
     document.getElementById("changes").innerHTML = "id " + item.id + " " + (item.id == "");
-    
+
     if (item.id == "") {
         getAll();
         return;
@@ -136,45 +127,11 @@ function getData() {
     document.getElementById("changes").innerHTML = "success";
 }
 
-function getThemes() {
-    document.getElementById("changes").innerHTML = "running...";
-
-    item = {
-        ChairId: $("#th_charid").val(),
-        FacultyId: $("#th_facultyId").val()
-    };
-    
-    var Uri = uri + "/themes?" + (item.ChairId == null ? "" : ("ChairId=" + item.ChairId)) + (item.ChairId == null ? "" : ("&FacultyId=" + item.FacultyId));
-
-    $.getJSON(Uri, function (data) {
-        showThemes(data)
-    });
-
-    // $.ajax({
-    //     type: "GET",
-    //     accepts: "application/json",
-    //     url: uri + "themes?" + item.ChairId == null ? "" : ("ChairId=" + item.ChairId) + item.ChairId == null ? "" : ("&FacultyId=" + item.ChairId),
-    //     contentType: "application/json",
-    //     data: JSON.stringify(item),
-    //     error: function (jqXHR, textStatus, errorThrown) {
-    //         alert(uri + "themes " + JSON.stringify(item) + textStatus + errorThrown);
-    //     },
-    //     success: function (data) {
-    //         showThemes(data)
-    //         $("#th_facultyId").val(null);
-    //         $("#th_charid").val(null);
-    //     }
-    // });
-
-    document.getElementById("changes").innerHTML = "success";
-}
-
 function addItem() {
     item = {
-        theme: $("#theme").val(),
-        datePresented: $("#date").val(),
-        teacherId: $("#teacherId").val(),
-        dissertationTypeId: $("#dissertationTypeId").val()
+        semester: $("#theme").val(),
+        name: $("#name").val(),
+        facultyId: $("#facultyId").val(),
     };
 
     $.ajax({
@@ -188,10 +145,9 @@ function addItem() {
         },
         success: function (data) {
             showItem(data)
-            $("#theme").val(null),
-            $("#date").val(null),
-            $("#teacherId").val(null),
-            $("#dissertationTypeId").val(null)
+            $("#theme").val(null);
+            $("#name").val(null);
+            $("#facultyId").val(null);
         }
     });
 
@@ -201,10 +157,9 @@ function addItem() {
 
 function updateItem() {
     item = {
-        theme: $("#puttheme").val(),
-        datePresented: $("#putdate").val(),
-        teacherId: $("#putteacherId").val(),
-        dissertationTypeId: $("#putdissertationTypeId").val()
+        semester: $("#puttheme").val(),
+        name: $("#putname").val(),
+        facultyId: $("#putfacultyId").val(),
     };
 
     $.ajax({
@@ -218,10 +173,9 @@ function updateItem() {
         },
         success: function (data) {
             showItem(data)
-            $("#puttheme").val(null),
-            $("#putdate").val(null),
-            $("#putteacherId").val(null),
-            $("#putdissertationTypeId").val(null)
+            $("#puttheme").val(null);
+            $("#putname").val(null);
+            $("#putfacultyId").val(null);
         }
     });
 

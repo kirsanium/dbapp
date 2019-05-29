@@ -8,7 +8,22 @@
 uri = "http://localhost:5000/api/student";
 dissertationTableBody = null;
 
+genders = {};
+faculties = {};
+
 $(document).ready(function () {
+    $.getJSON("http://localhost:5000/api/faculty", function (data) {
+        $.each(data, function (key, value) {
+            faculties[value['id']] = value['name'];
+        })
+    });
+
+    $.getJSON("http://localhost:5000/api/gender", function (data) {
+        $.each(data, function (key, value) {
+            genders[value['id']] = value['name'];
+        })
+    });
+    
     getAll();
 });
 
@@ -19,6 +34,16 @@ function showItems(data) {
     dissertationTableBody.empty();
 
     $.each(data, function (k, row) {
+        if ('facultyId' in row) {
+            row['faculty'] = faculties[row['facultyId']];
+            delete row['facultyId'];
+        }
+
+        if ('genderId' in row) {
+            row['gender'] = genders[row['genderId']];
+            delete row['genderId'];
+        }
+        
         tr = $("<tr class=\"table-active\"></tr>");
         document.getElementById("changes").innerHTML = "row " + row;
         dissertationTableNames = $("#dissertationTableNames");
@@ -149,10 +174,10 @@ function getList() {
         BirthYearTo: $("#birthYearTo").val(),
         AgeFrom : $("#ageFrom").val(),
         AgeTo : $("#ageTo").val(),
-        HasChildren : $("#hasChildren").val(),
+        HasChildren : $("#hasChildren")[0].checked,
         ChildrenAmountFrom : $("#childrenFrom").val(),
         ChildrenAmountTo : $("#childrenTo").val(),
-        HasScholarship : $("#hasScolarship").val(),
+        HasScholarship : $("#hasScolarship")[0].checked,
         ScholarshipAmountFrom : $("#ScholarshipAmountFrom").val(),
         ScholarshipAmountTo : $("#ScholarshipAmountTo").val()
     };

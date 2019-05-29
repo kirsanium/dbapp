@@ -24,6 +24,9 @@
                 <a class="nav-link" href="http://localhost:5000/dissertation.html">Dissertation</a>
             </li>
             <li class="nav-item">
+                <a class="nav-link" href="http://localhost:5000/academic.html">Academic assignment</a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link" href="http://localhost:5000/teacher.html">Teachers</a>
             </li>
             <li class="nav-item">
@@ -104,15 +107,15 @@
 
         <div class="tab-pane fade" id="snew">
             <form action="javascript:void(0);" method="POST" onsubmit="addItem()">
-                <input class="form-control" type="text" id="snew_firstname" placeholder="first name">
-                <input class="form-control" type="text" id="snew_secondname" placeholder="second name">
-                <input class="form-control" type="text" id="snew_middlename" placeholder="middle name">
-                <input class="form-control" type="date" id="snew_birthdate" placeholder="birth date">
-                <input class="form-control" type="number" id="snew_childrenAmount" placeholder="children amount">
-                <input class="form-control" type="number" id="snew_scholarship" placeholder="scholarship">
-                <input class="form-control" type="number" id="snew_facultyId" placeholder="faculty id">
-                <input class="form-control" type="number" id="snew_groupId" placeholder="group id">
-                <input class="form-control" type="number" id="snew_genderId" placeholder="gender id">
+                <input class="form-control" type="text" id="snew_firstname" placeholder="first name" required>
+                <input class="form-control" type="text" id="snew_secondname" placeholder="second name" required>
+                <input class="form-control" type="text" id="snew_middlename" placeholder="middle name" required>
+                <input class="form-control" type="date" id="snew_birthdate" placeholder="birth date" required>
+                <input class="form-control" type="number" id="snew_childrenAmount" placeholder="children amount" required>
+                <input class="form-control" type="number" id="snew_scholarship" placeholder="scholarship" required>
+                <input class="form-control" type="number" id="snew_facultyId" placeholder="faculty id" required>
+                <input class="form-control" type="number" id="snew_groupId" placeholder="group id" required>
+                <input class="form-control" type="number" id="snew_genderId" placeholder="gender id" required>
                 <input class="form-control btn btn-secondary" type="submit" value="Add Student">
             </form>
         </div>
@@ -169,21 +172,21 @@
                 <h3>Update student</h3>
                 <form action="javascript:void(0);" method="POST" onsubmit="updateItem()">
                     <input class="form-control" type="number" id="sinfo_id" placeholder="id" required>
-                    <input class="form-control" type="text" id="sinfo_firstname" placeholder="first name">
-                    <input class="form-control" type="text" id="sinfo_secondname" placeholder="second name">
-                    <input class="form-control" type="text" id="sinfo_middlename" placeholder="middle name">
-                    <input class="form-control" type="date" id="sinfo_birthdate" placeholder="birth date">
-                    <input class="form-control" type="number" id="sinfo_childrenAmount" placeholder="children amount">
-                    <input class="form-control" type="number" id="sinfo_scholarship" placeholder="scholarship">
-                    <input class="form-control" type="number" id="sinfo_facultyId" placeholder="faculty id">
-                    <input class="form-control" type="number" id="sinfo_groupId" placeholder="group id">
-                    <input class="form-control" type="number" id="sinfo_genderId" placeholder="gender id">
+                    <input class="form-control" type="text" id="sinfo_firstname" placeholder="first name" required>
+                    <input class="form-control" type="text" id="sinfo_secondname" placeholder="second name" required>
+                    <input class="form-control" type="text" id="sinfo_middlename" placeholder="middle name" required>
+                    <input class="form-control" type="date" id="sinfo_birthdate" placeholder="birth date" required>
+                    <input class="form-control" type="number" id="sinfo_childrenAmount" placeholder="children amount" required>
+                    <input class="form-control" type="number" id="sinfo_scholarship" placeholder="scholarship" required>
+                    <input class="form-control" type="number" id="sinfo_facultyId" placeholder="faculty id" required>
+                    <input class="form-control" type="number" id="sinfo_groupId" placeholder="group id" required>
+                    <input class="form-control" type="number" id="sinfo_genderId" placeholder="gender id" required>
                     <input class="form-control btn btn-secondary" type="submit" value="Add Student">
                 </form>
 
                 <h3>Delete student</h3>
                 <form class="form-group" action="javascript:void(0);" method="DELETE" onsubmit="deleteItem()">
-                    <input class="form-control" type="number" id="deleteid" placeholder="student id">
+                    <input class="form-control" type="number" id="deleteid" placeholder="student id" required>
                     <input class="form-control btn btn-danger" type="submit" value="Delete">
                 </form>
             </div>

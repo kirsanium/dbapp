@@ -23,6 +23,9 @@
             <li class="nav-item">
                 <a class="nav-link" href="http://localhost:5000/dissertation.html">Dissertation</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="http://localhost:5000/academic.html">Academic assignment</a>
+            </li>
             <li class="nav-item active">
                 <a class="nav-link" href="http://localhost:5000/teacher.html">Teachers</a>
             </li>
@@ -83,16 +86,16 @@
                     <input class="form-control" type="number" data-role="tagsinput" id="chairIds"
                            placeholder="chair ids">
                     <input class="form-control" type="number" id="genderId" placeholder="gender id">
-                    <input class="form-control" type="number" id="birthYearFrom" placeholder="birth year from">
-                    <input class="form-control" type="number" id="birthYearTo" placeholder="birth year to">
+                    <input class="form-control" type="date" id="birthYearFrom" placeholder="birth year from">
+                    <input class="form-control" type="date" id="birthYearTo" placeholder="birth year to">
                     <input class="form-control" type="number" id="ageFrom" placeholder="Age from">
                     <input class="form-control" type="number" id="ageTo" placeholder="Age to">
                     <input class="form-check-input" type="checkbox" value="" id="hasChildren">
                     <label class="form-check-label" for="hasChildren">Has children</label>
                     <input class="form-control" type="number" id="childrenFrom" placeholder="Children from">
                     <input class="form-control" type="number" id="childrenTo" placeholder="Children to">
-                    <input class="form-control" type="number" id="SalaryAmountFrom" placeholder="Age from">
-                    <input class="form-control" type="number" id="SalaryAmountTo" placeholder="Age to">
+                    <input class="form-control" type="number" id="SalaryAmountFrom" placeholder="salary amount from">
+                    <input class="form-control" type="number" id="SalaryAmountTo" placeholder="salary amount to">
                     <input class="form-check-input" type="checkbox" value="" id="isGraduateStudent">
                     <label class="form-check-label" for="isGraduateStudent">Graduate student</label>
                     <input class="form-control" type="number" data-role="tagsinput" id="dissertationTypeIds"
@@ -110,17 +113,17 @@
 
         <div class="tab-pane fade" id="tnew">
             <form action="javascript:void(0);" method="POST" onsubmit="addItem()">
-                <input class="form-control" type="text" id="tnew_firstname" placeholder="first name">
-                <input class="form-control" type="text" id="tnew_secondname" placeholder="second name">
-                <input class="form-control" type="text" id="tnew_middlename" placeholder="middle name">
-                <input class="form-control" type="date" id="tnew_birthdate" placeholder="birth date">
-                <input class="form-control" type="number" id="tnew_childrenAmount" placeholder="children amount">
-                <input class="form-control" type="number" id="tnew_salary" placeholder="salary">
-                <input class="form-check-input" type="checkbox" value="" id="tnew_isGraduateStudent">
-                <label class="form-check-label" for="hasChildren">Graduate student</label>
-                <input class="form-control" type="number" id="tnew_charId" placeholder="char id">
-                <input class="form-control" type="number" id="tnew_genderId" placeholder="gender id">
-                <input class="form-control" type="number" id="tnew_teacherCategoryId" placeholder="category id">
+                <input class="form-control" type="text" id="tnew_firstname" placeholder="first name" required>
+                <input class="form-control" type="text" id="tnew_secondname" placeholder="second name" required>
+                <input class="form-control" type="text" id="tnew_middlename" placeholder="middle name" required>
+                <input class="form-control" type="date" id="tnew_birthdate" placeholder="birth date" required>
+                <input class="form-control" type="number" id="tnew_childrenAmount" placeholder="children amount" required>
+                <input class="form-control" type="number" id="tnew_salary" placeholder="salary" required>
+                <input class="form-check-input" type="checkbox" value="" id="tnew_isGraduateStudent" required>
+                <label class="form-check-label" for="hasChildren">Graduate student</label required>
+                <input class="form-control" type="number" id="tnew_charId" placeholder="char id" required>
+                <input class="form-control" type="number" id="tnew_genderId" placeholder="gender id" required>
+                <input class="form-control" type="number" id="tnew_teacherCategoryId" placeholder="category id" required>
                 <input class="form-control btn btn-secondary" type="submit" value="Add teacher">
             </form>
         </div>
@@ -190,53 +193,19 @@
 
                 <h3>Delete teacher</h3>
                 <form class="form-group" action="javascript:void(0);" method="DELETE" onsubmit="deleteItem()">
-                    <input class="form-control" type="number" id="deleteid" placeholder="chair id">
+                    <input class="form-control" type="number" id="deleteid" placeholder="teacher id" required>
                     <input class="form-control btn btn-danger" type="submit" value="Delete">
                 </form>
             </div>
-<!--            <form action="javascript:void(0);" method="POST" onsubmit="addItem()">-->
-<!--                <input class="form-control" type="text" id="name" placeholder="chair name">-->
-<!--                <input class="form-control" type="number" id="facultyId" placeholder="faculty id">-->
-<!--                <input class="form-control btn btn-secondary" type="submit" value="Add">-->
-<!--            </form>-->
         </div>
     </div>
-
-
-    <!--    <div class="row">-->
-    <!--        <div class="container" style="max-width: 30rem;">-->
-    <!--            <h3>New chair</h3>-->
-    <!--            <form action="javascript:void(0);" method="POST" onsubmit="addItem()">-->
-    <!--                <input class="form-control" type="text" id="name" placeholder="chair name">-->
-    <!--                <input class="form-control" type="number" id="facultyId" placeholder="faculty id">-->
-    <!--                <input class="form-control btn btn-secondary" type="submit" value="Add">-->
-    <!--            </form>-->
-
-    <!--            <h3>Update chair</h3>-->
-    <!--            <form action="javascript:void(0);" method="PUT" onsubmit="updateItem()">-->
-    <!--                <input class="form-control" type="number" id="putid" placeholder="chair id">-->
-    <!--                <input class="form-control" type="text" id="putname" placeholder="chair name">-->
-    <!--                <input class="form-control" type="number" id="putfacultyId" placeholder="faculty id">-->
-    <!--                <input class="form-control btn btn-secondary" type="submit" value="Update">-->
-    <!--            </form>-->
-
-    <!--            <h3>Get chair</h3>-->
-    <!--            <form class="form-group" action="javascript:void(0);" method="GET" onsubmit="getData()">-->
-    <!--                <input class="form-control" type="number" id="id" placeholder="chair id">-->
-    <!--                <input class="form-control btn btn-success" type="submit" value="Get">-->
-    <!--            </form>-->
-
-    <!--            <h3>Delete chair</h3>-->
-    <!--            <form class="form-group" action="javascript:void(0);" method="DELETE" onsubmit="deleteItem()">-->
-    <!--                <input class="form-control" type="number" id="deleteid" placeholder="chair id">-->
-    <!--                <input class="form-control btn btn-danger" type="submit" value="Delete">-->
-    <!--            </form>-->
+    
 <div>
                 <p id="changes">Nothing changed</p>
 </div>
 <!--            </div>-->
 <!--    </div>-->
-        <div id="tableContainer" class="container display-5 text-center">
+        <div id="tableContainer" class="container display-5 text-center ">
             <table id="dissertationTable" class="table table-hover">
                 <tr id="dissertationTableNames">
                     <!--                    <th scope="col">id</th>-->

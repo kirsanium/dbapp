@@ -24,6 +24,9 @@
                 <a class="nav-link" href="http://localhost:5000/dissertation.html">Dissertation</a>
             </li>
             <li class="nav-item">
+                <a class="nav-link" href="http://localhost:5000/academic.html">Academic assignment</a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link" href="http://localhost:5000/teacher.html">Teachers</a>
             </li>
             <li class="nav-item">
@@ -34,10 +37,11 @@
 </nav>
 
 <link rel="stylesheet" href="https://bootswatch.com/4/darkly/bootstrap.min.css">
+<link rel="stylesheet" href="css/tagsinput.css">
 <div class="container-fluid">
     <h1 class="display-5 text-center">Chair</h1>
     <div class="row">
-        <div class="container" style="max-width: 30rem;">
+        <div class="container-fluid" style="max-width: 30rem;">
             <h3>New chair</h3>
             <form action="javascript:void(0);" method="POST" onsubmit="addItem()">
                 <input class="form-control" type="text" id="name" placeholder="chair name">
@@ -47,9 +51,9 @@
 
             <h3>Update chair</h3>
             <form action="javascript:void(0);" method="PUT" onsubmit="updateItem()">
-                <input class="form-control" type="number" id="putid" placeholder="chair id">
-                <input class="form-control" type="text" id="putname" placeholder="chair name">
-                <input class="form-control" type="number" id="putfacultyId" placeholder="faculty id">
+                <input class="form-control" type="number" id="putid" placeholder="chair id" required>
+                <input class="form-control" type="text" id="putname" placeholder="chair name" required>
+                <input class="form-control" type="number" id="putfacultyId" placeholder="faculty id" required>
                 <input class="form-control btn btn-secondary" type="submit" value="Update">
             </form>
 
@@ -59,23 +63,34 @@
                 <input class="form-control btn btn-success" type="submit" value="Get">
             </form>
 
+            <h3>lesson conduction</h3>
+            <form class="form-group" action="javascript:void(0);" method="GET" onsubmit="get_lc()">
+                <input class="form-control" type="number" id="lc_groupId" placeholder="group id">
+                <input class="form-control" type="number" id="lc_facultyId" placeholder="faculty id">
+                <input class="form-control" type="number" id="lc_years" data-role="tagsinput" placeholder="years">
+                <input class="form-control" type="number" id="lc_semesters" data-role="tagsinput" placeholder="semesters">
+                <input class="form-control" type="date" id="lc_datefrom" placeholder="date from">
+                <input class="form-control" type="date" id="lc_dateto" placeholder="date to">
+                <input class="form-control btn btn-success" type="submit" value="Get">
+            </form>
+
             <h3>Delete chair</h3>
             <form class="form-group" action="javascript:void(0);" method="DELETE" onsubmit="deleteItem()">
-                <input class="form-control" type="number" id="deleteid" placeholder="chair id">
+                <input class="form-control" type="number" id="deleteid" placeholder="chair id" required>
                 <input class="form-control btn btn-danger" type="submit" value="Delete">
             </form>
 
             <p id="changes">Nothing changed</p>
         </div>
         <div class="container col-6" style="max-width: 30rem;">
-            <table class="table table-hover">
-                <tr>
-                    <th scope="col">id</th>
-                    <th scope="col">name</th>
-                    <th scope="col">faculty id</th>
-                </tr>
-                <tbody id="chairTable"></tbody>
-            </table>
+            <div id="tableContainer" class="container col-6" style="max-width: 30rem;">
+                <table id="dissertationTable" class="table table-hover">
+                    <tr id="dissertationTableNames">
+                    </tr>
+                    <tbody id="dissertationTableBody"></tbody>
+                </table>
+                <!--    <tbody id="dissertationTableBody"></tbody>-->
+            </div>
         </div>
     </div>
 </div>
@@ -83,5 +98,7 @@
         integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
         crossorigin="anonymous"></script>
 <script src="js/chair.js"></script>
+<script src="lib/bootstrap/dist/js/bootstrap.js"></script>
+<script src="js/tagsinput.js"></script>
 </body>
 </html>

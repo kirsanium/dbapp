@@ -5,10 +5,33 @@
 // hello world
 
 // iduri = "api/chair/{id}";
+
 uri = "http://localhost:5000/api/teacher";
 dissertationTableBody = null;
 
+chairs = {};
+genders = {};
+categories = {};
+
 $(document).ready(function () {
+    $.getJSON("http://localhost:5000/api/chair", function (data) {
+        $.each(data, function (key, value) {
+            chairs[value['id']] = value['name'];
+        })
+    });
+
+    $.getJSON("http://localhost:5000/api/gender", function (data) {
+        $.each(data, function (key, value) {
+            genders[value['id']] = value['name'];
+        })
+    });
+
+    $.getJSON("http://localhost:5000/api/teacher-category", function (data) {
+        $.each(data, function (key, value) {
+            categories[value['id']] = value['name'];
+        })
+    });
+    
     getAll();
 });
 
@@ -19,6 +42,21 @@ function showItems(data) {
     dissertationTableBody.empty();
 
     $.each(data, function (k, row) {
+        if ('chairId' in row) {
+            row['chair'] = chairs[row['chairId']];
+            delete row['chairId'];
+        }
+
+        if ('genderId' in row) {
+            row['gender'] = genders[row['genderId']];
+            delete row['genderId'];
+        }
+
+        if ('teacherCategoryId' in row) {
+            row['teacherCategory'] = categories[row['teacherCategoryId']];
+            delete row['teacherCategoryId'];
+        }
+        
         tr = $("<tr class=\"table-active\"></tr>");
         document.getElementById("changes").innerHTML = "row " + row;
         dissertationTableNames = $("#dissertationTableNames");
@@ -70,38 +108,6 @@ function getAll() {
 
 function showLc(data) {
     showItems(data['teachers'])
-    // dissertationTableBody = $("<tbody></tbody>");
-    // $.each(data.themes, function (key, val) {
-    //     td = "<tr class=\"table-active\"><td>" + val + "</td></tr>";
-    //     $(dissertationTableBody).append(td);
-    // });
-    //
-    // table = $("#dissertationTable");
-    // table.empty();
-    // table.append($("<thead> <th scope=\"col\">themes</th> </thead>"));
-    // table.append(dissertationTableBody);
-}
-
-function getData() {
-    document.getElementById("changes").innerHTML = "running...";
-
-    item = {
-        id: $("#id").val()
-        // facultyId: $("#facultyId").val(),
-    };
-
-    document.getElementById("changes").innerHTML = "id " + item.id + " " + (item.id == "");
-
-    if (item.id == "") {
-        getAll();
-        return;
-    }
-
-    $.getJSON(uri + "/" + item.id, function (data) {
-        showItem(data)
-    });
-
-    document.getElementById("changes").innerHTML = "success";
 }
 
 function isEmpty(value){
@@ -118,12 +124,12 @@ function getList() {
         BirthYearTo: $("#birthYearTo").val(),
         AgeFrom : $("#ageFrom").val(),
         AgeTo : $("#ageTo").val(),
-        HasChildren : $("#hasChildren").val(),
+        HasChildren : $("#hasChildren")[0].checked,
         ChildrenAmountFrom : $("#childrenFrom").val(),
         ChildrenAmountTo : $("#childrenTo").val(),
         SalaryAmountFrom : $("#SalaryAmountFrom").val(),
         SalaryAmountTo : $("#SalaryAmountTo").val(),
-        isGraduateStudent : $("#isGraduateStudent").val(),
+        isGraduateStudent : $("#isGraduateStudent")[0].checked,
         DissertationTypeIds : $("#dissertationTypeIds").tagsinput('items'),
         TeacherCategoryIds : $("#teacherCategoryIds").tagsinput('items'),
         DateDissertationPresentedFrom : $("#DateDissertationPresentedFrom").val(),
@@ -230,6 +236,45 @@ function get_hours() {
     Uri = $.param(item, true);
 
     $.getJSON(uri + "/hours?" + Uri, function (data) {
+        data_hours = new Set([]);
+        $.each(data, function (key, value) {
+            $.each(value['disciplineHours'], function (key, value) {
+                data_hours.add(value['disciplineName']);
+            })
+        });
+        
+        existing_lessons = new Set([]);
+        $.each(data, function (key, value) {
+            data_hours.forEach(function (k, enter, data_hours) {
+                // document.getElementById("changes").innerHTML = "success" + enter;
+                value[enter + " lections"] = "";
+                value[enter + " seminars"] = "";
+                $.each(value['disciplineHours'], function (key, discipline) {
+                    if (enter == discipline['disciplineName']) {
+                        value[enter + " lections"] = discipline['lessonTypeHours'][0]['hours'];
+                        existing_lessons.add(enter + " lections")
+                        if (discipline['lessonTypeHours'].length > 1) {
+                            value[enter + " seminars"] = discipline['lessonTypeHours'][1]['hours'];
+                            existing_lessons.add(enter + " seminars")
+                        }
+                    }
+                });
+            });
+            delete value['disciplineHours'];
+            data[key] = value;
+        });
+        data_hours.forEach(function (k, enter, data_hours) {
+            if (!existing_lessons.has(enter + " lections")) {
+                $.each(data, function (key, value) {
+                    delete value[enter + " lections"];
+                });
+            }
+            if (!existing_lessons.has(enter + " seminars")) {
+                $.each(data, function (key, value) {
+                    delete value[enter + " seminars"];
+                });
+            }
+        });
         showItems(data)
     });
 
@@ -245,7 +290,7 @@ function addItem() {
         birthDate: $("#tnew_birthdate").val(),
         childrenAmount: $("#tnew_childrenAmount").val(),
         salary: $("#tnew_salary").val(),
-        graduateStudent: $("#tnew_isGraduateStudent").val(),
+        graduateStudent: $("#tnew_isGraduateStudent")[0].checked,
         chairId: $("#tnew_charId").val(),
         genderId: $("#tnew_genderId").val(),
         teacherCategoryId: $("#tnew_teacherCategoryId").val()
