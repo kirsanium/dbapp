@@ -1,6 +1,6 @@
 ### How to deploy
 1. Установить докер
-2. (*В первый раз*) раскомментить строку в DatabaseApp/Extensions/WebHostExtensions.cs (лол, потом нормально сделаю)
+2. (*В первый раз*) раскомментить строку в DatabaseApp/Extensions/WebHostExtensions.cs
 3. В папке dbapp/DatabaseApp сделать `docker-compose up`
 4. Запустить приложение
 
