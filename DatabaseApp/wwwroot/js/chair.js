@@ -9,18 +9,65 @@ uri = "http://localhost:5000/api/chair/";
 chairTable = null;
 
 faculties = {};
+chairs = {};
+groups = {};
 
+function fill_options() {
+    u_chair_multis_elect = $("#u_chair_multi_select");
+    g_chair_multi_select = $("#g_chair_multi_select");
+    u_faculty_multi_select = $("#u_faculty_multi_select");
+    lc_group_multi_select = $("#lc_group_multi_select");
+    lc_faculty_multi_select = $("#lc_faculty_multi_select");
+    d_chair_multi_select = $("#d_chair_multi_select");
+    n_faculty_multi_select = $("#n_faculty_multi_select");
+    
+    $.each(chairs, function (key, value) {
+        u_chair_multis_elect.append('<option value=' + key + '>' + value + '</option>');
+        g_chair_multi_select.append('<option value=' + key + '>' + value + '</option>');
+        d_chair_multi_select.append('<option value=' + key + '>' + value + '</option>');
+    });
+
+    $.each(faculties, function (key, value) {
+        n_faculty_multi_select.append('<option value=' + key + '>' + value + '</option>');
+        u_faculty_multi_select.append('<option value=' + key + '>' + value + '</option>');
+        lc_faculty_multi_select.append('<option value=' + key + '>' + value + '</option>');
+    });
+
+    $.each(groups, function (key, value) {
+        lc_group_multi_select.append('<option value=' + key + '>' + value + '</option>');
+    });
+}
+
+$.getJSON("http://localhost:5000/api/faculty", function (data) {
+    $.each(data, function (key, value) {
+        faculties[value['id']] = value['name'];
+    })
+});
+
+$.getJSON("http://localhost:5000/api/chair", function (data) {
+    $.each(data, function (key, value) {
+        chairs[value['id']] = value['name'];
+    })
+});
+
+$.getJSON("http://localhost:5000/api/group", function (data) {
+    $.each(data, function (key, value) {
+        groups[value['id']] = value['groupName'];
+    })
+});
 
 $(document).ready(function() {
-    $.getJSON("http://localhost:5000/api/faculty", function (data) {
-        $.each(data, function (key, value) {
-            faculties[value['id']] = value['name'];
-        })
-    });
+    fill_options();
+    getAll();
 });
 
 function showItem(data) {
     document.getElementById("changes").innerHTML = "proceeding changes " + data;
+
+    if ('facultyId' in data) {
+        data['faculty'] = faculties[data['facultyId']];
+        delete data['facultyId'];
+    }
 
     tr = $("<tr class=\"table-active\"></tr>");
 
@@ -79,11 +126,17 @@ function getAll() {
     $.getJSON(uri, function(data){showItems(data)});
 }
 
+function getDataById(id) {
+    document.getElementById("changes").innerHTML = "running...";
+
+    $.getJSON(uri + id, function(data){showItem(data)});
+}
+
 function getData() {
     document.getElementById("changes").innerHTML = "running...";
 
     item = {
-        id: $("#id").val(),
+        id: $("#g_chair_multi_select").val(),
         // facultyId: $("#facultyId").val(),
     };
     
@@ -103,8 +156,8 @@ function get_lc() {
     document.getElementById("changes").innerHTML = "running...";
 
     item = {
-        GroupId : $("#lc_groupId").val(),
-        FacultyId : $("#lc_facultyId").val(),
+        GroupId : $("#lc_group_multi_select").val(),
+        FacultyId : $("#lc_faculty_multi_select").val(),
         Years : $("#lc_years").tagsinput('items'),
         Semesters : $("#lc_semesters").tagsinput('items'),
         DateFrom : $("#lc_datefrom").val(),
@@ -128,7 +181,7 @@ function get_lc() {
 function addItem() {
     item = {
         name: $("#name").val(),
-        facultyId: $("#facultyId").val(),
+        facultyId: $("#n_faculty_multi_select").val(),
     };
 
     $.ajax({
@@ -154,13 +207,13 @@ function addItem() {
 function updateItem() {
     item = {
         name: $("#putname").val(),
-        facultyId: $("#putfacultyId").val()
+        facultyId: $("#u_faculty_multi_select").val()
     };
 
     $.ajax({
         type: "PUT",
         accepts:  "application/json",
-        url: uri + $("#putid").val(),
+        url: uri + $("#u_chair_multi_select").val(),
         contentType: "application/json",
         data: JSON.stringify(item),
         error: function(jqXHR, textStatus, errorThrown) {
@@ -179,10 +232,13 @@ function updateItem() {
 }
 
 function deleteItem() {
-    id = $("#deleteid").val();
+    id = $("#d_chair_multi_select").val();
     $.ajax({
         url: uri + id,
         type: "DELETE",
+        error: function(jqXHR, textStatus, errorThrown) {
+            alert("error: Backend problem");
+        },
         success: function(result) {
             // getData();
         }

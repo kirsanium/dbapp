@@ -43,30 +43,69 @@
         <div class="container" style="max-width: 30rem;">
             <h3>New academic assignment</h3>
             <form action="javascript:void(0);" method="POST" onsubmit="addItem()">
-                <input class="form-control" type="number" id="semester" placeholder="semester" required>
-                <input class="form-control" type="text" id="name" placeholder="assignment name" required>
-                <input class="form-control" type="number" id="facultyId" placeholder="faculty id" required>
+                <label for="chairId">Chair</label>
+                <select class="form-control" id="chairId">
+                </select>
+
+                <label for="discipline">Discipline</label>
+                <select class="form-control" id="discipline">
+                </select>
+
+                <label for="group">Group</label>
+                <select class="form-control" id="group">
+                </select>
+
+                <label for="dateFrom">Start date</label>
+                <input class="form-control" type="date" id="dateFrom" required>
+
+                <label for="dateTo">End date</label>
+                <input class="form-control" type="date" id="dateTo" required>
+
                 <input class="form-control btn btn-secondary" type="submit" value="Add">
+                
             </form>
 
             <h3>Update academic assignment</h3>
             <form action="javascript:void(0);" method="PUT" onsubmit="updateItem()">
-                <input class="form-control" type="text" id="putid" placeholder="assignment id" required>
-                <input class="form-control" type="number" id="putsemester" placeholder="semester" required>
-                <input class="form-control" type="text" id="putname" placeholder="assignment name" required>
-                <input class="form-control" type="number" id="putfacultyId" placeholder="faculty id" required>
+                <label for="putid">Assignment</label>
+                <select class="form-control" id="putid">
+                </select>
+                
+                <label for="putchair">Chair</label>
+                <select class="form-control" id="putchair">
+                </select>
+                
+                <label for="putdiscipline">Discipline</label>
+                <select class="form-control" id="putdiscipline">
+                </select>
+
+                <label for="group">Group</label>
+                <select class="form-control" id="putgroup">
+                </select>
+
+                <label for="dateFrom">Start date</label>
+                <input class="form-control" type="date" id="putdateFrom" required>
+
+                <label for="dateTo">End date</label>
+                <input class="form-control" type="date" id="putdateTo" required>
+
                 <input class="form-control btn btn-secondary" type="submit" value="Update">
             </form>
 
             <h3>Get academic assignment</h3>
             <form class="form-group" action="javascript:void(0);" method="GET" onsubmit="getData()">
-                <input class="form-control" type="number" id="id" placeholder="chair id">
+                <label for="id">Assignment</label>
+                <select class="form-control" id="id">
+                    <option value="">All</option>
+                </select>
                 <input class="form-control btn btn-success" type="submit" value="Get">
             </form>
 
             <h3>Delete academic assignment</h3>
             <form class="form-group" action="javascript:void(0);" method="DELETE" onsubmit="deleteItem()">
-                <input class="form-control" type="number" id="deleteid" placeholder="academic id" required>
+                <label for="id">Assignment</label>
+                <select class="form-control" id="deleteid">
+                </select>
                 <input class="form-control btn btn-danger" type="submit" value="Delete">
             </form>
 

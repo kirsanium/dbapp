@@ -12,28 +12,223 @@ dissertationTableBody = null;
 chairs = {};
 genders = {};
 categories = {};
+faculties = {};
+groups = {};
+teachers = {};
+disciplines = {};
+students = {};
+dissertationTypes = {};
+lessonTypes = {};
 
-$(document).ready(function () {
+function fill_options() {
+
+    $.getJSON("http://localhost:5000/api/academic-discipline", function (data) {
+        $.each(data, function (key, value) {
+            disciplines[value['id']] = value['name'];
+        });
+
+        lc_DisciplineId = $("#lc_DisciplineId");
+        $.each(disciplines, function (key, value) {
+            lc_DisciplineId.append('<option value=' + key + '>' + value + '</option>');
+        });
+
+        f_disciplineIds = $("#f_disciplineIds");
+        $.each(disciplines, function (key, value) {
+            f_disciplineIds.append('<option value=' + key + '>' + value + '</option>');
+        });
+    });
+
+    $.getJSON("http://localhost:5000/api/teacher", function (data) {
+        $.each(data, function (key, value) {
+            teachers[value['id']] = value['firstName'] + " " + value['middleName'] + " " + value['secondName'];
+        });
+
+        thours_TeacherId = $("#thours_TeacherId");
+        $.each(teachers, function (key, value) {
+            thours_TeacherId.append('<option value=' + key + '>' + value + '</option>');
+        });
+
+        tinfo_id = $("#tinfo_id");
+        $.each(teachers, function (key, value) {
+            tinfo_id.append('<option value=' + key + '>' + value + '</option>');
+        });
+
+        deleteid = $("#deleteid");
+        $.each(teachers, function (key, value) {
+            deleteid.append('<option value=' + key + '>' + value + '</option>');
+        });
+    });
+
+    $.getJSON("http://localhost:5000/api/student", function (data) {
+        $.each(data, function (key, value) {
+            students[value['id']] = value['firstName'] + " " + value['middleName'] + " " + value['secondName'];
+        });
+        // sinfo_id = $("#sinfo_id");
+        // $.each(students, function (key, value) {
+        //     sinfo_id.append('<option value=' + key + '>' + value + '</option>');
+        // });
+    });
+
+    $.getJSON("http://localhost:5000/api/faculty", function (data) {
+        $.each(data, function (key, value) {
+            faculties[value['id']] = value['name'];
+        });
+
+        lc_FacultyId = $("#lc_FacultyId");
+        $.each(faculties, function (key, value) {
+            lc_FacultyId.append('<option value=' + key + '>' + value + '</option>');
+        });
+
+        thesis_facultyId = $("#thesis_facultyId");
+        $.each(faculties, function (key, value) {
+            thesis_facultyId.append('<option value=' + key + '>' + value + '</option>');
+        });
+    });
+
     $.getJSON("http://localhost:5000/api/chair", function (data) {
         $.each(data, function (key, value) {
             chairs[value['id']] = value['name'];
-        })
+        });
+
+        chairIds = $("#chairIds");
+        $.each(chairs, function (key, value) {
+            chairIds.append('<option value=' + key + '>' + value + '</option>');
+        });
+
+        tnew_charId = $("#tnew_charId");
+        $.each(chairs, function (key, value) {
+            tnew_charId.append('<option value=' + key + '>' + value + '</option>');
+        });
+
+        thesis_chairId = $("#thesis_chairId");
+        $.each(chairs, function (key, value) {
+            thesis_chairId.append('<option value=' + key + '>' + value + '</option>');
+        });
+
+        thours_ChairId = $("#thours_ChairId");
+        $.each(chairs, function (key, value) {
+            thours_ChairId.append('<option value=' + key + '>' + value + '</option>');
+        });
+
+        tinfo_charId = $("#tinfo_charId");
+        $.each(chairs, function (key, value) {
+            tinfo_charId.append('<option value=' + key + '>' + value + '</option>');
+        });
     });
 
     $.getJSON("http://localhost:5000/api/gender", function (data) {
         $.each(data, function (key, value) {
             genders[value['id']] = value['name'];
-        })
+        });
+
+        genderId = $("#genderId");
+        $.each(genders, function (key, value) {
+            genderId.append('<option value=' + key + '>' + value + '</option>');
+        });
+
+        tnew_genderId = $("#tnew_genderId");
+        $.each(genders, function (key, value) {
+            tnew_genderId.append('<option value=' + key + '>' + value + '</option>');
+        });
+
+        tinfo_genderId = $("#tinfo_genderId");
+        $.each(genders, function (key, value) {
+            tinfo_genderId.append('<option value=' + key + '>' + value + '</option>');
+        });
     });
 
+    $.getJSON("http://localhost:5000/api/group", function (data) {
+        $.each(data, function (key, value) {
+            groups[value['id']] = value['groupName'];
+        });
+
+        lc_GroupId = $("#lc_GroupId");
+        $.each(groups, function (key, value) {
+            lc_GroupId.append('<option value=' + key + '>' + value + '</option>');
+        });
+        
+        f_groupIds = $("#f_groupIds");
+        $.each(groups, function (key, value) {
+            f_groupIds.append('<option value=' + key + '>' + value + '</option>');
+        });
+    });
+    
     $.getJSON("http://localhost:5000/api/teacher-category", function (data) {
         $.each(data, function (key, value) {
             categories[value['id']] = value['name'];
-        })
+        });
+
+        teacherCategoryIds = $("#teacherCategoryIds");
+        $.each(categories, function (key, value) {
+            teacherCategoryIds.append('<option value=' + key + '>' + value + '</option>');
+        });
+
+        tnew_teacherCategoryId = $("#tnew_teacherCategoryId");
+        $.each(categories, function (key, value) {
+            tnew_teacherCategoryId.append('<option value=' + key + '>' + value + '</option>');
+        });
+
+        thesis_categoryIds = $("#thesis_categoryIds");
+        $.each(categories, function (key, value) {
+            thesis_categoryIds.append('<option value=' + key + '>' + value + '</option>');
+        });
+
+        tinfo_teacherCategoryId = $("#tinfo_teacherCategoryId");
+        $.each(categories, function (key, value) {
+            tinfo_teacherCategoryId.append('<option value=' + key + '>' + value + '</option>');
+        });
     });
-    
+
+    $.getJSON("http://localhost:5000/api/dissertation-type", function (data) {
+        $.each(data, function (key, value) {
+            dissertationTypes[value['id']] = value['name'];
+        });
+        dissertationTypeIds = $("#dissertationTypeIds");
+        $.each(dissertationTypes, function (key, value) {
+            dissertationTypeIds.append('<option value=' + key + '>' + value + '</option>');
+        });
+    });
+
+    $.getJSON("http://localhost:5000/api/lesson-type", function (data) {
+        $.each(data, function (key, value) {
+            lessonTypes[value['id']] = value['name'];
+        });
+
+        lc_LessonTypeIds = $("#lc_LessonTypeIds");
+        $.each(lessonTypes, function (key, value) {
+            lc_LessonTypeIds.append('<option value=' + key + '>' + value + '</option>');
+        });
+    });
+}
+
+$(document).ready(function () {
+    fill_options();
+
     getAll();
 });
+
+//
+// $(document).ready(function () {
+//     $.getJSON("http://localhost:5000/api/chair", function (data) {
+//         $.each(data, function (key, value) {
+//             chairs[value['id']] = value['name'];
+//         })
+//     });
+//
+//     $.getJSON("http://localhost:5000/api/gender", function (data) {
+//         $.each(data, function (key, value) {
+//             genders[value['id']] = value['name'];
+//         })
+//     });
+//
+//     $.getJSON("http://localhost:5000/api/teacher-category", function (data) {
+//         $.each(data, function (key, value) {
+//             categories[value['id']] = value['name'];
+//         })
+//     });
+//    
+//     getAll();
+// });
 
 function showItems(data) {
     document.getElementById("changes").innerHTML = "proceeding changes " + data;
@@ -118,7 +313,7 @@ function getList() {
     document.getElementById("changes").innerHTML = "running...";
 
     item = {
-        ChairIds : $("#chairIds").tagsinput('items'),
+        ChairIds : $("#chairIds").val(),
         GenderId : $("#genderId").val(),
         BirthYearFrom : $("#birthYearFrom").val(),
         BirthYearTo: $("#birthYearTo").val(),
@@ -130,10 +325,10 @@ function getList() {
         SalaryAmountFrom : $("#SalaryAmountFrom").val(),
         SalaryAmountTo : $("#SalaryAmountTo").val(),
         isGraduateStudent : $("#isGraduateStudent")[0].checked,
-        DissertationTypeIds : $("#dissertationTypeIds").tagsinput('items'),
-        TeacherCategoryIds : $("#teacherCategoryIds").tagsinput('items'),
+        DissertationTypeIds : $("#dissertationTypeIds").val(),
+        TeacherCategoryIds : $("#teacherCategoryIds").val(),
         DateDissertationPresentedFrom : $("#DateDissertationPresentedFrom").val(),
-        DateDissertationPresentedTo : $("#DateDissertationPresentedTo").val(),
+        DateDissertationPresentedTo : $("#DateDissertationPresentedTo").val()
     };
 
     for(key in item)
@@ -156,7 +351,7 @@ function get_lc() {
         FacultyId : $("#lc_FacultyId").val(),
         GroupId : $("#lc_GroupId").val(),
         Year : $("#lc_year").val(),
-        LessonTypeIds : $("#lc_LessonTypeIds").tagsinput('items'),
+        LessonTypeIds : $("#lc_LessonTypeIds").val(),
         Semesters : $("#lc_semesters").tagsinput('items')
     };
 
@@ -178,8 +373,8 @@ function get_finals() {
     document.getElementById("changes").innerHTML = "running...";
 
     item = {
-        GroupIds : $("#f_groupIds").tagsinput('items'),
-        DisciplineIds : $("#f_disciplineIds").tagsinput('items'),
+        GroupIds : $("#f_groupIds").val(),
+        DisciplineIds : $("#f_disciplineIds").val(),
         Semesters : $("#f_semesters").tagsinput('items')
     };
 
@@ -203,7 +398,7 @@ function get_thesis() {
     item = {
         ChairId : $("#thesis_chairIds").val(),
         FacultyId : $("#thesis_facultyId").val(),
-        TeacherCategoryIds : $("#thesis_categoryIds").tagsinput('items')
+        TeacherCategoryIds : $("#thesis_categoryIds").val()
     };
 
     for(key in item)

@@ -10,19 +10,158 @@ dissertationTableBody = null;
 
 genders = {};
 faculties = {};
+chairs = {};
+groups = {};
+teachers = {};
+disciplines = {};
+students = {};
 
-$(document).ready(function () {
+function fill_options() {
+
+    $.getJSON("http://localhost:5000/api/academic-discipline", function (data) {
+        $.each(data, function (key, value) {
+            disciplines[value['id']] = value['name'];
+        });
+
+        eg_DisciplineId = $("#eg_DisciplineId");
+        $.each(disciplines, function (key, value) {
+            eg_DisciplineId.append('<option value=' + key + '>' + value + '</option>');
+        });
+
+        tg_disciplineIds = $("#tg_disciplineIds");
+        $.each(disciplines, function (key, value) {
+            tg_disciplineIds.append('<option value=' + key + '>' + value + '</option>');
+        });
+    });
+
+    $.getJSON("http://localhost:5000/api/teacher", function (data) {
+        $.each(data, function (key, value) {
+            teachers[value['id']] = value['firstName'] + " " + value['middleName'] + " " + value['secondName'];
+        });
+
+        tg_TeacherId = $("#tg_TeacherId");
+        $.each(teachers, function (key, value) {
+            tg_TeacherId.append('<option value=' + key + '>' + value + '</option>');
+        });
+
+        theses_TeacherId = $("#theses_TeacherId");
+        $.each(teachers, function (key, value) {
+            theses_TeacherId.append('<option value=' + key + '>' + value + '</option>');
+        });
+    });
+
+    $.getJSON("http://localhost:5000/api/student", function (data) {
+        $.each(data, function (key, value) {
+            students[value['id']] = value['firstName'] + " " + value['middleName'] + " " + value['secondName'];
+        });
+        sinfo_id = $("#sinfo_id");
+        $.each(students, function (key, value) {
+            sinfo_id.append('<option value=' + key + '>' + value + '</option>');
+        });
+
+        deleteid = $("#deleteid");
+        $.each(students, function (key, value) {
+            deleteid.append('<option value=' + key + '>' + value + '</option>');
+        });
+    });
+
     $.getJSON("http://localhost:5000/api/faculty", function (data) {
         $.each(data, function (key, value) {
             faculties[value['id']] = value['name'];
-        })
+        });
+
+        facultyId = $("#facultyId");
+        $.each(faculties, function (key, value) {
+            facultyId.append('<option value=' + key + '>' + value + '</option>');
+        });
+
+        snew_facultyId = $("#snew_facultyId");
+        $.each(faculties, function (key, value) {
+            snew_facultyId.append('<option value=' + key + '>' + value + '</option>');
+        });
+
+        session_facultyId = $("#session_facultyId");
+        $.each(faculties, function (key, value) {
+            session_facultyId.append('<option value=' + key + '>' + value + '</option>');
+        });
+
+        sinfo_facultyId = $("#sinfo_facultyId");
+        $.each(faculties, function (key, value) {
+            sinfo_facultyId.append('<option value=' + key + '>' + value + '</option>');
+        });
+    });
+
+    $.getJSON("http://localhost:5000/api/chair", function (data) {
+        $.each(data, function (key, value) {
+            chairs[value['id']] = value['name'];
+        });
+
+        theses_ChairId = $("#theses_ChairId");
+        $.each(chairs, function (key, value) {
+            theses_ChairId.append('<option value=' + key + '>' + value + '</option>');
+        });
     });
 
     $.getJSON("http://localhost:5000/api/gender", function (data) {
         $.each(data, function (key, value) {
             genders[value['id']] = value['name'];
-        })
+        });
+
+        genderId = $("#genderId");
+        $.each(genders, function (key, value) {
+            genderId.append('<option value=' + key + '>' + value + '</option>');
+        });
+
+        snew_genderId = $("#snew_genderId");
+        $.each(genders, function (key, value) {
+            snew_genderId.append('<option value=' + key + '>' + value + '</option>');
+        });
+
+        sinfo_genderId = $("#sinfo_genderId");
+        $.each(genders, function (key, value) {
+            sinfo_genderId.append('<option value=' + key + '>' + value + '</option>');
+        });
     });
+
+    $.getJSON("http://localhost:5000/api/group", function (data) {
+        $.each(data, function (key, value) {
+            groups[value['id']] = value['groupName'];
+        });
+
+        sl_groupIds = $("#sl_groupIds");
+        $.each(groups, function (key, value) {
+            sl_groupIds.append('<option value=' + key + '>' + value + '</option>');
+        });
+
+        snew_groupId = $("#snew_groupId");
+        $.each(groups, function (key, value) {
+            snew_groupId.append('<option value=' + key + '>' + value + '</option>');
+        });
+
+        eg_GroupIds = $("#eg_GroupIds");
+        $.each(groups, function (key, value) {
+            eg_GroupIds.append('<option value=' + key + '>' + value + '</option>');
+        });
+
+        tg_groupIds = $("#tg_groupIds");
+        $.each(groups, function (key, value) {
+            tg_groupIds.append('<option value=' + key + '>' + value + '</option>');
+        });
+
+        session_groupIds = $("#session_groupIds");
+        $.each(groups, function (key, value) {
+            session_groupIds.append('<option value=' + key + '>' + value + '</option>');
+        });
+
+        sinfo_groupId = $("#sinfo_groupId");
+        $.each(groups, function (key, value) {
+            sinfo_groupId.append('<option value=' + key + '>' + value + '</option>');
+        });
+    });
+}
+
+$(document).ready(function () {
+    fill_options();
     
     getAll();
 });
@@ -42,6 +181,11 @@ function showItems(data) {
         if ('genderId' in row) {
             row['gender'] = genders[row['genderId']];
             delete row['genderId'];
+        }
+
+        if ('groupId' in row) {
+            row['group'] = groups[row['groupId']];
+            delete row['groupId'];
         }
         
         tr = $("<tr class=\"table-active\"></tr>");
@@ -168,7 +312,7 @@ function getList() {
     item = {
         FacultyId : $("#facultyId").val(),
         Years : $("#sl_years").tagsinput('items'),
-        GroupIds : $("#sl_groupIds").tagsinput('items'),
+        GroupIds : $("#sl_groupIds").val(),
         GenderId : $("#genderId").val(),
         BirthYearFrom : $("#birthYearFrom").val(),
         BirthYearTo: $("#birthYearTo").val(),
@@ -199,7 +343,7 @@ function get_eg() {
 
     item = {
         DisciplineId: $("#eg_DisciplineId").val(),
-        GroupIds : $("#eg_GroupIds").tagsinput('items'),
+        GroupIds : $("#eg_GroupIds").val(),
         Grade : $("#eg_Grade").val()
     };
 
@@ -221,7 +365,7 @@ function get_tg() {
     document.getElementById("changes").innerHTML = "running...";
 
     item = {
-        GroupIds : $("#tg_groupIds").tagsinput('items'),
+        GroupIds : $("#tg_groupIds").val(),
         TeacherId : $("#tg_TeacherId").val(),
         Grade : $("#tg_Grade").val(),
         DisciplineIds : $("#tg_disciplineIds").tagsinput('items'),
@@ -249,7 +393,7 @@ function get_bysession() {
 
     item = {
         Semester : $("#semester").val(),
-        GroupIds : $("#session_groupIds").tagsinput('items'),
+        GroupIds : $("#session_groupIds").val(),
         FacultyId : $("#session_facultyId").val(),
         Year : $("#session_year").val(),
         Grades : $("#session_grades").tagsinput('items')

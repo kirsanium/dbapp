@@ -83,9 +83,14 @@
         <div class="tab-pane fade active show" id="tlist" role="tabpanel" aria-labelledby="tlist-tab">
             <form action="javascript:void(0);" method="GET" onsubmit="getList()">
                 <div class="form-group">
-                    <input class="form-control" type="number" data-role="tagsinput" id="chairIds"
-                           placeholder="chair ids">
-                    <input class="form-control" type="number" id="genderId" placeholder="gender id">
+                    <label for="chairIds">Chairs</label>
+                    <select class="form-control" id="chairIds" multiple="">
+                    </select>
+                    <label for="genderId">Gender</label>
+                    <select class="form-control" id="genderId">
+                        <option value="">All</option>
+                    </select>
+<!--                    <input class="form-control" type="number" id="genderId" placeholder="gender id">-->
                     <input class="form-control" type="date" id="birthYearFrom" placeholder="birth year from">
                     <input class="form-control" type="date" id="birthYearTo" placeholder="birth year to">
                     <input class="form-control" type="number" id="ageFrom" placeholder="Age from">
@@ -98,16 +103,18 @@
                     <input class="form-control" type="number" id="SalaryAmountTo" placeholder="salary amount to">
                     <input class="form-check-input" type="checkbox" value="" id="isGraduateStudent">
                     <label class="form-check-label" for="isGraduateStudent">Graduate student</label>
-                    <input class="form-control" type="number" data-role="tagsinput" id="dissertationTypeIds"
-                           placeholder="dessertation type ids">
-                    <input class="form-control" type="number" data-role="tagsinput" id="teacherCategoryIds"
-                           placeholder="teacher category ids">
+                    <label for="dissertationTypeIds">Dissertation types</label>
+                    <select class="form-control" id="dissertationTypeIds" multiple="">
+                    </select>
+                    <label for="teacherCategoryIds">Teacher categories</label>
+                    <select class="form-control" id="teacherCategoryIds" multiple="">
+                    </select>
                     <input class="form-control" type="date" id="DateDissertationPresentedFrom"
                            placeholder="Date Dissertation Presented From">
                     <input class="form-control" type="date" id="DateDissertationPresentedTo"
                            placeholder="Date Dissertation Presented To">
                 </div>
-                <input class="form-control btn btn-secondary" type="submit" value="Get">
+                <input class="form-control btn btn-success" type="submit" value="Get">
             </form>
         </div>
 
@@ -120,22 +127,36 @@
                 <input class="form-control" type="number" id="tnew_childrenAmount" placeholder="children amount" required>
                 <input class="form-control" type="number" id="tnew_salary" placeholder="salary" required>
                 <input class="form-check-input" type="checkbox" value="" id="tnew_isGraduateStudent" required>
-                <label class="form-check-label" for="hasChildren">Graduate student</label required>
-                <input class="form-control" type="number" id="tnew_charId" placeholder="char id" required>
-                <input class="form-control" type="number" id="tnew_genderId" placeholder="gender id" required>
-                <input class="form-control" type="number" id="tnew_teacherCategoryId" placeholder="category id" required>
+                <label class="form-check-label" for="hasChildren">Graduate student</label>
+                <label for="tnew_charId">Chair</label>
+                <select class="form-control" id="tnew_charId">
+                </select>
+                <label for="tnew_genderId">Gender</label>
+                <select class="form-control" id="tnew_genderId">
+                </select>
+                <label for="tnew_teacherCategoryId">Gender</label>
+                <select class="form-control" id="tnew_teacherCategoryId">
+                </select>
+<!--                <input class="form-control" type="number" id="tnew_teacherCategoryId" placeholder="category id" required>-->
                 <input class="form-control btn btn-secondary" type="submit" value="Add teacher">
             </form>
         </div>
 
         <div class="tab-pane fade" id="lessons-conducted">
             <form action="javascript:void(0);" method="GET" onsubmit="get_lc()">
-                <input class="form-control" type="number" id="lc_DisciplineId" placeholder="discipline id">
-                <input class="form-control" type="number" id="lc_FacultyId" placeholder="faculty id">
-                <input class="form-control" type="number" id="lc_GroupId" placeholder="group id">
+                <label for="lc_DisciplineId">Discipline</label>
+                <select class="form-control" id="lc_DisciplineId">
+                </select>
+                <label for="lc_FacultyId">Faculty</label>
+                <select class="form-control" id="lc_FacultyId">
+                </select>
+                <label for="lc_GroupId">Group</label>
+                <select class="form-control" id="lc_GroupId">
+                </select>
                 <input class="form-control" type="number" id="lc_year" placeholder="year">
-                <input class="form-control" type="number" id="lc_LessonTypeIds" data-role="tagsinput"
-                       placeholder="lesson type ids">
+                <label for="lc_LessonTypeIds">Lesson types</label>
+                <select class="form-control" id="lc_LessonTypeIds" multiple="">
+                </select>
                 <input class="form-control" type="number" id="lc_semesters" data-role="tagsinput"
                        placeholder="semesters">
                 <input class="form-control btn btn-success" type="submit" value="Get">
@@ -144,10 +165,12 @@
 
         <div class="tab-pane fade" id="tfinals">
             <form action="javascript:void(0);" method="GET" onsubmit="get_finals()">
-                <input class="form-control" type="number" id="f_groupIds" data-role="tagsinput"
-                       placeholder="group ids">
-                <input class="form-control" type="number" id="f_disciplineIds" data-role="tagsinput"
-                       placeholder="discipline ids">
+                <label for="f_groupIds">Groups</label>
+                <select class="form-control" id="f_groupIds" multiple="">
+                </select>
+                <label for="f_disciplineIds">Disciplines</label>
+                <select class="form-control" id="f_disciplineIds" multiple="">
+                </select>
                 <input class="form-control" type="number" id="f_semesters" data-role="tagsinput"
                        placeholder="semesters">
                 <input class="form-control btn btn-success" type="submit" value="Get">
@@ -156,17 +179,30 @@
 
         <div class="tab-pane fade" id="thesis">
             <form action="javascript:void(0);" method="GET" onsubmit="get_thesis()">
-                <input class="form-control" type="number" id="thesis_chairId" placeholder="chair id">
-                <input class="form-control" type="number" id="thesis_facultyId" placeholder="faculty id">
-                <input class="form-control" type="number" id="thesis_categoryIds" data-role="tagsinput" placeholder="teacher category ids">
+                <label for="thesis_chairId">Chair</label>
+                <select class="form-control" id="thesis_chairId">
+                </select>
+                <label for="thesis_facultyId">Faculty</label>
+                <select class="form-control" id="thesis_facultyId">
+                </select>
+                <label for="thesis_categoryIds">Categories</label>
+                <select class="form-control" id="thesis_categoryIds" multiple="">
+                </select>
+<!--                <input class="form-control" type="number" id="thesis_categoryIds" data-role="tagsinput" placeholder="teacher category ids">-->
                 <input class="form-control btn btn-success" type="submit" value="Get">
             </form>
         </div>
 
         <div class="tab-pane fade" id="thours">
             <form action="javascript:void(0);" method="GET" onsubmit="get_hours()">
-                <input class="form-control" type="number" id="thours_TeacherId" placeholder="teacher id">
-                <input class="form-control" type="number" id="thours_ChairId" placeholder="chair id">
+                <label for="thours_TeacherId">Teacher</label>
+                <select class="form-control" id="thours_TeacherId">
+                    <option value="">All</option>
+                </select>
+                <label for="thours_ChairId">Chair</label>
+                <select class="form-control" id="thours_ChairId">
+                    <option value="">All</option>
+                </select>
                 <input class="form-control" type="number" id="thours_Semester" placeholder="semester">
                 <input class="form-control btn btn-success" type="submit" value="Get">
             </form>
@@ -176,7 +212,9 @@
             <div class="container" style="max-width: 30rem;">
                 <h3>Update teacher</h3>
                 <form action="javascript:void(0);" method="POST" onsubmit="updateItem()">
-                    <input class="form-control" type="number" id="tinfo_id" placeholder="id">
+                    <label for="tinfo_id">Teacher</label>
+                    <select class="form-control" id="tinfo_id">
+                    </select>
                     <input class="form-control" type="text" id="tinfo_firstname" placeholder="first name">
                     <input class="form-control" type="text" id="tinfo_secondname" placeholder="second name">
                     <input class="form-control" type="text" id="tinfo_middlename" placeholder="middle name">
@@ -185,15 +223,23 @@
                     <input class="form-control" type="number" id="tinfo_salary" placeholder="salary">
                     <input class="form-check-input" type="checkbox" value="" id="tinfo_isGraduateStudent">
                     <label class="form-check-label" for="hasChildren">Graduate student</label>
-                    <input class="form-control" type="number" id="tinfo_charId" placeholder="char id">
-                    <input class="form-control" type="number" id="tinfo_genderId" placeholder="gender id">
-                    <input class="form-control" type="number" id="tinfo_teacherCategoryId" placeholder="category id">
+                    <label for="tinfo_charId">Chair</label>
+                    <select class="form-control" id="tinfo_charId">
+                    </select>
+                    <label for="tinfo_genderId">Gender</label>
+                    <select class="form-control" id="tinfo_genderId">
+                    </select>
+                    <label for="tinfo_teacherCategoryId">Category</label>
+                    <select class="form-control" id="tinfo_teacherCategoryId">
+                    </select>
                     <input class="form-control btn btn-secondary" type="submit" value="Update teacher">
                 </form>
 
                 <h3>Delete teacher</h3>
                 <form class="form-group" action="javascript:void(0);" method="DELETE" onsubmit="deleteItem()">
-                    <input class="form-control" type="number" id="deleteid" placeholder="teacher id" required>
+                    <label for="tinfo_id">Teacher</label>
+                    <select class="form-control" id="deleteid">
+                    </select>
                     <input class="form-control btn btn-danger" type="submit" value="Delete">
                 </form>
             </div>

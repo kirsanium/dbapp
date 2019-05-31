@@ -44,29 +44,50 @@
         <div class="container-fluid" style="max-width: 30rem;">
             <h3>New chair</h3>
             <form action="javascript:void(0);" method="POST" onsubmit="addItem()">
+                <label for="name">Name</label>
                 <input class="form-control" type="text" id="name" placeholder="chair name">
-                <input class="form-control" type="number" id="facultyId" placeholder="faculty id">
+                <label for="n_faculty_multi_select">Faculty</label>
+                <select class="form-control" id="n_faculty_multi_select">
+                </select>
+<!--                <label for="facultyId">Faculty</label>-->
+<!--                <input class="form-control" type="number" id="facultyId" placeholder="faculty id">-->
                 <input class="form-control btn btn-secondary" type="submit" value="Add">
             </form>
 
             <h3>Update chair</h3>
             <form action="javascript:void(0);" method="PUT" onsubmit="updateItem()">
-                <input class="form-control" type="number" id="putid" placeholder="chair id" required>
+                
+                <label for="u_chair_multi_select">chair</label>
+                <select class="form-control" id="u_chair_multi_select">
+                </select>
+                <label for="putname">Chair name</label>
                 <input class="form-control" type="text" id="putname" placeholder="chair name" required>
-                <input class="form-control" type="number" id="putfacultyId" placeholder="faculty id" required>
+                <label for="u_faculty_multi_select">Faculty</label>
+                <select class="form-control" id="u_faculty_multi_select">
+                </select>
+
                 <input class="form-control btn btn-secondary" type="submit" value="Update">
             </form>
 
             <h3>Get chair</h3>
             <form class="form-group" action="javascript:void(0);" method="GET" onsubmit="getData()">
-                <input class="form-control" type="number" id="id" placeholder="chair id">
+                <select class="form-control" id="g_chair_multi_select">
+                    <option value="">All</option>
+                </select>
                 <input class="form-control btn btn-success" type="submit" value="Get">
             </form>
 
             <h3>lesson conduction</h3>
             <form class="form-group" action="javascript:void(0);" method="GET" onsubmit="get_lc()">
-                <input class="form-control" type="number" id="lc_groupId" placeholder="group id">
-                <input class="form-control" type="number" id="lc_facultyId" placeholder="faculty id">
+<!--                <input class="form-control" type="number" id="lc_groupId" placeholder="group id">-->
+                <label for="lc_group_multi_select">Select groups</label>
+                <select class="form-control" id="lc_group_multi_select" multiple="">
+                </select>
+                <label for="lc_faculty_multi_select">Faculty</label>
+                <select class="form-control" id="lc_faculty_multi_select">
+                    <option value="">All</option>
+                </select>
+<!--                <input class="form-control" type="number" id="lc_facultyId" placeholder="faculty id">-->
                 <input class="form-control" type="number" id="lc_years" data-role="tagsinput" placeholder="years">
                 <input class="form-control" type="number" id="lc_semesters" data-role="tagsinput" placeholder="semesters">
                 <input class="form-control" type="date" id="lc_datefrom" placeholder="date from">
@@ -76,7 +97,10 @@
 
             <h3>Delete chair</h3>
             <form class="form-group" action="javascript:void(0);" method="DELETE" onsubmit="deleteItem()">
-                <input class="form-control" type="number" id="deleteid" placeholder="chair id" required>
+                <label for="d_chair_multi_select">chair</label>
+                <select class="form-control" id="d_chair_multi_select" required>
+                </select>
+<!--                <input class="form-control" type="number" id="deleteid" placeholder="chair id" required>-->
                 <input class="form-control btn btn-danger" type="submit" value="Delete">
             </form>
 

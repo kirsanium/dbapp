@@ -7,42 +7,141 @@
 iduri = "api/chair/{id}";
 uri = "http://localhost:5000/api/academic-assignment";
 dissertationTableBody = null;
-teachers = {};
 chairs = {};
+faculties = {};
+groups = {};
+teachers = {};
+disciplines = {};
+assignments = {};
 
-$(document).ready(function () {
+function fill_options() {
+
     $.getJSON("http://localhost:5000/api/academic-discipline", function (data) {
-            $.each(data, function (key, value) {
-                teachers[value['id']] = value['name']; 
-            })
+        $.each(data, function (key, value) {
+            disciplines[value['id']] = value['name'];
+        });
+
+        discipline = $("#discipline");
+        $.each(disciplines, function (key, value) {
+            discipline.append('<option value=' + key + '>' + value + '</option>');
+        });
+
+        putdiscipline = $("#putdiscipline");
+        $.each(disciplines, function (key, value) {
+            putdiscipline.append('<option value=' + key + '>' + value + '</option>');
+        });
     });
+
+    $.getJSON("http://localhost:5000/api/teacher", function (data) {
+        $.each(data, function (key, value) {
+            teachers[value['id']] = value['firstName'] + " " + value['middleName'] + " " + value['secondName'];
+        });
+
+        // thours_TeacherId = $("#thours_TeacherId");
+        // $.each(teachers, function (key, value) {
+        //     thours_TeacherId.append('<option value=' + key + '>' + value + '</option>');
+        // });
+    });
+
+    $.getJSON("http://localhost:5000/api/faculty", function (data) {
+        $.each(data, function (key, value) {
+            faculties[value['id']] = value['name'];
+        });
+
+        // lc_FacultyId = $("#lc_FacultyId");
+        // $.each(faculties, function (key, value) {
+        //     lc_FacultyId.append('<option value=' + key + '>' + value + '</option>');
+        // });
+    });
+
     $.getJSON("http://localhost:5000/api/chair", function (data) {
         $.each(data, function (key, value) {
             chairs[value['id']] = value['name'];
-        })
+        });
+
+        putchair = $("#putchair");
+        $.each(chairs, function (key, value) {
+            putchair.append('<option value=' + key + '>' + value + '</option>');
+        });
+
+        chairId = $("#chairId");
+        $.each(chairs, function (key, value) {
+            chairId.append('<option value=' + key + '>' + value + '</option>');
+        });
     });
+
+    $.getJSON("http://localhost:5000/api/group", function (data) {
+        $.each(data, function (key, value) {
+            groups[value['id']] = value['groupName'];
+        });
+
+        group = $("#group");
+        $.each(groups, function (key, value) {
+            group.append('<option value=' + key + '>' + value + '</option>');
+        });
+
+        putgroup = $("#putgroup");
+        $.each(groups, function (key, value) {
+            putgroup.append('<option value=' + key + '>' + value + '</option>');
+        });
+    });
+
+    $.getJSON("http://localhost:5000/api/academic-assignment", function (data) {
+        $.each(data, function (key, value) {
+            var dateFrom = convertDate(new  Date(value['dateFrom']));
+            var dateTo = convertDate(new Date(value['dateTo']));
+            assignments[value['id']] = chairs[value['chairId']] 
+                + " " + disciplines[value['disciplineId']] 
+                + " " + groups[value['groupId']] 
+                + " " + dateFrom 
+                + "-" + dateTo;
+        });
+
+        putid = $("#putid");
+        deleteid = $("#deleteid");
+        id = $("#id");
+        $.each(assignments, function (key, value) {
+            putid.append('<option value=' + key + '>' + value + '</option>');
+            deleteid.append('<option value=' + key + '>' + value + '</option>');
+            id.append('<option value=' + key + '>' + value + '</option>');
+        });
+    });
+}
+
+function convertDate(date) {
+    yr      = date.getFullYear();
+    month   = date.getMonth() < 10 ? '0' + date.getMonth() : date.getMonth();
+    day     = date.getDate()  < 10 ? '0' + date.getDate()  : date.getDate();
     
+    return [day, month, yr].join('.');
+}
+
+$(document).ready(function () {
+    fill_options();
+
     // getAll();
 });
 
 function showItems(data) {
     document.getElementById("changes").innerHTML = "proceeding changes " + data;
 
-    var keys = []
-    var items = [];
-
     dissertationTableBody = $("#dissertationTableBody");
     dissertationTableBody.empty();
 
     $.each(data, function (k, row) {
         if ('disciplineId' in row) {
-            row['discipline'] = teachers[row['disciplineId']];
+            row['discipline'] = disciplines[row['disciplineId']];
             delete row['disciplineId'];
         }
 
         if ('chairId' in row) {
             row['chair'] = chairs[row['chairId']];
             delete row['chairId'];
+        }
+
+        if ('groupId' in row) {
+            row['group'] = groups[row['groupId']];
+            delete row['groupId'];
         }
 
         tr = $("<tr class=\"table-active\"></tr>");
@@ -69,13 +168,18 @@ function showItem(data) {
     document.getElementById("changes").innerHTML = "proceeding changes " + data;
 
     if ('disciplineId' in data) {
-        data['discipline'] = teachers[data['disciplineId']];
+        data['discipline'] = disciplines[data['disciplineId']];
         delete data['disciplineId'];
     }
 
     if ('chairId' in data) {
         data['chair'] = chairs[data['chairId']];
         delete data['chairId'];
+    }
+
+    if ('groupId' in row) {
+        row['group'] = groups[row['groupId']];
+        delete row['groupId'];
     }
 
     tr = $("<tr class=\"table-active\"></tr>");
@@ -129,9 +233,11 @@ function getData() {
 
 function addItem() {
     item = {
-        semester: $("#theme").val(),
-        name: $("#name").val(),
-        facultyId: $("#facultyId").val(),
+        chairId: $("#chairId").val(),
+        disciplineId: $("#discipline").val(),
+        groupId: $("#group").val(),
+        dateFrom: $("#dateFrom").val(),
+        dateTo: $("#dateTo").val()
     };
 
     $.ajax({
@@ -145,9 +251,11 @@ function addItem() {
         },
         success: function (data) {
             showItem(data)
-            $("#theme").val(null);
-            $("#name").val(null);
-            $("#facultyId").val(null);
+            $("#chairId").val(null);
+            $("#discipline").val(null);
+            $("#group").val(null);
+            $("#dateFrom").val(null);
+            $("#dateTo").val(null);
         }
     });
 
@@ -157,9 +265,11 @@ function addItem() {
 
 function updateItem() {
     item = {
-        semester: $("#puttheme").val(),
-        name: $("#putname").val(),
-        facultyId: $("#putfacultyId").val(),
+        chairId: $("#putchair").val(),
+        disciplineId: $("#putdiscipline").val(),
+        groupId: $("#putgroup").val(),
+        dateFrom: $("#putdateFrom").val(),
+        dateTo: $("#putdateTo").val()
     };
 
     $.ajax({
@@ -173,9 +283,11 @@ function updateItem() {
         },
         success: function (data) {
             showItem(data)
-            $("#puttheme").val(null);
-            $("#putname").val(null);
-            $("#putfacultyId").val(null);
+            $("#putchair").val(null);
+            $("#putdiscipline").val(null);
+            $("#putgroup").val(null);
+            $("#putdateFrom").val(null);
+            $("#putdateTo").val(null);
         }
     });
 

@@ -10,19 +10,97 @@ dissertationTableBody = null;
 
 teachers = {};
 dissertationTypes = {};
+faculties = {};
+chairs = {};
+dissertations = {};
 
+function fill_options() {
 
-$(document).ready(function () {
     $.getJSON("http://localhost:5000/api/teacher", function (data) {
         $.each(data, function (key, value) {
             teachers[value['id']] = value['firstName'] + " " + value['middleName'] + " " + value['secondName'];
         });
+        teacherId = $("#teacherId");
+        $.each(teachers, function (key, value) {
+            teacherId.append('<option value=' + key + '>' + value + '</option>');
+        });
+
+        putteacherId = $("#putteacherId");
+        $.each(teachers, function (key, value) {
+            putteacherId.append('<option value=' + key + '>' + value + '</option>');
+        });
     });
+
     $.getJSON("http://localhost:5000/api/dissertation-type", function (data) {
         $.each(data, function (key, value) {
             dissertationTypes[value['id']] = value['name'];
-        })
+        });
+        dissertationTypeId = $("#dissertationTypeId");
+        $.each(dissertationTypes, function (key, value) {
+            dissertationTypeId.append('<option value=' + key + '>' + value + '</option>');
+        });
+
+        putdissertationTypeId = $("#putdissertationTypeId");
+        $.each(dissertationTypes, function (key, value) {
+            putdissertationTypeId.append('<option value=' + key + '>' + value + '</option>');
+        });
     });
+
+    $.getJSON("http://localhost:5000/api/dissertation", function (data) {
+        $.each(data, function (key, value) {
+            dissertations[value['id']] = value['theme'];
+        });
+        putid = $("#putid");
+        $.each(dissertations, function (key, value) {
+            putid.append('<option value=' + key + '>' + value + '</option>');
+        });
+
+        id = $("#id");
+        $.each(dissertations, function (key, value) {
+            id.append('<option value=' + key + '>' + value + '</option>');
+        });
+
+        deleteid = $("#deleteid");
+        $.each(dissertations, function (key, value) {
+            deleteid.append('<option value=' + key + '>' + value + '</option>');
+        });
+    });
+
+    $.getJSON("http://localhost:5000/api/faculty", function (data) {
+        $.each(data, function (key, value) {
+            faculties[value['id']] = value['name'];
+        });
+
+        th_facultyId = $("#th_facultyId");
+        $.each(faculties, function (key, value) {
+            th_facultyId.append('<option value=' + key + '>' + value + '</option>');
+        });
+    });
+
+    $.getJSON("http://localhost:5000/api/chair", function (data) {
+        $.each(data, function (key, value) {
+            chairs[value['id']] = value['name'];
+        });
+
+        th_charid = $("#th_charid");
+        $.each(chairs, function (key, value) {
+            th_charid.append('<option value=' + key + '>' + value + '</option>');
+        });
+    });
+    
+    facultyId = $("#facultyId");
+    
+
+    $.each(chairs, function (key, value) {
+    });
+
+    $.each(faculties, function (key, value) {
+        // facultyId.append('<option value=' + key + '>' + value + '</option>');
+    });
+}
+
+$(document).ready(function () {
+    fill_options()
     // getAll();
 });
 

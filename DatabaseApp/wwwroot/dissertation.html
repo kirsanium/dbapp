@@ -43,39 +43,63 @@
         <div class="container" style="max-width: 30rem;">
             <h3>New dissertation</h3>
             <form action="javascript:void(0);" method="POST" onsubmit="addItem()">
-                <input class="form-control" type="text" id="theme" placeholder="dissertation theme">
-                <input class="form-control" type="date" id="date" placeholder="date presented">
-                <input class="form-control" type="number" id="teacherId" placeholder="teacher id">
-                <input class="form-control" type="number" id="dissertationTypeId" placeholder="dissertation type id">
+                <label for="theme">Dissertation theme</label><input class="form-control" type="text" id="theme" placeholder="dissertation theme">
+                <label for="date">Data presented</label><input class="form-control" type="date" id="date" placeholder="date presented">
+                <label for="teacherId">Teacher</label>
+                <select class="form-control" id="teacherId">
+                </select>
+                <label for="dissertationTypeId">Dissertation Type</label>
+                <select class="form-control" id="dissertationTypeId">
+                </select>
                 <input class="form-control btn btn-secondary" type="submit" value="Add">
             </form>
 
             <h3>Update dissertation</h3>
             <form action="javascript:void(0);" method="PUT" onsubmit="updateItem()">
-                <input class="form-control" type="text" id="putid" placeholder="dissertation id">
+                <label for="putid">Dissertation</label>
+                <select class="form-control" id="putid">
+                </select>
                 <input class="form-control" type="text" id="puttheme" placeholder="theme">
                 <input class="form-control" type="date" id="putdate" placeholder="date presented">
-                <input class="form-control" type="number" id="putteacherId" placeholder="teacher id">
-                <input class="form-control" type="number" id="putdissertationTypeId" placeholder="dissertation type id">
+                <label for="putteacherId">Teacher</label>
+                <select class="form-control" id="putteacherId">
+                </select>
+                <label for="putdissertationTypeId">Dissertation Type</label>
+                <select class="form-control" id="putdissertationTypeId">
+                </select>
                 <input class="form-control btn btn-secondary" type="submit" value="Update">
             </form>
 
             <h3>Get dissertation</h3>
             <form class="form-group" action="javascript:void(0);" method="GET" onsubmit="getData()">
-                <input class="form-control" type="number" id="id" placeholder="chair id">
+                <label for="id">Dissertation</label>
+                <select class="form-control" id="id">
+                    <option value="">All</option>
+                </select>
+<!--                <input class="form-control" type="number" id="id" placeholder="chair id">-->
                 <input class="form-control btn btn-success" type="submit" value="Get">
             </form>
 
             <h3>Get dissertation themes</h3>
             <form class="form-group" action="javascript:void(0);" method="GET" onsubmit="getThemes()">
-                <input class="form-control" type="number" id="th_charid" placeholder="chair id">
-                <input class="form-control" type="number" id="th_facultyId" placeholder="faculty id">
+                <label for="th_charid">Chair</label>
+                <select class="form-control" id="th_charid">
+                    <option value="">All</option>
+                </select>
+                <label for="th_facultyId">Faculty</label>
+                <select class="form-control" id="th_facultyId">
+                    <option value="">All</option>
+                </select>
+<!--                <input class="form-control" type="number" id="th_facultyId" placeholder="faculty id">-->
                 <input class="form-control btn btn-success" type="submit" value="Get">
             </form>
 
             <h3>Delete dissertation</h3>
             <form class="form-group" action="javascript:void(0);" method="DELETE" onsubmit="deleteItem()">
-                <input class="form-control" type="number" id="deleteid" placeholder="chair id">
+                <label for="deleteid">Dissertation</label>
+                <select class="form-control" id="deleteid" required>
+                </select>
+<!--                <input class="form-control" type="number" id="deleteid" placeholder="chair id">-->
                 <input class="form-control btn btn-danger" type="submit" value="Delete">
             </form>
 
