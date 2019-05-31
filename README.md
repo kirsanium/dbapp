@@ -7,6 +7,8 @@
 
 После этого на localhost:5000/swagger будет висеть swaggerUI
 
+Веб интерфейс: localhost:5000/index.html
+
 ### dbapp
 Databases course, 2019
  
